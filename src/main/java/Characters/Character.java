@@ -21,10 +21,11 @@ public abstract class Character {
      * @param positionY - Y coordinate of character's position
      * @param health - Character's total health
      */
-    public Character(int positionX, int positionY, int health) {
+    public Character(int positionX, int positionY, int health, Direction directionFacing) {
         this.setStartState(positionX, positionY);
         this.setPosition(positionX, positionY);
         this.setHealth(health);
+        this.setDirectionFacing(directionFacing);
     }
 
     /**
@@ -93,8 +94,8 @@ public abstract class Character {
      * @param y - X coordinate of character's position
      */
     public void setStartState(int x, int y) {
-        this.position[0] = x;
-        this.position[1] = y;
+        this.startState[0] = x;
+        this.startState[1] = y;
     }
 
     /**
