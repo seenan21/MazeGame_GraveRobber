@@ -1,66 +1,82 @@
-import Characters.Direction;
-import Characters.PlayerActor;
 import Map.Grid;
+
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello World");
+//        System.out.println("Hello World");
+//
+//        int[] startState = new int[2];
+//        startState[0] = 5;
+//        startState[1] = 5;
+//
+//        int[] endState = new int[2];
+//        endState[0] = 10;
+//        endState[1] = 10;
+//
+//        Grid map = new Grid(100,100,startState,endState);
+//        PlayerActor playerOne = new PlayerActor(100, Direction.NORTH, map,false);
+//
+//        System.out.println(playerOne.getStartState()[0]);
+//        System.out.println(playerOne.getStartState()[1]);
+//        System.out.println(playerOne.getHealth());
+//        System.out.println(playerOne.getDirectionFacing());
+//        System.out.println(playerOne.getHasBossReward());
+//        System.out.println(playerOne);
+//
+//        // Testing player movement
+//        System.out.println(playerOne.getDirectionFacing());
+//        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
+//        playerOne.moveCharacter(Direction.SOUTH);
+//        System.out.println(playerOne.getDirectionFacing());
+//        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
+//        playerOne.moveCharacter(Direction.SOUTH);
+//        System.out.println(playerOne.getDirectionFacing());
+//        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
+//        playerOne.moveCharacter(Direction.SOUTH);
+//        System.out.println(playerOne.getDirectionFacing());
+//        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
+//        playerOne.moveCharacter(Direction.SOUTH);
+//        System.out.println(playerOne.getDirectionFacing());
+//        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
+//        playerOne.moveCharacter(Direction.SOUTH);
+//        System.out.println(playerOne.getDirectionFacing());
+//        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
+//        playerOne.moveCharacter(Direction.SOUTH);
+//        System.out.println(playerOne.getDirectionFacing());
+//        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
+//        playerOne.moveCharacter(Direction.EAST);
+//        System.out.println(playerOne.getDirectionFacing());
+//        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
+//        playerOne.moveCharacter(Direction.EAST);
+//        System.out.println(playerOne.getDirectionFacing());
+//        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
+//        playerOne.moveCharacter(Direction.WEST);
+//        System.out.println(playerOne.getDirectionFacing());
+//        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
+//        playerOne.moveCharacter(Direction.NORTH);
+//        System.out.println(playerOne.getDirectionFacing());
+//        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
+//        playerOne.moveCharacter(Direction.NORTH);
+//        System.out.println(playerOne.getDirectionFacing());
+//        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
 
-        int[] startState = new int[2];
-        startState[0] = 5;
-        startState[1] = 5;
+        // Main GUI Window
+        JFrame window = new JFrame();
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setResizable(false);
+        window.setTitle("Grave Robber");
 
-        int[] endState = new int[2];
-        endState[0] = 10;
-        endState[1] = 10;
+        // Add Our main game screen to window
+        Grid mainGrid = new Grid();
+        window.add(mainGrid);
 
-        Grid map = new Grid(100,100,startState,endState);
-        PlayerActor playerOne = new PlayerActor(100, Direction.NORTH, map,false);
+        window.pack();
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
 
-        System.out.println(playerOne.getStartState()[0]);
-        System.out.println(playerOne.getStartState()[1]);
-        System.out.println(playerOne.getHealth());
-        System.out.println(playerOne.getDirectionFacing());
-        System.out.println(playerOne.getHasBossReward());
-        System.out.println(playerOne);
-
-        // Testing player movement
-        System.out.println(playerOne.getDirectionFacing());
-        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
-        playerOne.moveCharacter(Direction.SOUTH);
-        System.out.println(playerOne.getDirectionFacing());
-        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
-        playerOne.moveCharacter(Direction.SOUTH);
-        System.out.println(playerOne.getDirectionFacing());
-        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
-        playerOne.moveCharacter(Direction.SOUTH);
-        System.out.println(playerOne.getDirectionFacing());
-        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
-        playerOne.moveCharacter(Direction.SOUTH);
-        System.out.println(playerOne.getDirectionFacing());
-        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
-        playerOne.moveCharacter(Direction.SOUTH);
-        System.out.println(playerOne.getDirectionFacing());
-        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
-        playerOne.moveCharacter(Direction.SOUTH);
-        System.out.println(playerOne.getDirectionFacing());
-        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
-        playerOne.moveCharacter(Direction.EAST);
-        System.out.println(playerOne.getDirectionFacing());
-        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
-        playerOne.moveCharacter(Direction.EAST);
-        System.out.println(playerOne.getDirectionFacing());
-        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
-        playerOne.moveCharacter(Direction.WEST);
-        System.out.println(playerOne.getDirectionFacing());
-        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
-        playerOne.moveCharacter(Direction.NORTH);
-        System.out.println(playerOne.getDirectionFacing());
-        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
-        playerOne.moveCharacter(Direction.NORTH);
-        System.out.println(playerOne.getDirectionFacing());
-        System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
-
+        // Listen for changes in the thread
+        mainGrid.startThread();
 
     }
 }
