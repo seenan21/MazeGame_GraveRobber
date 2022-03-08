@@ -1,81 +1,142 @@
 package Map;
+import Characters.PlayerActor;
+import Constants.Constants;
+import IO.Keyboard;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * The grid represents the layout of the map. Maps are quadrilaterals made of tiles.
  */
-public class Grid {
-    private static final int MAX_HEIGHT = 100;
-    private static final int MAX_WIDTH = 100;
-    private int height;
-    private int width;
-    private int[] startTile = new int[2];
-    private int[] endTile = new int[2];
-    // Rooms list here
-    // Create Grid Function here
+public class Grid extends JPanel implements Runnable{
+
+    private static final int TILE_SIZE = 16; // Size of an individual tile in pixels
+    private static final int HORIZONTAL_TILES = 48; // Total tiles horizontally on map
+    private static final int VERTICAL_TILES = 48; // Total tiles vertically on map
+    private final double FRAMES_PER_SECOND = 60;
+    private final int _screenWidth = TILE_SIZE * HORIZONTAL_TILES;
+    private final int _screenHeight = TILE_SIZE * VERTICAL_TILES;
+    private int[] _startTile = new int[2]; // Starting tile for player when the game begins
+    private int[] _endTile = new int[2]; // Ending tile for player when all treasures have been collected
+
+    Keyboard keyboard = new Keyboard();
+    Thread screenThread;
+    PlayerActor playerActor = new PlayerActor(this, this.keyboard);
+
+    // TEMP PLAYER VARIABLES FOR TESTING
+    int x = 100;
+    int y = 100;
+    int speed = 2;
 
     /**
-     * Constructor for the grid of the map.
-     *
-     * @param height - Height of the map
-     * @param width - Width of the map
-     * @param startTile - Starting tile for character on the map
-     * @param endTile - Sending tile for character on the map
+     * Creates the game screen and sets up a keyboard listener.
      */
-    public Grid(int height, int width, int[] startTile, int[] endTile) {
-        if (width > MAX_WIDTH || width < 0 || height > MAX_HEIGHT || height < 0 )
-        {
-            System.out.println("ERROR: Max Width must be between 0 and " + MAX_WIDTH);
-            System.out.println("ERROR: Max Height must be between 0 and " + MAX_HEIGHT);
-            System.exit(-1);
-        }
-        this.height = height;
-        this.width = width;
-        if (startTile[0] > MAX_WIDTH || startTile[0] < 0 || startTile[1] > MAX_HEIGHT || startTile[1] < 0 )
-        {
-            System.out.println("ERROR: Invalid Start Cell");
-            System.out.println("ERROR: Max Height must be between 0 and " + MAX_HEIGHT);
-            System.out.println("ERROR: Max Width must be between 0 and " + MAX_WIDTH);
-            System.exit(-1);
-        }
-        this.startTile = startTile;
-        if (endTile[0] > MAX_WIDTH || endTile[0] < 0 || endTile[1] > MAX_HEIGHT || endTile[1] < 0 )
-        {
-            System.out.println("ERROR: Invalid End Cell");
-            System.out.println("ERROR: Max Height must be between 0 and " + MAX_HEIGHT);
-            System.out.println("ERROR: Max Width must be between 0 and " + MAX_WIDTH);
-            System.exit(-1);
-        }
-        this.endTile = endTile;
-    }
-
-
-    private void setWidth(int width) {
-        this.width = width;
+    public Grid() {
+        this.setPreferredSize(new Dimension(_screenWidth, _screenHeight));
+        this.setBackground(Color.BLACK);
+        this.setDoubleBuffered(true); // Improves rendering
+        this.addKeyListener(keyboard);
+        this.setFocusable(true);
+        this.setDefault();
     }
 
     /**
      * Returns the map's width.
      */
-    public int getWidth() {
-        return width;
-    }
-
-
-    private void setHeight(int height) {
-        this.height = height;
+    public int getScreenWidth() {
+        return _screenWidth;
     }
 
     /**
      * Returns the map's height.
      */
-    public int getHeight() {
-        return height;
+    public int getScreenHeight() {
+        return _screenHeight;
+    }
+
+    public static int getTileSize() {
+        return TILE_SIZE;
     }
 
     /**
      * Returns the player's starting tile.
      */
     public int[] getStartTile() {
-        return startTile;
+        return _startTile;
+    }
+
+    public int[] getEndTile() {
+        return _endTile;
+    }
+
+    public void setDefault() {
+        this._startTile[Constants.X] = 0;
+        this._startTile[Constants.Y] = 0;
+        this._endTile[Constants.X] = 0;
+        this._endTile[Constants.Y] = 0;
+    }
+
+    /**
+     * INFO HERE
+     */
+    public void startThread() {
+        screenThread = new Thread(this);
+        screenThread.start(); // Calls this.run()
+    }
+
+    /**
+     * Loop which tells the UI to update every tick.
+     * Also checks if character locations have changed.
+     */
+    @Override
+    public void run() {
+        while(screenThread != null) {
+
+            double tick = 1000000000/FRAMES_PER_SECOND;
+            double nextTick = System.nanoTime() + tick;
+
+            while(screenThread != null) {
+
+                update();
+                repaint(); // Calls this.paintComponent
+
+                try {
+                    double timeTillNextTick = nextTick - System.nanoTime();
+                    timeTillNextTick = timeTillNextTick/1000000;// Nanoseconds to milliseconds conversion
+
+                    // Error check
+                    if(timeTillNextTick < 0) {
+                        timeTillNextTick = 0;
+                    }
+
+                    Thread.sleep((long)timeTillNextTick); // Sleep until tick is over
+
+                    nextTick += tick;
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+    }
+
+    /**
+     * Updates the character and enemy movements.
+     */
+    public void update() {
+        playerActor.update();
+    }
+
+    /**
+     * Java standard module for updating GUI
+     */
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        Graphics2D g2 = (Graphics2D)g;
+        playerActor.draw(g2);
+        g2.dispose(); // Saves memory
     }
 }

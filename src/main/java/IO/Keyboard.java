@@ -1,8 +1,10 @@
+package IO;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- * Keyboard listens for keyboard input from the user. Specifically the W,A,S,D keys.
+ * IO.Keyboard listens for keyboard input from the user. Specifically the W,A,S,D keys.
  */
 public class Keyboard implements KeyListener {
 

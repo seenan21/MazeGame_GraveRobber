@@ -1,5 +1,7 @@
 package Characters;
 
+import Constants.Constants;
+import IO.Keyboard;
 import Map.Grid;
 import items.Item;
 import java.util.ArrayList;
@@ -9,24 +11,26 @@ import java.util.ArrayList;
  */
 public abstract class Character {
 
-    private int health = 0;
+    Grid _grid;
+    Keyboard _keyboard;
+
+    private int health;
     private ArrayList<Item> bag = new ArrayList<>();
     private int[] position = new int[2];
+    private int _speed;
     private int[] startState = new int[2];
     private Direction directionFacing;
-    private Grid currentMap;
 
     /**
      * Constructor for the character class.
      *
-     * @param health - Character's total health
-     * @param directionFacing - Direction the character is facing
-     * @param map - Map the character is being added to
+//     * @param health - Character's total health
+//     * @param directionFacing - Direction the character is facing
+//     * @param map - Map the character is being added to
      */
-    public Character(int health, Direction directionFacing, Grid map) {
-        this.setHealth(health);
-        this.setDirectionFacing(directionFacing);
-        this.setCurrentMap(map);
+    public Character(Grid grid, Keyboard keyboard) {
+        this._keyboard = keyboard;
+        this._grid = grid;
     }
 
     /**
@@ -42,6 +46,10 @@ public abstract class Character {
             System.out.println("ERROR: Health must be between 0 and 100");
             System.exit(-1);
         }
+    }
+
+    public void setSpeed(int _speed) {
+        this._speed = _speed;
     }
 
     /**
@@ -77,8 +85,8 @@ public abstract class Character {
      * @param y - Y coordinate of character's starting position
      */
     public void setPosition(int x, int y) {
-        this.position[0] = x;
-        this.position[1] = y;
+        this.position[Constants.X] = x;
+        this.position[Constants.Y] = y;
     }
 
     /**
@@ -95,8 +103,8 @@ public abstract class Character {
      * @param y - X coordinate of character's position
      */
     public void setStartState(int x, int y) {
-        this.startState[0] = x;
-        this.startState[1] = y;
+        this.startState[Constants.X] = x;
+        this.startState[Constants.Y] = y;
     }
 
     /**
@@ -120,10 +128,6 @@ public abstract class Character {
      */
     public Direction getDirectionFacing() {
         return directionFacing;
-    }
-
-    public void setCurrentMap(Grid currentMap) {
-        this.currentMap = currentMap;
     }
 
     /**
@@ -151,44 +155,41 @@ public abstract class Character {
      * Moves character's position one tile north
      */
     private void moveNorth() {
-        if (this.getPosition()[1] < currentMap.getHeight()) {
-            int newX = getPosition()[0];
-            int newY = getPosition()[1] + 1;
-            this.setPosition(newX,newY);
-        }
+//        if (this.getPosition()[Constants.Y] < _grid.getHeight()) {
+//
+//        }
+
+        this.setPosition(getPosition()[Constants.X],getPosition()[Constants.Y] - _speed);
     }
 
     /**
      * Moves character's position one tile south
      */
     private void moveSouth() {
-        if (this.getPosition()[1] > 0) {
-            int newX = getPosition()[0];
-            int newY = getPosition()[1] - 1;
-            this.setPosition(newX,newY);
-        }
+//        if (this.getPosition()[1] > 0) {
+//
+//        }
+        this.setPosition(getPosition()[Constants.X],getPosition()[Constants.Y] + _speed);
     }
 
     /**
      * Moves character's position one tile east
      */
     private void moveEast() {
-        if (this.getPosition()[0] < currentMap.getWidth()) {
-            int newX = getPosition()[0] - 1;
-            int newY = getPosition()[1];
-            this.setPosition(newX,newY);
-        }
+//        if (this.getPosition()[0] < _grid.getWidth()) {
+//
+//        }
+        this.setPosition(getPosition()[Constants.X] + _speed, getPosition()[Constants.Y]);
     }
 
     /**
      * Moves character's position one tile west
      */
     private void moveWest() {
-        if (this.getPosition()[0] > 0) {
-            int newX = getPosition()[0] + 1;
-            int newY = getPosition()[1];
-            this.setPosition(newX,newY);
-        }
+//        if (this.getPosition()[Constants.X] > 0) {
+//
+//        }
+        this.setPosition(getPosition()[Constants.X] - _speed, getPosition()[Constants.Y]);
     }
 }
 
