@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * INFO HERE
+ */
 public class Screen extends JPanel implements Runnable{
 
     final int tileSize = 16;
@@ -16,6 +19,10 @@ public class Screen extends JPanel implements Runnable{
     int x = 100;
     int y = 100;
     int speed = 2;
+
+    /**
+     * INFO HERE
+     */
     public Screen() {
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.BLACK);
@@ -24,11 +31,17 @@ public class Screen extends JPanel implements Runnable{
         this.setFocusable(true);
     }
 
+    /**
+     * INFO HERE
+     */
     public void startThread() {
         screenThread = new Thread(this);
         screenThread.start(); // Calls this.run()
     }
 
+    /**
+     * INFO HERE
+     */
     @Override
     public void run() {
         while(screenThread != null) {
@@ -63,6 +76,9 @@ public class Screen extends JPanel implements Runnable{
         }
     }
 
+    /**
+     * INFO HERE
+     */
     public void update() {
         if(keyboard.upKeyPressed) {
             y -= speed;

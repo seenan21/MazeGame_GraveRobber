@@ -64,20 +64,20 @@ public class Main {
         System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
 
         // Main GUI Window
-
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("Group 15");
+        window.setTitle("Grave Robber");
 
+        // Add Our main game screen to window
         Screen mainScreen = new Screen();
         window.add(mainScreen);
 
         window.pack();
-
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
+        // Listen for changes in the thread
         mainScreen.startThread();
 
     }

@@ -1,7 +1,7 @@
 package Map;
 
 /**
- * The grip represents the layout of the map. Maps are quadrilaterals made of tiles.
+ * The grid represents the layout of the map. Maps are quadrilaterals made of tiles.
  */
 public class Grid {
     private static final int MAX_HEIGHT = 100;

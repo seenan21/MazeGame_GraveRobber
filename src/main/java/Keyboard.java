@@ -1,6 +1,9 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Keyboard listens for keyboard input from the user. Specifically the W,A,S,D keys.
+ */
 public class Keyboard implements KeyListener {
 
     public boolean upKeyPressed;
@@ -8,11 +11,17 @@ public class Keyboard implements KeyListener {
     public boolean leftKeyPressed;
     public boolean rightKeyPressed;
 
+    /**
+     * Unused, but required by KeyListener
+     */
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
 
+    /**
+     * Listens for when a player presses the W,A,S,D keys.
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int userPressed = e.getKeyCode(); // Returns number of pressed key
@@ -31,6 +40,9 @@ public class Keyboard implements KeyListener {
         }
     }
 
+    /**
+     * Listens for when a player releases the W,A,S,D keys.
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         int userReleased = e.getKeyCode(); // Returns number of released key
