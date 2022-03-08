@@ -1,5 +1,6 @@
 package Characters;
 
+import Map.Grid;
 import items.Item;
 import java.util.ArrayList;
 
@@ -13,18 +14,19 @@ public abstract class Character {
     private int[] position = new int[2];
     private int[] startState = new int[2];
     private Direction directionFacing;
+    private Grid currentMap;
 
     /**
      * Constructor for the character class.
      *
-     * @param positionX - X coordinate of character's position
-     * @param positionY - Y coordinate of character's position
      * @param health - Character's total health
+     * @param directionFacing - Direction the character is facing
+     * @param map - Map the character is being added to
      */
-    public Character(int positionX, int positionY, int health) {
-        this.setStartState(positionX, positionY);
-        this.setPosition(positionX, positionY);
+    public Character(int health, Direction directionFacing, Grid map) {
         this.setHealth(health);
+        this.setDirectionFacing(directionFacing);
+        this.setCurrentMap(map);
     }
 
     /**
@@ -93,8 +95,8 @@ public abstract class Character {
      * @param y - X coordinate of character's position
      */
     public void setStartState(int x, int y) {
-        this.position[0] = x;
-        this.position[1] = y;
+        this.startState[0] = x;
+        this.startState[1] = y;
     }
 
     /**
@@ -119,4 +121,74 @@ public abstract class Character {
     public Direction getDirectionFacing() {
         return directionFacing;
     }
+
+    public void setCurrentMap(Grid currentMap) {
+        this.currentMap = currentMap;
+    }
+
+    /**
+     * Attempts to move the character's position on the map.
+     * Always changes the player's direction facing.
+     *
+     * @param direction - Player has achieved the final boss award
+     */
+    public void moveCharacter(Direction direction) {
+
+        if (direction == Direction.NORTH) {
+            moveNorth();
+        }else if (direction == Direction.SOUTH) {
+            moveSouth();
+        } else if (direction == Direction.EAST) {
+            moveEast();
+        } else if (direction == Direction.WEST) {
+            moveWest();
+        }
+
+        this.setDirectionFacing(direction);
+    }
+
+    /**
+     * Moves character's position one tile north
+     */
+    private void moveNorth() {
+        if (this.getPosition()[1] < currentMap.getHeight()) {
+            int newX = getPosition()[0];
+            int newY = getPosition()[1] + 1;
+            this.setPosition(newX,newY);
+        }
+    }
+
+    /**
+     * Moves character's position one tile south
+     */
+    private void moveSouth() {
+        if (this.getPosition()[1] > 0) {
+            int newX = getPosition()[0];
+            int newY = getPosition()[1] - 1;
+            this.setPosition(newX,newY);
+        }
+    }
+
+    /**
+     * Moves character's position one tile east
+     */
+    private void moveEast() {
+        if (this.getPosition()[0] < currentMap.getWidth()) {
+            int newX = getPosition()[0] - 1;
+            int newY = getPosition()[1];
+            this.setPosition(newX,newY);
+        }
+    }
+
+    /**
+     * Moves character's position one tile west
+     */
+    private void moveWest() {
+        if (this.getPosition()[0] > 0) {
+            int newX = getPosition()[0] + 1;
+            int newY = getPosition()[1];
+            this.setPosition(newX,newY);
+        }
+    }
 }
+
