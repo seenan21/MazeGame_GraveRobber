@@ -2,6 +2,8 @@ import Characters.Direction;
 import Characters.PlayerActor;
 import Map.Grid;
 
+import javax.swing.*;
+
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello World");
@@ -61,6 +63,18 @@ public class Main {
         System.out.println(playerOne.getDirectionFacing());
         System.out.println("X= " + playerOne.getPosition()[0] + " Y= " + playerOne.getPosition()[1]);
 
+        JFrame window = new JFrame();
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setResizable(false);
+        window.setTitle("Group 15");
+
+        Screen mainScreen = new Screen();
+        window.add(mainScreen);
+
+        window.pack();
+
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
 
     }
 }
