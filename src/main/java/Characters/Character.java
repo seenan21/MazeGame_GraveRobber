@@ -6,7 +6,6 @@ import Map.Grid;
 import items.Item;
 
 import java.awt.image.BufferedImage;
-import java.security.PublicKey;
 import java.util.ArrayList;
 
 /**
@@ -23,8 +22,7 @@ public abstract class Character {
     private int _speed;
     private int[] startState = new int[2];
     private Direction directionFacing;
-    public String Directions;
-    public BufferedImage up2, down2, left2, right2;
+    private BufferedImage _spriteNorth, _spriteSouth, _spriteEast, _spriteWest;
 
     /**
      * Constructor for the character class.
@@ -133,6 +131,45 @@ public abstract class Character {
      */
     public Direction getDirectionFacing() {
         return directionFacing;
+    }
+
+    /**
+     * Returns player's sprite based on direction.
+     */
+    public BufferedImage getSprite(Direction direction) {
+        if (direction == Direction.NORTH) {
+            return _spriteNorth;
+        }
+        else if (direction == Direction.SOUTH) {
+            return _spriteSouth;
+        }
+        else if (direction == Direction.EAST) {
+            return _spriteEast;
+        }
+        else if (direction == Direction.WEST) {
+            return _spriteWest;
+        }
+        else {
+            return null;
+        }
+    }
+
+    /**
+     * Assigns the player's sprite image based on direction.
+     */
+    public void setSprite(Direction direction, BufferedImage spriteEast) {
+        if (direction == Direction.NORTH) {
+            this._spriteNorth = spriteEast;
+        }
+        else if (direction == Direction.SOUTH) {
+            this._spriteSouth = spriteEast;
+        }
+        else if (direction == Direction.EAST) {
+            this._spriteEast = spriteEast;
+        }
+        else if (direction == Direction.WEST) {
+            this._spriteWest = spriteEast;
+        }
     }
 
     /**
