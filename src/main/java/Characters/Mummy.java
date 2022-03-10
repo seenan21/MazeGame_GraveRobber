@@ -2,19 +2,19 @@ package Characters;
 
 import IO.Keyboard;
 import Map.Grid;
+import Map.Level;
 
-import java.util.ArrayList;
+
+import java.util.*;
 import java.awt.*;
-import java.util.Random;
 import java.lang.*;
-import java.util.Arrays;
-import java.util.Collections;
 
 public class Mummy extends Character {
 
     private int[] target = new int[2];
 
-    public Mummy(Grid grid, Keyboard keyboard, int positionX, int positionY) {
+    public Mummy(Grid grid, Keyboard keyboard, int positionX, int positionY
+            /*Adds this parameter later for walls  Level level*/) {
         super(grid, keyboard);
         this.setPosition(positionX, positionY);
         this.setStartState(positionX, positionY);
@@ -32,7 +32,7 @@ public class Mummy extends Character {
        return (Math.sqrt(Math.pow(ownPosx-posX,2) + Math.pow(ownPosy-posY,2)));
 
     }
-    public static double getMinValue(double[] array) {
+    public double getMinValue(double[] array) {
         double minValue = array[0];
         for (int i = 1; i < array.length; i++) {
             if (array[i] < minValue) {
@@ -40,6 +40,30 @@ public class Mummy extends Character {
             }
         }
         return minValue;
+    }
+
+    public Position[] getSuccessor(Position p){
+        Position p1 = new Position(p.x + this._speed, p.y);
+        Position p2 = new Position(p.x + this._speed, p.y);
+        Position p3 = new Position(p.x + this._speed, p.y);
+        Position p4 = new Position(p.x + this._speed, p.y);
+        Position[] positions = new Position[4];
+        positions[0] = p1;
+        positions[1] = p2;
+        positions[2] = p3;
+        positions[3] = p4;
+
+        return positions;
+    }
+
+
+
+    public int[] dfs(int[] starting, int[] target){
+        Stack<Integer> visited = new Stack<>();
+
+
+
+
     }
 
     public void update(Character targetCharacter) {

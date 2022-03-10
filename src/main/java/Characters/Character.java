@@ -3,6 +3,7 @@ package Characters;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
+import Map.Level;
 import items.Item;
 import java.util.ArrayList;
 import java.awt.*;
@@ -23,6 +24,7 @@ public abstract class Character {
     private int[] startState = new int[2];
     private Direction directionFacing;
     protected BufferedImage sprite;
+    Level level;
 
 
 
