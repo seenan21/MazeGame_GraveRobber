@@ -3,7 +3,11 @@ package Characters;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * This PlayerActor refers to the main character controlled by the user. The player should be able to pickup items,
@@ -26,6 +30,7 @@ public class PlayerActor extends Character{
         this.setStartState(grid.getStartTile()[Constants.X], grid.getStartTile()[Constants.Y]);
         this.setPosition(grid.getStartTile()[Constants.X], grid.getStartTile()[Constants.Y]);
         this.setDefault();
+        this.getImage();
     }
 
     /**
@@ -52,6 +57,7 @@ public class PlayerActor extends Character{
         this.setSpeed(2);
         this.setHasBossReward(false);
         this.setPosition(getStartState()[Constants.X],getStartState()[Constants.Y]);
+        this.setDirectionFacing(Direction.SOUTH);
     }
 
     /**
@@ -79,12 +85,34 @@ public class PlayerActor extends Character{
             System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
         }
     }
+    public void getImage(){
+        try{
+            setSprite(Direction.NORTH, ImageIO.read(getClass().getResourceAsStream("/sprite/MaleUp-2.png")));
+            setSprite(Direction.SOUTH, ImageIO.read(getClass().getResourceAsStream("/sprite/MaleDown-2.png")));
+            setSprite(Direction.EAST, ImageIO.read(getClass().getResourceAsStream("/sprite/MaleRight-2.png")));
+            setSprite(Direction.WEST, ImageIO.read(getClass().getResourceAsStream("/sprite/MaleLeft-2.png")));
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Draws the player's position when player presses W,A,S,D keys on keyboard.
      */
     public void draw(Graphics2D g2) {
-        g2.setColor(Color.BLUE);
-        g2.fillRect(getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize());
+        BufferedImage sprite = null;
+        if (getDirectionFacing() == Direction.NORTH) {
+            sprite = getSprite(Direction.NORTH);
+        }
+        else if (getDirectionFacing() == Direction.SOUTH) {
+            sprite = getSprite(Direction.SOUTH);
+        }
+        else if (getDirectionFacing() == Direction.EAST) {
+            sprite = getSprite(Direction.EAST);
+        }
+        else if (getDirectionFacing() == Direction.WEST) {
+            sprite = getSprite(Direction.WEST);
+        }
+        g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
     }
 }
