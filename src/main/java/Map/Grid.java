@@ -10,9 +10,9 @@ import java.awt.*;
  */
 public class Grid extends JPanel implements Runnable{
 
-    private static final int TILE_SIZE = 16; // Size of an individual tile in pixels
-    private static final int HORIZONTAL_TILES = 48; // Total tiles horizontally on map
-    private static final int VERTICAL_TILES = 48; // Total tiles vertically on map
+    private final int TILE_SIZE = 32; // Size of an individual tile in pixels
+    private final int HORIZONTAL_TILES = 24; // Total tiles horizontally on map
+    private final int VERTICAL_TILES = 24; // Total tiles vertically on map
     private final double FRAMES_PER_SECOND = 60;
     private final int _screenWidth = TILE_SIZE * HORIZONTAL_TILES;
     private final int _screenHeight = TILE_SIZE * VERTICAL_TILES;
@@ -22,11 +22,7 @@ public class Grid extends JPanel implements Runnable{
     Keyboard keyboard = new Keyboard();
     Thread screenThread;
     PlayerActor playerActor = new PlayerActor(this, this.keyboard);
-
-    // TEMP PLAYER VARIABLES FOR TESTING
-    int x = 100;
-    int y = 100;
-    int speed = 2;
+    GridSquareFactory gridSquareFactory = new GridSquareFactory(this);
 
     /**
      * Creates the game screen and sets up a keyboard listener.
@@ -54,8 +50,16 @@ public class Grid extends JPanel implements Runnable{
         return _screenHeight;
     }
 
-    public static int getTileSize() {
+    public int getTileSize() {
         return TILE_SIZE;
+    }
+
+    public int getVerticalTiles() {
+        return VERTICAL_TILES;
+    }
+
+    public int getHorizontalTiles() {
+        return HORIZONTAL_TILES;
     }
 
     /**
@@ -136,7 +140,11 @@ public class Grid extends JPanel implements Runnable{
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
+
+        gridSquareFactory.draw(g2);
+
         playerActor.draw(g2);
+
         g2.dispose(); // Saves memory
     }
 }
