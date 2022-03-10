@@ -23,7 +23,7 @@ public class Grid extends JPanel implements Runnable{
     private int[] _startTile = new int[2]; // Starting tile for player when the game begins
     private int[] _endTile = new int[2]; // Ending tile for player when all treasures have been collected
     private ArrayList<Character> characters = new ArrayList<Character>();
-    //This list will help us keep track of entities that need to be updated in the game loop.
+    //Might get rid of this. This list will help us keep track of entities that need to be updated in the game loop.
 
     Keyboard keyboard = new Keyboard();
     Thread screenThread;
@@ -54,6 +54,10 @@ public class Grid extends JPanel implements Runnable{
     public int getScreenWidth() {
         return _screenWidth;
     }
+
+    public int getHorizontalTiles(){return HORIZONTAL_TILES;}
+
+    public int getVerticalTiles() { return VERTICAL_TILES;    }
 
     /**
      * Returns the map's height.

@@ -3,7 +3,7 @@ package Characters;
 import IO.Keyboard;
 import Map.Grid;
 
-
+import java.util.ArrayList;
 import java.awt.*;
 import java.util.Random;
 import java.lang.*;
@@ -53,10 +53,10 @@ public class Mummy extends Character {
         double[] bestChoice = new double[4];
 
         double currentPos = euclideanDistance(x, y, target[0], target[1]);
-        double north = euclideanDistance(x, y+this._speed, target[0], target[1]) - currentPos;
-        double east = euclideanDistance(x+this._speed, y, target[0], target[1]) - currentPos;
-        double south = euclideanDistance(x, y-this._speed, target[0], target[1]) - currentPos;
-        double west = euclideanDistance(x-this._speed, y, target[0], target[1]) - currentPos;
+        double north = euclideanDistance(x, y+this._speed, target[0], target[1]);
+        double east = euclideanDistance(x+this._speed, y, target[0], target[1]);
+        double south = euclideanDistance(x, y-this._speed, target[0], target[1]);
+        double west = euclideanDistance(x-this._speed, y, target[0], target[1]);
 
         bestChoice[0]=north;
         bestChoice[1]=east;
@@ -73,16 +73,16 @@ public class Mummy extends Character {
             moveCharacter(Direction.NORTH);
         }
         else if(bestChoice[1] == min) {
-            moveCharacter(Direction.SOUTH);
-            moveCharacter(Direction.SOUTH);
+            moveCharacter(Direction.EAST);
+            moveCharacter(Direction.EAST);
         }
         else if(bestChoice[2] == min) {
-            moveCharacter(Direction.WEST);
-            moveCharacter(Direction.WEST);
+            moveCharacter(Direction.SOUTH);
+            moveCharacter(Direction.SOUTH);
         }
         else if(bestChoice[3] == min) {
-            moveCharacter(Direction.EAST);
-            moveCharacter(Direction.EAST);
+            moveCharacter(Direction.WEST);
+            moveCharacter(Direction.WEST);
         }
     }
     public void draw(Graphics2D g2) {
