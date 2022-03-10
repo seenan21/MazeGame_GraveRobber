@@ -4,6 +4,9 @@ import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
 import items.Item;
+
+import java.awt.image.BufferedImage;
+import java.security.PublicKey;
 import java.util.ArrayList;
 
 /**
@@ -20,6 +23,8 @@ public abstract class Character {
     private int _speed;
     private int[] startState = new int[2];
     private Direction directionFacing;
+    public String Directions;
+    public BufferedImage up2, down2, left2, right2;
 
     /**
      * Constructor for the character class.

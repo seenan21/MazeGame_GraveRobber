@@ -3,7 +3,11 @@ package Characters;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * This PlayerActor refers to the main character controlled by the user. The player should be able to pickup items,
@@ -26,6 +30,7 @@ public class PlayerActor extends Character{
         this.setStartState(grid.getStartTile()[Constants.X], grid.getStartTile()[Constants.Y]);
         this.setPosition(grid.getStartTile()[Constants.X], grid.getStartTile()[Constants.Y]);
         this.setDefault();
+        this.getImage();
     }
 
     /**
@@ -52,6 +57,7 @@ public class PlayerActor extends Character{
         this.setSpeed(2);
         this.setHasBossReward(false);
         this.setPosition(getStartState()[Constants.X],getStartState()[Constants.Y]);
+        Directions = "down";
     }
 
     /**
@@ -62,21 +68,36 @@ public class PlayerActor extends Character{
             System.out.println("UP");
             moveCharacter(Direction.NORTH);
             System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
+            Directions = "up";
         }
         else if(_keyboard.downKeyPressed) {
             System.out.println("Down");
             moveCharacter(Direction.SOUTH);
             System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
+            Directions = "down";
         }
         else if(_keyboard.leftKeyPressed) {
             System.out.println("Left");
             moveCharacter(Direction.WEST);
             System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
+            Directions = "left";
         }
         else if(_keyboard.rightKeyPressed) {
             System.out.println("Right");
             moveCharacter(Direction.EAST);
             System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
+            Directions = "right";
+        }
+    }
+    public void getImage(){
+        try{
+            up2 = ImageIO.read(getClass().getResourceAsStream("/Sprite/MaleUp-2"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/Sprite/MaleLeft-2"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/Sprite/MaleRight-2"));
+            down2  = ImageIO.read(getClass().getResourceAsStream("/Sprite/Maledown-2"));
+
+        }catch(IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -84,7 +105,24 @@ public class PlayerActor extends Character{
      * Draws the player's position when player presses W,A,S,D keys on keyboard.
      */
     public void draw(Graphics2D g2) {
-        g2.setColor(Color.BLUE);
-        g2.fillRect(getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize());
+       // g2.setColor(Color.BLUE);
+        //g2.fillRect(getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize());
+        BufferedImage image = null;
+        switch (Directions){
+            case"right":
+            image = right2;
+            break;
+            case"down":
+                image  = down2;
+                break;
+            case"left":
+                image = left2;
+                break;
+            case"up":
+                image = up2;
+                break;
+
+        }
+        g2.drawImage(image,getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
     }
 }
