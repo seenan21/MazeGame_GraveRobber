@@ -5,6 +5,8 @@ import IO.Keyboard;
 import Map.Grid;
 import items.Item;
 import java.util.ArrayList;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Contains methods that are applicable to all npc and human players.
@@ -20,6 +22,9 @@ public abstract class Character {
     private int _speed;
     private int[] startState = new int[2];
     private Direction directionFacing;
+    protected BufferedImage sprite;
+
+
 
     /**
      * Constructor for the character class.
@@ -191,5 +196,16 @@ public abstract class Character {
 //        }
         this.setPosition(getPosition()[Constants.X] - _speed, getPosition()[Constants.Y]);
     }
+
+    /**To Check if character is colliding with another character or wall**/
+    public boolean isCollide(int[] position){
+        return this.position[0] == position[0] && this.position[1] == position[1];
+    }
+
+    /** For the sprites of the characters **/
+    public void draw(Graphics2D g2) {}
+
+    public void render(Graphics g)
+    {}
 }
 

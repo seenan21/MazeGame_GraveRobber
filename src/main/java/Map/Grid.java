@@ -1,9 +1,12 @@
 package Map;
+import Characters.Character;
 import Characters.PlayerActor;
+import Characters.Zombie;
 import Constants.Constants;
 import IO.Keyboard;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * The grid represents the layout of the map. Maps are quadrilaterals made of tiles.
@@ -18,10 +21,13 @@ public class Grid extends JPanel implements Runnable{
     private final int _screenHeight = TILE_SIZE * VERTICAL_TILES;
     private int[] _startTile = new int[2]; // Starting tile for player when the game begins
     private int[] _endTile = new int[2]; // Ending tile for player when all treasures have been collected
+    private ArrayList<Character> characters = new ArrayList<Character>();
+    //This list will help us keep track of entities that need to be updated in the game loop.
 
     Keyboard keyboard = new Keyboard();
     Thread screenThread;
     PlayerActor playerActor = new PlayerActor(this, this.keyboard);
+    Zombie zombo =new Zombie(this, this.keyboard, _screenWidth/2, _screenHeight/2); // Just for testing rn
 
     // TEMP PLAYER VARIABLES FOR TESTING
     int x = 100;
@@ -126,7 +132,7 @@ public class Grid extends JPanel implements Runnable{
      * Updates the character and enemy movements.
      */
     public void update() {
-        playerActor.update();
+        playerActor.update(); zombo.update();
     }
 
     /**
@@ -137,6 +143,7 @@ public class Grid extends JPanel implements Runnable{
 
         Graphics2D g2 = (Graphics2D)g;
         playerActor.draw(g2);
+        zombo.draw(g2);
         g2.dispose(); // Saves memory
     }
 }
