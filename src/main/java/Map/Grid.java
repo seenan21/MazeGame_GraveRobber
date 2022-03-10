@@ -1,5 +1,6 @@
 package Map;
 import Characters.Character;
+import Characters.Mummy;
 import Characters.PlayerActor;
 import Characters.Zombie;
 import Constants.Constants;
@@ -28,6 +29,7 @@ public class Grid extends JPanel implements Runnable{
     Thread screenThread;
     PlayerActor playerActor = new PlayerActor(this, this.keyboard);
     Zombie zombo =new Zombie(this, this.keyboard, _screenWidth/2, _screenHeight/2); // Just for testing rn
+    Mummy mum =new Mummy(this, this.keyboard, _screenWidth/2+20, _screenHeight/2+20); // Just for testing rn
 
     // TEMP PLAYER VARIABLES FOR TESTING
     int x = 100;
@@ -132,7 +134,7 @@ public class Grid extends JPanel implements Runnable{
      * Updates the character and enemy movements.
      */
     public void update() {
-        playerActor.update(); zombo.update();
+        playerActor.update(); zombo.update(); mum.update(playerActor);
     }
 
     /**
@@ -144,6 +146,7 @@ public class Grid extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D)g;
         playerActor.draw(g2);
         zombo.draw(g2);
+        mum.draw(g2);
         g2.dispose(); // Saves memory
     }
 }

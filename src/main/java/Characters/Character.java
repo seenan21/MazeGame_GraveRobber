@@ -19,7 +19,7 @@ public abstract class Character {
     private int health;
     private ArrayList<Item> bag = new ArrayList<>();
     private int[] position = new int[2];
-    private int _speed;
+    protected int _speed;
     private int[] startState = new int[2];
     private Direction directionFacing;
     protected BufferedImage sprite;
@@ -56,6 +56,8 @@ public abstract class Character {
     public void setSpeed(int _speed) {
         this._speed = _speed;
     }
+
+
 
     /**
      * Returns player's current health.
@@ -207,5 +209,7 @@ public abstract class Character {
 
     public void render(Graphics g)
     {}
+
+
 }
 
