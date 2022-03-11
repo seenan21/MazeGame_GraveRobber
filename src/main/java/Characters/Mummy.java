@@ -58,8 +58,13 @@ public class Mummy extends Character {
 
 
 
-    public int[] dfs(int[] starting, int[] target){
-        Stack<Integer> visited = new Stack<>();
+    public int[] dfs(Position starting, Position Target){
+        Stack<Position> visited = new Stack<>();
+        visited.push(starting);
+        while(!visited.isEmpty()){
+
+
+        }
 
 
 
