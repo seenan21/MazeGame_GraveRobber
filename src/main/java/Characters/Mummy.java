@@ -1,8 +1,8 @@
 package Characters;
 
+import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
-import Map.Level;
 
 
 import java.util.*;
@@ -11,14 +11,15 @@ import java.lang.*;
 
 public class Mummy extends Character {
 
-    private int[] target = new int[2];
+    PlayerActor target;
 
-    public Mummy(Grid grid, Keyboard keyboard, int positionX, int positionY
+    public Mummy(Grid grid, Keyboard keyboard, int positionX, int positionY, PlayerActor Hero
             /*Adds this parameter later for walls  Level level*/) {
         super(grid, keyboard);
         this.setPosition(positionX, positionY);
         this.setStartState(positionX, positionY);
         this.setSpeed(5); //Testing speed
+        target = Hero;
 
     }
 
@@ -44,9 +45,9 @@ public class Mummy extends Character {
 
     public Position[] getSuccessor(Position p){
         Position p1 = new Position(p.x + this._speed, p.y);
-        Position p2 = new Position(p.x + this._speed, p.y);
-        Position p3 = new Position(p.x + this._speed, p.y);
-        Position p4 = new Position(p.x + this._speed, p.y);
+        Position p2 = new Position(p.x - this._speed, p.y);
+        Position p3 = new Position(p.x, p.y + this._speed);
+        Position p4 = new Position(p.x, p.y - this._speed);
         Position[] positions = new Position[4];
         positions[0] = p1;
         positions[1] = p2;
@@ -56,63 +57,54 @@ public class Mummy extends Character {
         return positions;
     }
 
+    class PositionList{
+        Position position;
+        ArrayList<Position> posList;
 
-
-    public int[] dfs(Position starting, Position Target){
-        Stack<Position> visited = new Stack<>();
-        visited.push(starting);
-        while(!visited.isEmpty()){
-
-
+        PositionList(Position pos, ArrayList<Position> list){
+            this.position =pos;
+            this.posList = list;
         }
-
-
-
 
     }
 
+    public ArrayList<Position> dfs(Position starting, Position target){
+        Stack<PositionList> fringe = new Stack<>();
+        ArrayList<Position> visited = new ArrayList<Position>();
+        ArrayList<Position> posList = new ArrayList<Position>();
+
+        PositionList root = new PositionList(starting, posList );
+        fringe.push(root);
+        while(!fringe.isEmpty()){
+            PositionList v = fringe.pop();
+
+            if (v.position == target){
+                return v.posList;
+            }
+
+            if (!visited.contains(v.position)){
+                visited.add(v.position);
+                for (Position p: getSuccessor(v.position) ){
+                    PositionList p2 = new PositionList(p, v.posList);
+                    fringe.push(p2);
+                }
+            }
+
+        }
+        return visited;
+    }
+
     public void update(Character targetCharacter) {
-        this.target = targetCharacter.getPosition();
-        int[] target = this.target;
+        Position targetPos = new Position(this.target.getPosition()[0], this.target.getPosition()[1]);
+        Position self = new Position(this.getPosition()[0], this.getPosition()[1]);
 
-        int x = this.getPosition()[0];
-        int y = this.getPosition()[1];
+        ArrayList<Position> moves = dfs(self, targetPos);
 
-
-        double[] bestChoice = new double[4];
-
-        double currentPos = euclideanDistance(x, y, target[0], target[1]);
-        double north = euclideanDistance(x, y+this._speed, target[0], target[1]);
-        double east = euclideanDistance(x+this._speed, y, target[0], target[1]);
-        double south = euclideanDistance(x, y-this._speed, target[0], target[1]);
-        double west = euclideanDistance(x-this._speed, y, target[0], target[1]);
-
-        bestChoice[0]=north;
-        bestChoice[1]=east;
-        bestChoice[2]=south;
-        bestChoice[3]=west;
-
-
-        Double min = getMinValue(bestChoice);
+        this.setPosition(moves.get(0).x,moves.get(0).y);
 
 
 
-        if(bestChoice[0] == min) {
-            moveCharacter(Direction.NORTH);
-            moveCharacter(Direction.NORTH);
-        }
-        else if(bestChoice[1] == min) {
-            moveCharacter(Direction.EAST);
-            moveCharacter(Direction.EAST);
-        }
-        else if(bestChoice[2] == min) {
-            moveCharacter(Direction.SOUTH);
-            moveCharacter(Direction.SOUTH);
-        }
-        else if(bestChoice[3] == min) {
-            moveCharacter(Direction.WEST);
-            moveCharacter(Direction.WEST);
-        }
+
     }
     public void draw(Graphics2D g2) {
         g2.setColor(Color.WHITE);

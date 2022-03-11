@@ -55,7 +55,7 @@ public class Level {
         for(int i=0; i < walls.length; i++) {
             for(int j=0; j< walls.length; j++) {
                 if (walls[i][j] == 1){
-                    Wall wall = new Wall(i,j, ); //Fix this when
+                    //Wall wall = new Wall(i,j, ); //Fix this when
                     wallsList.add(wall);
                 }
             }
