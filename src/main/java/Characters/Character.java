@@ -22,14 +22,16 @@ public abstract class Character {
     private int _speed;
     private int[] startState = new int[2];
     private Direction directionFacing;
-    private BufferedImage _spriteNorth, _spriteSouth, _spriteEast, _spriteWest;
+    private Direction previousDirectionFacing;
+    private BufferedImage _spriteNorth0, _spriteSouth0, _spriteEast0, _spriteWest0, _spriteNorth1, _spriteSouth1, _spriteEast1, _spriteWest1, _spriteNorth2, _spriteSouth2, _spriteEast2, _spriteWest2;
+    public int spriteCounter = 0;
 
     /**
      * Constructor for the character class.
-     *
-//     * @param health - Character's total health
-//     * @param directionFacing - Direction the character is facing
-//     * @param map - Map the character is being added to
+     * <p>
+     * //     * @param health - Character's total health
+     * //     * @param directionFacing - Direction the character is facing
+     * //     * @param map - Map the character is being added to
      */
     public Character(Grid grid, Keyboard keyboard) {
         this._keyboard = keyboard;
@@ -44,8 +46,7 @@ public abstract class Character {
     public void setHealth(int health) {
         if (health >= 0 && health <= 100) {
             this.health = health;
-        }
-        else {
+        } else {
             System.out.println("ERROR: Health must be between 0 and 100");
             System.exit(-1);
         }
@@ -57,7 +58,6 @@ public abstract class Character {
 
     /**
      * Returns player's current health.
-     *
      */
     public int getHealth() {
         return health;
@@ -134,41 +134,122 @@ public abstract class Character {
     }
 
     /**
+     * Sets player's previous direction they were facing on the map.
+     */
+    public void setPreviousDirectionFacing(Direction previousDirectionFacing) {
+        this.previousDirectionFacing = previousDirectionFacing;
+    }
+
+    /**
+     * Returns player's previous direction they were facing on the map.
+     */
+    public Direction getPreviousDirectionFacing() {
+        return previousDirectionFacing;
+    }
+
+    /**
      * Returns player's sprite based on direction.
      */
     public BufferedImage getSprite(Direction direction) {
         if (direction == Direction.NORTH) {
-            return _spriteNorth;
+            if (spriteCounter == 0) {
+                return _spriteNorth0;
+            } else if (spriteCounter == 1) {
+                return _spriteNorth1;
+            } else if (spriteCounter == 2) {
+                return _spriteNorth2;
+            }
+        } else if (direction == Direction.SOUTH) {
+            if (spriteCounter == 0) {
+                return _spriteSouth0;
+            } else if (spriteCounter == 2) {
+                return _spriteSouth1;
+            } else if (spriteCounter == 1) {
+                return _spriteSouth2;
+            }
+        } else if (direction == Direction.EAST) {
+            if (spriteCounter == 0) {
+                return _spriteEast0;
+            } else if (spriteCounter == 1) {
+                return _spriteEast1;
+            } else if (spriteCounter == 2) {
+                return _spriteEast2;
+            }
+        } else if (direction == Direction.WEST) {
+            if (spriteCounter == 0) {
+                return _spriteWest0;
+            } else if (spriteCounter == 1) {
+                return _spriteWest1;
+            } else if (spriteCounter == 2) {
+                return _spriteWest2;
+            }
         }
-        else if (direction == Direction.SOUTH) {
-            return _spriteSouth;
-        }
-        else if (direction == Direction.EAST) {
-            return _spriteEast;
-        }
-        else if (direction == Direction.WEST) {
-            return _spriteWest;
-        }
-        else {
-            return null;
-        }
+        return null;
     }
 
     /**
      * Assigns the player's sprite image based on direction.
      */
-    public void setSprite(Direction direction, BufferedImage spriteEast) {
+    public void setSprite(Direction direction, int spriteNum, BufferedImage sprite) {
         if (direction == Direction.NORTH) {
-            this._spriteNorth = spriteEast;
+            switch (spriteNum) {
+                case 0:
+                    this._spriteNorth0 = sprite;
+                    break;
+                case 1:
+                    this._spriteNorth1 = sprite;
+                    break;
+                case 2:
+                    this._spriteNorth2 = sprite;
+                    break;
+                default:
+                    this._spriteNorth0 = sprite;
+            }
         }
         else if (direction == Direction.SOUTH) {
-            this._spriteSouth = spriteEast;
+            switch (spriteNum) {
+                case 0:
+                    this._spriteSouth0 = sprite;
+                    break;
+                case 1:
+                    this._spriteSouth1 = sprite;
+                    break;
+                case 2:
+                    this._spriteSouth2 = sprite;
+                    break;
+                default:
+                    this._spriteSouth0 = sprite;
+            }
         }
         else if (direction == Direction.EAST) {
-            this._spriteEast = spriteEast;
+            switch (spriteNum) {
+                case 0:
+                    this._spriteEast0 = sprite;
+                    break;
+                case 1:
+                    this._spriteEast1 = sprite;
+                    break;
+                case 2:
+                    this._spriteEast2 = sprite;
+                    break;
+                default:
+                    this._spriteEast0 = sprite;
+            }
         }
         else if (direction == Direction.WEST) {
-            this._spriteWest = spriteEast;
+            switch (spriteNum) {
+                case 0:
+                    this._spriteWest0 = sprite;
+                    break;
+                case 1:
+                    this._spriteWest1 = sprite;
+                    break;
+                case 2:
+                    this._spriteWest2 = sprite;
+                    break;
+                default:
+                    this._spriteWest0 = sprite;
+            }
         }
     }
 
@@ -179,6 +260,8 @@ public abstract class Character {
      * @param direction - Player has achieved the final boss award
      */
     public void moveCharacter(Direction direction) {
+
+        setPreviousDirectionFacing(getDirectionFacing());
 
         if (direction == Direction.NORTH) {
             moveNorth();
@@ -191,16 +274,21 @@ public abstract class Character {
         }
 
         this.setDirectionFacing(direction);
+
+        if (getPreviousDirectionFacing() != getDirectionFacing()) {
+            spriteCounter = 0;
+        } else if (spriteCounter >= 2) {
+            spriteCounter = 0;
+        } else {
+            spriteCounter++;
+        }
+        System.out.println(spriteCounter);
     }
 
     /**
      * Moves character's position one tile north
      */
     private void moveNorth() {
-//        if (this.getPosition()[Constants.Y] < _grid.getHeight()) {
-//
-//        }
-
         this.setPosition(getPosition()[Constants.X],getPosition()[Constants.Y] - _speed);
     }
 
@@ -208,9 +296,6 @@ public abstract class Character {
      * Moves character's position one tile south
      */
     private void moveSouth() {
-//        if (this.getPosition()[1] > 0) {
-//
-//        }
         this.setPosition(getPosition()[Constants.X],getPosition()[Constants.Y] + _speed);
     }
 
@@ -218,9 +303,6 @@ public abstract class Character {
      * Moves character's position one tile east
      */
     private void moveEast() {
-//        if (this.getPosition()[0] < _grid.getWidth()) {
-//
-//        }
         this.setPosition(getPosition()[Constants.X] + _speed, getPosition()[Constants.Y]);
     }
 
@@ -228,9 +310,6 @@ public abstract class Character {
      * Moves character's position one tile west
      */
     private void moveWest() {
-//        if (this.getPosition()[Constants.X] > 0) {
-//
-//        }
         this.setPosition(getPosition()[Constants.X] - _speed, getPosition()[Constants.Y]);
     }
 }
