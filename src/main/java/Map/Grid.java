@@ -1,9 +1,13 @@
 package Map;
+import Characters.Character;
+import Characters.Mummy;
 import Characters.PlayerActor;
+import Characters.Zombie;
 import Constants.Constants;
 import IO.Keyboard;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * The grid represents the layout of the map. Maps are quadrilaterals made of tiles.
@@ -18,11 +22,20 @@ public class Grid extends JPanel implements Runnable{
     private final int _screenHeight = TILE_SIZE * VERTICAL_TILES;
     private int[] _startTile = new int[2]; // Starting tile for player when the game begins
     private int[] _endTile = new int[2]; // Ending tile for player when all treasures have been collected
+    private ArrayList<Character> characters = new ArrayList<Character>();
+    //Might get rid of this. This list will help us keep track of entities that need to be updated in the game loop.
 
     Keyboard keyboard = new Keyboard();
     Thread screenThread;
     PlayerActor playerActor = new PlayerActor(this, this.keyboard);
     GridSquareFactory gridSquareFactory = new GridSquareFactory(this);
+    Zombie zombo =new Zombie(this, this.keyboard, _screenWidth/2, _screenHeight/2); // Just for testing rn
+//    Mummy mum =new Mummy(this, this.keyboard, _screenWidth/2+20, _screenHeight/2+20); // Just for testing rn
+
+    // TEMP PLAYER VARIABLES FOR TESTING
+    int x = 100;
+    int y = 100;
+    int speed = 2;
 
     /**
      * Creates the game screen and sets up a keyboard listener.
@@ -43,6 +56,10 @@ public class Grid extends JPanel implements Runnable{
         return _screenWidth;
     }
 
+    public int getHorizontalTiles(){return HORIZONTAL_TILES;}
+
+    public int getVerticalTiles() { return VERTICAL_TILES;    }
+
     /**
      * Returns the map's height.
      */
@@ -52,14 +69,6 @@ public class Grid extends JPanel implements Runnable{
 
     public int getTileSize() {
         return TILE_SIZE;
-    }
-
-    public int getVerticalTiles() {
-        return VERTICAL_TILES;
-    }
-
-    public int getHorizontalTiles() {
-        return HORIZONTAL_TILES;
     }
 
     /**
@@ -131,6 +140,8 @@ public class Grid extends JPanel implements Runnable{
      */
     public void update() {
         playerActor.update();
+        zombo.update();
+//        mum.update(playerActor);
     }
 
     /**
@@ -144,6 +155,8 @@ public class Grid extends JPanel implements Runnable{
         gridSquareFactory.draw(g2);
 
         playerActor.draw(g2);
+        zombo.draw(g2);
+//        mum.draw(g2);
 
         g2.dispose(); // Saves memory
     }

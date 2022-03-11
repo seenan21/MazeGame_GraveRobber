@@ -5,79 +5,22 @@ import IO.Keyboard;
 import Map.Grid;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
-/**
- * This PlayerActor refers to the main character controlled by the user. The player should be able to pickup items,
- * move north, south, east, and west, and have a set amount of health. The player can only be on one map at a time.
- *
- * The player will always spawn at the map's startCell.
- */
-public class PlayerActor extends Character{
+import java.awt.*;
 
-    private boolean hasBossReward;
+public class Zombie extends Character {
 
-    /**
-     * Constructor for the character class.
-     *
-     * @param grid - Grid which is used for game map
-     * @param keyboard - Listener for keyboard
-     */
-    public PlayerActor(Grid grid, Keyboard keyboard) {
+    public Zombie(Grid grid, Keyboard keyboard, int positionX, int positionY) {
         super(grid, keyboard);
-        this.setStartState(grid.getStartTile()[Constants.X], grid.getStartTile()[Constants.Y]);
-        this.setPosition(grid.getStartTile()[Constants.X], grid.getStartTile()[Constants.Y]);
-        this.setDefault();
+        this.setPosition(positionX, positionY);
+        this.setStartState(positionX, positionY);
+        this.setSpeed(3); //Testing speed
         this.getImage();
     }
 
-    /**
-     * Changes the status of final boss award for the player
-     *
-     * @param hasBossReward - Player has achieved the final boss award
-     */
-    public void setHasBossReward(boolean hasBossReward) {
-        this.hasBossReward = hasBossReward;
-    }
-
-    /**
-     * Returns if the player has the final boss's reward
-     */
-    public boolean getHasBossReward() {
-        return this.hasBossReward;
-    }
-
-    /**
-     * Default values for player
-     */
-    public void setDefault() {
-        this.setHealth(100);
-        this.setSpeed(2);
-        this.setHasBossReward(false);
-        this.setPosition(getStartState()[Constants.X],getStartState()[Constants.Y]);
-        this.setDirectionFacing(Direction.SOUTH);
-    }
-
-    /**
-     * Updates the player's position when player presses W,A,S,D keys on keyboard.
-     */
-    public void update() {
-        if (_keyboard.upKeyPressed) {
-            moveCharacter(Direction.NORTH);
-        } else if (_keyboard.downKeyPressed) {
-            moveCharacter(Direction.SOUTH);
-        } else if (_keyboard.leftKeyPressed) {
-            moveCharacter(Direction.WEST);
-        } else if (_keyboard.rightKeyPressed) {
-            moveCharacter(Direction.EAST);
-        }
-    }
-
-    /**
-     * Finds the sprite image for the player.
-     */
     public void getImage(){
         try{
             setSprite(Direction.NORTH, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/grave_robber_hero/hero_up_0.png")));
@@ -97,10 +40,30 @@ public class PlayerActor extends Character{
         }
     }
 
-    /**
-     * Draws the player's position when player presses W,A,S,D keys on keyboard.
-     */
+    public void update() {
+        Random rand = new Random();
+
+        int n = rand.nextInt(4);
+
+        if(n == 0) {
+            moveCharacter(Direction.NORTH);
+            moveCharacter(Direction.NORTH);
+        }
+        else if(n == 1) {
+            moveCharacter(Direction.SOUTH);
+            moveCharacter(Direction.SOUTH);
+        }
+        else if(n == 2) {
+            moveCharacter(Direction.WEST);
+            moveCharacter(Direction.WEST);
+        }
+        else if(n == 3) {
+            moveCharacter(Direction.EAST);
+            moveCharacter(Direction.EAST);
+        }
+    }
     public void draw(Graphics2D g2) {
+
         BufferedImage sprite = null;
         if (getDirectionFacing() == Direction.NORTH) {
             sprite = getSprite(Direction.NORTH);
@@ -116,4 +79,10 @@ public class PlayerActor extends Character{
         }
         g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
     }
+
+
+
+
+
+
 }

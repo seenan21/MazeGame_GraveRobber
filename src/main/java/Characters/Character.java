@@ -3,10 +3,13 @@ package Characters;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
+import Map.Level;
 import items.Item;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Contains methods that are applicable to all npc and human players.
@@ -52,12 +55,23 @@ public abstract class Character {
         }
     }
 
+    /**
+     * Returns character's speed
+     */
+    public int getSpeed() {
+        return _speed;
+    }
+
+    /**
+     * Sets character's speed
+     */
     public void setSpeed(int _speed) {
         this._speed = _speed;
     }
 
     /**
      * Returns player's current health.
+     *
      */
     public int getHealth() {
         return health;
