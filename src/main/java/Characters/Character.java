@@ -22,14 +22,16 @@ public abstract class Character {
     private int _speed;
     private int[] startState = new int[2];
     private Direction directionFacing;
-    private BufferedImage _spriteNorth, _spriteSouth, _spriteEast, _spriteWest;
+    private BufferedImage _spriteNorth1, _spriteSouth1, _spriteEast1, _spriteWest1, _spriteNorth2, _spriteSouth2, _spriteEast2, _spriteWest2, _spriteNorth3, _spriteSouth3, _spriteEast3, _spriteWest3;
+    public int spriteNum = 0;
+    public int spritecounter = 1;
 
     /**
      * Constructor for the character class.
-     *
-//     * @param health - Character's total health
-//     * @param directionFacing - Direction the character is facing
-//     * @param map - Map the character is being added to
+     * <p>
+     * //     * @param health - Character's total health
+     * //     * @param directionFacing - Direction the character is facing
+     * //     * @param map - Map the character is being added to
      */
     public Character(Grid grid, Keyboard keyboard) {
         this._keyboard = keyboard;
@@ -44,8 +46,7 @@ public abstract class Character {
     public void setHealth(int health) {
         if (health >= 0 && health <= 100) {
             this.health = health;
-        }
-        else {
+        } else {
             System.out.println("ERROR: Health must be between 0 and 100");
             System.exit(-1);
         }
@@ -57,7 +58,6 @@ public abstract class Character {
 
     /**
      * Returns player's current health.
-     *
      */
     public int getHealth() {
         return health;
@@ -138,37 +138,59 @@ public abstract class Character {
      */
     public BufferedImage getSprite(Direction direction) {
         if (direction == Direction.NORTH) {
-            return _spriteNorth;
-        }
-        else if (direction == Direction.SOUTH) {
-            return _spriteSouth;
-        }
-        else if (direction == Direction.EAST) {
-            return _spriteEast;
-        }
-        else if (direction == Direction.WEST) {
-            return _spriteWest;
-        }
-        else {
+            if (spriteNum == 1) {
+                return _spriteNorth1;
+            } else if (spriteNum == 2) {
+                return _spriteNorth2;
+            } else if (spriteNum == 3) {
+                return _spriteNorth3;
+            }
+        } else if (direction == Direction.SOUTH) {
+            if (spriteNum == 1) {
+                return _spriteSouth1;
+            } else if (spriteNum == 2) {
+                return _spriteSouth2;
+            } else if (spriteNum == 3) {
+                return _spriteSouth3;
+            }
+        } else if (direction == Direction.EAST) {
+            if (spriteNum == 1) {
+                return _spriteEast1;
+            } else if (spriteNum == 2) {
+                return _spriteEast2;
+            } else if (spriteNum == 3) {
+                return _spriteEast3;
+            }
+        } else if (direction == Direction.WEST) {
+            if (spriteNum == 1) {
+                return _spriteWest1;
+            } else if (spriteNum == 2) {
+                return _spriteWest2;
+            } else if (spriteNum == 3) {
+                return _spriteWest3;
+            }
+        } else {
             return null;
         }
     }
+
+
 
     /**
      * Assigns the player's sprite image based on direction.
      */
     public void setSprite(Direction direction, BufferedImage spriteEast) {
         if (direction == Direction.NORTH) {
-            this._spriteNorth = spriteEast;
+            this._spriteNorth1 = spriteEast;
         }
         else if (direction == Direction.SOUTH) {
-            this._spriteSouth = spriteEast;
+            this._spriteSouth1 = spriteEast;
         }
         else if (direction == Direction.EAST) {
-            this._spriteEast = spriteEast;
+            this._spriteEast1 = spriteEast;
         }
         else if (direction == Direction.WEST) {
-            this._spriteWest = spriteEast;
+            this._spriteWest1 = spriteEast;
         }
     }
 

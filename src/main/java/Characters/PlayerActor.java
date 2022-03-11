@@ -64,25 +64,35 @@ public class PlayerActor extends Character{
      * Updates the player's position when player presses W,A,S,D keys on keyboard.
      */
     public void update() {
-        if(_keyboard.upKeyPressed) {
+        if (_keyboard.upKeyPressed) {
             System.out.println("UP");
             moveCharacter(Direction.NORTH);
             System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
-        }
-        else if(_keyboard.downKeyPressed) {
+        } else if (_keyboard.downKeyPressed) {
             System.out.println("Down");
             moveCharacter(Direction.SOUTH);
             System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
-        }
-        else if(_keyboard.leftKeyPressed) {
+        } else if (_keyboard.leftKeyPressed) {
             System.out.println("Left");
             moveCharacter(Direction.WEST);
             System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
-        }
-        else if(_keyboard.rightKeyPressed) {
+        } else if (_keyboard.rightKeyPressed) {
             System.out.println("Right");
             moveCharacter(Direction.EAST);
             System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
+        }
+        spritecounter++;
+        if (spritecounter > 12) {
+            if (spriteNum == 1) {
+                spriteNum = 2;
+
+            } else if (spriteNum == 2) {
+                spriteNum = 3;
+
+            } else if (spriteNum == 3) {
+                spriteNum = 1;
+            }
+            spritecounter = 0;
         }
     }
     public void getImage(){
