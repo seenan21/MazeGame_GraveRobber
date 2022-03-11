@@ -3,7 +3,11 @@ package Characters;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * This PlayerActor refers to the main character controlled by the user. The player should be able to pickup items,
@@ -26,6 +30,7 @@ public class PlayerActor extends Character{
         this.setStartState(grid.getStartTile()[Constants.X], grid.getStartTile()[Constants.Y]);
         this.setPosition(grid.getStartTile()[Constants.X], grid.getStartTile()[Constants.Y]);
         this.setDefault();
+        this.getImage();
     }
 
     /**
@@ -52,31 +57,43 @@ public class PlayerActor extends Character{
         this.setSpeed(2);
         this.setHasBossReward(false);
         this.setPosition(getStartState()[Constants.X],getStartState()[Constants.Y]);
+        this.setDirectionFacing(Direction.SOUTH);
     }
 
     /**
      * Updates the player's position when player presses W,A,S,D keys on keyboard.
      */
     public void update() {
-        if(_keyboard.upKeyPressed) {
-            System.out.println("UP");
+        if (_keyboard.upKeyPressed) {
             moveCharacter(Direction.NORTH);
-            System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
-        }
-        else if(_keyboard.downKeyPressed) {
-            System.out.println("Down");
+        } else if (_keyboard.downKeyPressed) {
             moveCharacter(Direction.SOUTH);
-            System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
-        }
-        else if(_keyboard.leftKeyPressed) {
-            System.out.println("Left");
+        } else if (_keyboard.leftKeyPressed) {
             moveCharacter(Direction.WEST);
-            System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
-        }
-        else if(_keyboard.rightKeyPressed) {
-            System.out.println("Right");
+        } else if (_keyboard.rightKeyPressed) {
             moveCharacter(Direction.EAST);
-            System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
+        }
+    }
+
+    /**
+     * Finds the sprite image for the player.
+     */
+    public void getImage(){
+        try{
+            setSprite(Direction.NORTH, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/grave_robber_hero/hero_up_0.png")));
+            setSprite(Direction.NORTH, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/grave_robber_hero/hero_up_1.png")));
+            setSprite(Direction.NORTH, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/grave_robber_hero/hero_up_2.png")));
+            setSprite(Direction.SOUTH,0, ImageIO.read(getClass().getResourceAsStream("/sprite/grave_robber_hero/hero_down_0.png")));
+            setSprite(Direction.SOUTH,1, ImageIO.read(getClass().getResourceAsStream("/sprite/grave_robber_hero/hero_down_1.png")));
+            setSprite(Direction.SOUTH,2, ImageIO.read(getClass().getResourceAsStream("/sprite/grave_robber_hero/hero_down_2.png")));
+            setSprite(Direction.EAST, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/grave_robber_hero/hero_right_0.png")));
+            setSprite(Direction.EAST, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/grave_robber_hero/hero_right_1.png")));
+            setSprite(Direction.EAST, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/grave_robber_hero/hero_right_2.png")));
+            setSprite(Direction.WEST, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/grave_robber_hero/hero_left_0.png")));
+            setSprite(Direction.WEST, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/grave_robber_hero/hero_left_1.png")));
+            setSprite(Direction.WEST, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/grave_robber_hero/hero_left_2.png")));
+        }catch(IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -84,7 +101,19 @@ public class PlayerActor extends Character{
      * Draws the player's position when player presses W,A,S,D keys on keyboard.
      */
     public void draw(Graphics2D g2) {
-        g2.setColor(Color.BLUE);
-        g2.fillRect(getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize());
+        BufferedImage sprite = null;
+        if (getDirectionFacing() == Direction.NORTH) {
+            sprite = getSprite(Direction.NORTH);
+        }
+        else if (getDirectionFacing() == Direction.SOUTH) {
+            sprite = getSprite(Direction.SOUTH);
+        }
+        else if (getDirectionFacing() == Direction.EAST) {
+            sprite = getSprite(Direction.EAST);
+        }
+        else if (getDirectionFacing() == Direction.WEST) {
+            sprite = getSprite(Direction.WEST);
+        }
+        g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
     }
 }

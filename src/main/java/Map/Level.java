@@ -20,7 +20,7 @@ public class Level {
     protected Level(Grid grid, Keyboard keyboard, File level) throws FileNotFoundException {
         this.grid = grid;
         this.keyboard = keyboard;
-        walls = new int[grid.getHorizontalTiles()][grid.getVerticalTiles()];
+//        walls = new int[grid.getHorizontalTiles()][grid.getVerticalTiles()];
         zombies = new ArrayList<Zombie>();
         wallsList = new ArrayList<Wall>();
 

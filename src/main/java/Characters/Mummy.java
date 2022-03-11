@@ -26,7 +26,7 @@ public class Mummy extends Character {
     public void render(Graphics g)
     {
         int[] position = this.getPosition();
-        g.drawImage(sprite, position[0], position[1], null);
+        g.drawImage(getSprite(Direction.SOUTH), position[0], position[1], null);
     }
 
     public double euclideanDistance(int ownPosx, int ownPosy, int posX, int posY) {
@@ -44,10 +44,10 @@ public class Mummy extends Character {
     }
 
     public Position[] getSuccessor(Position p){
-        Position p1 = new Position(p.x + this._speed, p.y);
-        Position p2 = new Position(p.x - this._speed, p.y);
-        Position p3 = new Position(p.x, p.y + this._speed);
-        Position p4 = new Position(p.x, p.y - this._speed);
+        Position p1 = new Position(p.x + getSpeed(), p.y);
+        Position p2 = new Position(p.x - getSpeed(), p.y);
+        Position p3 = new Position(p.x, p.y + getSpeed());
+        Position p4 = new Position(p.x, p.y - getSpeed());
         Position[] positions = new Position[4];
         positions[0] = p1;
         positions[1] = p2;
@@ -101,14 +101,10 @@ public class Mummy extends Character {
         ArrayList<Position> moves = dfs(self, targetPos);
 
         this.setPosition(moves.get(0).x,moves.get(0).y);
-
-
-
-
     }
     public void draw(Graphics2D g2) {
         g2.setColor(Color.WHITE);
-        g2.fillRect(this.getPosition()[0],this.getPosition()[1], Grid.getTileSize(), Grid.getTileSize());
+        g2.fillRect(this.getPosition()[0],this.getPosition()[1], _grid.getTileSize(), _grid.getTileSize());
     }
 
 
