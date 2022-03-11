@@ -65,42 +65,33 @@ public class PlayerActor extends Character{
      */
     public void update() {
         if (_keyboard.upKeyPressed) {
-            System.out.println("UP");
             moveCharacter(Direction.NORTH);
-            System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
         } else if (_keyboard.downKeyPressed) {
-            System.out.println("Down");
             moveCharacter(Direction.SOUTH);
-            System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
         } else if (_keyboard.leftKeyPressed) {
-            System.out.println("Left");
             moveCharacter(Direction.WEST);
-            System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
         } else if (_keyboard.rightKeyPressed) {
-            System.out.println("Right");
             moveCharacter(Direction.EAST);
-            System.out.println("X= " + this.getPosition()[0] + " Y= " + this.getPosition()[1]);
-        }
-        spritecounter++;
-        if (spritecounter > 12) {
-            if (spriteNum == 1) {
-                spriteNum = 2;
-
-            } else if (spriteNum == 2) {
-                spriteNum = 3;
-
-            } else if (spriteNum == 3) {
-                spriteNum = 1;
-            }
-            spritecounter = 0;
         }
     }
+
+    /**
+     * Finds the sprite image for the player.
+     */
     public void getImage(){
         try{
-            setSprite(Direction.NORTH, ImageIO.read(getClass().getResourceAsStream("/sprite/MaleUp-2.png")));
-            setSprite(Direction.SOUTH, ImageIO.read(getClass().getResourceAsStream("/sprite/MaleDown-2.png")));
-            setSprite(Direction.EAST, ImageIO.read(getClass().getResourceAsStream("/sprite/MaleRight-2.png")));
-            setSprite(Direction.WEST, ImageIO.read(getClass().getResourceAsStream("/sprite/MaleLeft-2.png")));
+            setSprite(Direction.NORTH, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/hero_up_0.png")));
+            setSprite(Direction.NORTH, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/hero_up_1.png")));
+            setSprite(Direction.NORTH, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/hero_up_2.png")));
+            setSprite(Direction.SOUTH,0, ImageIO.read(getClass().getResourceAsStream("/sprite/hero_down_0.png")));
+            setSprite(Direction.SOUTH,1, ImageIO.read(getClass().getResourceAsStream("/sprite/hero_down_1.png")));
+            setSprite(Direction.SOUTH,2, ImageIO.read(getClass().getResourceAsStream("/sprite/hero_down_2.png")));
+            setSprite(Direction.EAST, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/hero_right_0.png")));
+            setSprite(Direction.EAST, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/hero_right_1.png")));
+            setSprite(Direction.EAST, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/hero_right_2.png")));
+            setSprite(Direction.WEST, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/hero_left_0.png")));
+            setSprite(Direction.WEST, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/hero_left_1.png")));
+            setSprite(Direction.WEST, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/hero_left_2.png")));
         }catch(IOException e){
             e.printStackTrace();
         }
