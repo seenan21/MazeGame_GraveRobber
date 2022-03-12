@@ -7,6 +7,10 @@ import Constants.Constants;
 import IO.Keyboard;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -108,32 +112,42 @@ public class Grid extends JPanel implements Runnable{
             double tick = 1000000000/FRAMES_PER_SECOND;
             double nextTick = System.nanoTime() + tick;
 
-            while(screenThread != null) {
+            InputStream file = getClass().getResourceAsStream("/Levels/Level 1.txt");
+            try {
+                Level level = new Level(this, keyboard, file);
 
-                update();
-                repaint(); // Calls this.paintComponent
 
-                try {
-                    double timeTillNextTick = nextTick - System.nanoTime();
-                    timeTillNextTick = timeTillNextTick/1000000;// Nanoseconds to milliseconds conversion
 
-                    // Error check
-                    if(timeTillNextTick < 0) {
-                        timeTillNextTick = 0;
+            while (screenThread != null) {
+                    update();
+                    repaint();
+
+
+                    try {
+                        double timeTillNextTick = nextTick - System.nanoTime();
+                        timeTillNextTick = timeTillNextTick / 1000000;// Nanoseconds to milliseconds conversion
+
+                        // Error check
+                        if (timeTillNextTick < 0) {
+                            timeTillNextTick = 0;
+                        }
+
+                        Thread.sleep((long) timeTillNextTick); // Sleep until tick is over
+
+                        nextTick += tick;
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-
-                    Thread.sleep((long)timeTillNextTick); // Sleep until tick is over
-
-                    nextTick += tick;
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
-
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             }
 
+
         }
-    }
+
 
     /**
      * Updates the character and enemy movements.

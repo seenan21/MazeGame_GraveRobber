@@ -3,8 +3,7 @@ import Characters.PlayerActor;
 import Characters.Zombie;
 import IO.Keyboard;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,7 +16,7 @@ public class Level {
     ArrayList<Wall> wallsList;
 
     //May need to refactor in the future in order to make it safer for User
-    protected Level(Grid grid, Keyboard keyboard, File level) throws FileNotFoundException {
+    protected Level(Grid grid, Keyboard keyboard, InputStream level) throws IOException {
         this.grid = grid;
         this.keyboard = keyboard;
 
@@ -25,10 +24,10 @@ public class Level {
         wallsList = new ArrayList<Wall>();
 
 
-        Scanner myReader = new Scanner(level);
+        BufferedReader myReader = new BufferedReader(new InputStreamReader(level));
         int y = 0;
-        while (myReader.hasNextLine()) {
-            String str = myReader.nextLine();           //One line of map
+        while (myReader.readLine() != null  ) {
+            String str = myReader.readLine();           //One line of map
             char[] chars = str.toCharArray();           //Turn line into char array for easy traversal
             int x = 0;
             while (x <= str.length()){
