@@ -27,6 +27,11 @@ public class Grid extends JPanel implements Runnable{
     private UI ui = new UI(this);
     //Might get rid of this. This list will help us keep track of entities that need to be updated in the game loop.
 
+    public int gameState;
+    public final int titleState = 0;
+    public final int playState = 1;
+    public final int endState = 2;
+
     Keyboard keyboard = new Keyboard();
     Thread screenThread;
 
@@ -97,6 +102,7 @@ public class Grid extends JPanel implements Runnable{
         this._startTile[Constants.Y] = 0;
         this._endTile[Constants.X] = 0;
         this._endTile[Constants.Y] = 0;
+        gameState = titleState;
     }
 
     /**
@@ -164,12 +170,18 @@ public class Grid extends JPanel implements Runnable{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D) g;
 
-        gridSquareFactory.draw(g2);
-        level.draw(g2);
+        // Title Screen
+        if (gameState == titleState) {
+            ui.draw(g2);
+        } else {
+            gridSquareFactory.draw(g2);
+            level.draw(g2);
 
-        ui.draw(g2);
-        g2.dispose(); // Saves memory
+            // UI
+            ui.draw(g2);
+            g2.dispose(); // Saves memory
+        }
     }
 }
