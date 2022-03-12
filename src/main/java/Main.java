@@ -25,7 +25,7 @@ public class Main {
         final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
         final Runnable runnable = new Runnable() {
-            int countdownStarter = 60;
+            int countdownStarter = 100;
 
             public void run() {
                 String temp = "" + countdownStarter;

@@ -32,7 +32,7 @@ public class Grid extends JPanel implements Runnable{
     Thread screenThread;
     PlayerActor playerActor = new PlayerActor(this, this.keyboard);
     GridSquareFactory gridSquareFactory = new GridSquareFactory(this);
-    public Item reward[] = new Item[ITEM_LIMIT];
+    public Item treasure[] = new Item[ITEM_LIMIT];
 
     Zombie zombo = new Zombie(this, this.keyboard, _screenWidth/2, _screenHeight/2); // Just for testing rn
 //    Mummy mum =new Mummy(this, this.keyboard, _screenWidth/2+20, _screenHeight/2+20); // Just for testing rn
@@ -49,7 +49,11 @@ public class Grid extends JPanel implements Runnable{
         this.setFocusable(true);
         this.setDefault();
 
-        reward[0] = new Treasure(this, 5*TILE_SIZE, 5*TILE_SIZE);
+        treasure[0] = new Treasure(this, 5*TILE_SIZE, 5*TILE_SIZE);
+        treasure[1] = new Treasure(this, 10*TILE_SIZE, 4*TILE_SIZE);
+        treasure[2] = new Treasure(this, 22*TILE_SIZE, 3*TILE_SIZE);
+        treasure[3] = new Treasure(this, 11*TILE_SIZE, 20*TILE_SIZE);
+        treasure[4] = new Treasure(this, 20*TILE_SIZE, 20*TILE_SIZE);
     }
 
     /**
@@ -83,6 +87,10 @@ public class Grid extends JPanel implements Runnable{
 
     public int[] getEndTile() {
         return _endTile;
+    }
+
+    public int getItemLimit() {
+        return ITEM_LIMIT;
     }
 
     public void setDefault() {
@@ -159,7 +167,13 @@ public class Grid extends JPanel implements Runnable{
         gridSquareFactory.draw(g2);
 
         // Treasures
-        ((Treasure) reward[0]).draw(g2);
+        for (int i = 0; i < ITEM_LIMIT; i++) {
+            if (treasure[i] != null) {
+                treasure[i].draw(g2);
+            }
+        }
+
+
 
         // Enemies
         zombo.draw(g2);

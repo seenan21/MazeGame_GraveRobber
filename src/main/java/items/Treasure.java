@@ -40,22 +40,10 @@ public class Treasure extends Item{
     }
 
     /**
-     * Changes the points that the treasure rewards.
-     *
-     * @param points - Points that the item will reward
-     */
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
-    /**
      * Returns the points that the treasure rewards.
      */
     public int getPoints() {
         return points;
     }
 
-    public void draw(Graphics2D g2) {
-        g2.drawImage(getImage(),getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
-    }
 }

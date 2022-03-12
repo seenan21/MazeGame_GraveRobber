@@ -3,6 +3,8 @@ package Characters;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
+import items.ItemDetection;
+import items.Treasure;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,6 +20,8 @@ import java.io.IOException;
 public class PlayerActor extends Character{
 
     private boolean hasBossReward;
+    private int _score = 0;
+    private ItemDetection itemDetection;
 
     /**
      * Constructor for the character class.
@@ -31,6 +35,7 @@ public class PlayerActor extends Character{
         this.setPosition(grid.getStartTile()[Constants.X], grid.getStartTile()[Constants.Y]);
         this.setDefault();
         this.getImage();
+        this.itemDetection = new ItemDetection(grid);
     }
 
     /**
@@ -73,6 +78,8 @@ public class PlayerActor extends Character{
         } else if (_keyboard.rightKeyPressed) {
             moveCharacter(Direction.EAST);
         }
+
+        itemDetection.onItem(this);
     }
 
     /**
@@ -94,6 +101,22 @@ public class PlayerActor extends Character{
             setSprite(Direction.WEST, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/grave_robber_hero/hero_left_2.png")));
         }catch(IOException e){
             e.printStackTrace();
+        }
+    }
+
+    public void addToScore(int addedPoints) {
+        this._score = this._score + addedPoints;
+    }
+
+    public int getScore() {
+        return _score;
+    }
+
+    public void treasureFound(boolean isFound, int treasureNumber) {
+        if (isFound) {
+            int addedPoints = ((Treasure) _grid.treasure[treasureNumber]).getPoints();
+            addToScore(addedPoints);
+            _grid.treasure[treasureNumber] = null;
         }
     }
 

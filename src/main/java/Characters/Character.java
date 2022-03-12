@@ -27,7 +27,9 @@ public abstract class Character {
     private Direction directionFacing;
     private Direction previousDirectionFacing;
     private BufferedImage _spriteNorth0, _spriteSouth0, _spriteEast0, _spriteWest0, _spriteNorth1, _spriteSouth1, _spriteEast1, _spriteWest1, _spriteNorth2, _spriteSouth2, _spriteEast2, _spriteWest2;
+    private Rectangle spriteBody;
     public int spriteCounter = 0;
+
 
     /**
      * Constructor for the character class.
@@ -39,6 +41,7 @@ public abstract class Character {
     public Character(Grid grid, Keyboard keyboard) {
         this._keyboard = keyboard;
         this._grid = grid;
+        spriteBody = new Rectangle(0,0, _grid.getTileSize()/2,_grid.getTileSize()/2);
     }
 
     /**
@@ -80,6 +83,10 @@ public abstract class Character {
      */
     public int getHealth() {
         return health;
+    }
+
+    public Rectangle getSpriteBody() {
+        return spriteBody;
     }
 
     /**
@@ -301,7 +308,6 @@ public abstract class Character {
         } else {
             spriteCounter++;
         }
-        System.out.println(spriteCounter);
     }
 
     /**

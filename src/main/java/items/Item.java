@@ -1,8 +1,10 @@
 package items;
 
 import Characters.Direction;
+import Constants.Constants;
 import Map.Grid;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -13,9 +15,9 @@ public abstract class Item {
     protected Grid _grid;
     private String _name;
     private int[] _position = new int[2];
+    private int _points = 100;
     protected BufferedImage _image;
-
-
+    private Rectangle _itemBody;
 
     /**
      * Constructor for the item class.
@@ -28,6 +30,9 @@ public abstract class Item {
         this.setPosition(positionX,positionY);
         this.setName(name);
         this._grid = grid;
+        this._itemBody = new Rectangle(0,0,_grid.getTileSize()/2,_grid.getTileSize()/2);
+
+
     }
 
     /**
@@ -70,9 +75,30 @@ public abstract class Item {
     }
 
     /**
+     * Changes the points that the treasure rewards.
+     *
+     * @param points - Points that the item will reward
+     */
+    public void setPoints(int points) {
+        this._points = points;
+    }
+
+    public int getPoints() {
+        return _points;
+    }
+
+    /**
      * Returns item's name.
      */
     public String getName() {
         return _name;
+    }
+
+    public Rectangle getItemBody() {
+        return _itemBody;
+    }
+
+    public void draw(Graphics2D g2) {
+        g2.drawImage(getImage(),getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
     }
 }
