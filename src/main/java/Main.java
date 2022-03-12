@@ -1,3 +1,4 @@
+import Characters.PlayerActor;
 import GUI.PopUpWindow;
 import Map.Grid;
 
@@ -18,21 +19,21 @@ public class Main {
         window.setResizable(false);
         window.setTitle("Grave Robber");
         JPanel status = new JPanel(new BorderLayout());
-        JLabel health = new JLabel("100");
+        JLabel health = new JLabel("HEALTH: " + "100");
         final JLabel time = new JLabel();
 
         //
         final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
         final Runnable runnable = new Runnable() {
-            int countdownStarter = 60;
+            int countUpStarter = 0;
 
             public void run() {
-                String temp = "" + countdownStarter;
-                time.setText(temp);
-                countdownStarter--;
+                String temp = "" + countUpStarter;
+                time.setText("TIME: " + temp);
+                countUpStarter++;
 
-                if (countdownStarter < 0) {
+                if (countUpStarter < 0) {
                     System.out.println("Timer Over!");
                 PopUpWindow pop = new PopUpWindow();
                     scheduler.shutdown();
