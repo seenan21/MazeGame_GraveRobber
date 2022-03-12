@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.awt.Rectangle;
 
 /**
  * This PlayerActor refers to the main character controlled by the user. The player should be able to pickup items,
@@ -32,6 +33,8 @@ public class PlayerActor extends Character{
         this.setPosition(position[0], position[1]);
         this.setDefault();
         this.getImage();
+
+
     }
 
     /**
@@ -67,18 +70,25 @@ public class PlayerActor extends Character{
     public void update() {
 
 
+
+
         if (_keyboard.upKeyPressed) {
-            //if (level.walls[getPosition()[0]/ _grid.getTileSize()][getPosition()[1]-getSpeed()/ _grid.getScreenHeight()] == 0){
+            if(level.wallCheck(getPosition()[0], getPosition()[1] - this.getSpeed(), Direction.NORTH) == false) {
                 moveCharacter(Direction.NORTH);
-
-
+            }
 
         } else if (_keyboard.downKeyPressed) {
-            moveCharacter(Direction.SOUTH);
+            if(level.wallCheck(getPosition()[0], getPosition()[1] + this.getSpeed(), Direction.SOUTH) == false) {
+                moveCharacter(Direction.SOUTH);
+            }
         } else if (_keyboard.leftKeyPressed) {
-            moveCharacter(Direction.WEST);
+            if(level.wallCheck(getPosition()[0] - this.getSpeed(), getPosition()[1], Direction.WEST) == false) {
+                moveCharacter(Direction.WEST);
+            }
         } else if (_keyboard.rightKeyPressed) {
-            moveCharacter(Direction.EAST);
+            if(level.wallCheck(getPosition()[0] + this.getSpeed(), getPosition()[1], Direction.EAST) == false) {
+                moveCharacter(Direction.EAST);
+            }
         }
     }
 

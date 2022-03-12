@@ -1,13 +1,19 @@
 package Map;
+import Characters.Direction;
 import Characters.PlayerActor;
 import Characters.Zombie;
 import IO.Keyboard;
+import java.awt.Rectangle;
 
+
+import javax.swing.text.Position;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
 public class Level {
+
+
     public int[][] walls;
     ArrayList<Zombie> zombies;
     private PlayerActor Hero;
@@ -19,6 +25,7 @@ public class Level {
     protected Level(Grid grid, Keyboard keyboard, String path) throws IOException {
         this.grid = grid;
         this.keyboard = keyboard;
+
 
         zombies = new ArrayList<Zombie>();
         wallsList = new ArrayList<Wall>();
@@ -88,6 +95,32 @@ public class Level {
         }
 
         Hero.draw(g2);
+
+    }
+
+    public boolean wallCheck(int x, int y, Direction d){
+        Rectangle character = new Rectangle(x,y,grid.getTileSize(),grid.getTileSize());
+
+        int wallx;
+        int wally;
+
+        if (x % grid.getTileSize() < grid.getTileSize()/2){
+            wallx = x - (x% grid.getTileSize());
+        }
+        else {
+            wallx = x - (x% grid.getTileSize()) + grid.getTileSize();
+        }
+        if (y % grid.getTileSize() < grid.getTileSize()/2){
+            wally = y - (y% grid.getTileSize());
+        }
+        else {
+            wally = y - (y% grid.getTileSize()) + grid.getTileSize();
+        }
+        Rectangle rectangle2 = new Rectangle(wallx,wally,grid.getTileSize(),grid.getTileSize());
+
+        return (character.intersects(rectangle2)) && walls[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1;
+
+
 
     }
 
