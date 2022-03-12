@@ -1,0 +1,1 @@
+Javadoc: For intelliJ, just simply hit the "Tools" and find generate javadoc. Remember, set the directory to a folder please. 

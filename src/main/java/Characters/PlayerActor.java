@@ -47,7 +47,7 @@ public class PlayerActor extends Character{
     }
 
     /**
-     * Returns if the player has the final boss's reward
+     * @return if the player has the final boss's reward
      */
     public boolean getHasBossReward() {
         return this.hasBossReward;
@@ -116,6 +116,7 @@ public class PlayerActor extends Character{
 
     /**
      * Draws the player's position when player presses W,A,S,D keys on keyboard.
+     * @param g2
      */
     public void draw(Graphics2D g2) {
         BufferedImage sprite = null;
