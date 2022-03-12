@@ -1,5 +1,10 @@
 package items;
 
+import Characters.Direction;
+
+import javax.imageio.ImageIO;
+import java.io.IOException;
+
 /**
  * When a player reaches a reward on the map, they will receive extra points when they walk over the treasure.
  * After walking over the treasure, it will disappear on the map.
@@ -18,6 +23,16 @@ public class Treasure extends Item{
     public Treasure(String name, int locationX, int locationY, int points) {
         super(name, locationX, locationY);
         setPoints(points);
+        getImage();
+    }
+
+    @Override
+    public void getImage() {
+        try {
+            setImage(ImageIO.read(getClass().getResourceAsStream("/item/treasure_128.png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

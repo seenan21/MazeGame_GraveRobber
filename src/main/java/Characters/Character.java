@@ -42,6 +42,11 @@ public abstract class Character {
     }
 
     /**
+     * Finds the sprite image for the character.
+     */
+    public abstract void getImage();
+
+    /**
      * Changes the health of the player.
      *
      * @param health - Character's total health

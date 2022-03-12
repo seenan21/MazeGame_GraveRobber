@@ -5,6 +5,9 @@ import Characters.PlayerActor;
 import Characters.Zombie;
 import Constants.Constants;
 import IO.Keyboard;
+import items.Item;
+import items.Treasure;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -29,13 +32,12 @@ public class Grid extends JPanel implements Runnable{
     Thread screenThread;
     PlayerActor playerActor = new PlayerActor(this, this.keyboard);
     GridSquareFactory gridSquareFactory = new GridSquareFactory(this);
-    Zombie zombo =new Zombie(this, this.keyboard, _screenWidth/2, _screenHeight/2); // Just for testing rn
+//    public Item item[] = new Item[5];
+//    item[0] = new Treasure();
+
+    Zombie zombo = new Zombie(this, this.keyboard, _screenWidth/2, _screenHeight/2); // Just for testing rn
 //    Mummy mum =new Mummy(this, this.keyboard, _screenWidth/2+20, _screenHeight/2+20); // Just for testing rn
 
-    // TEMP PLAYER VARIABLES FOR TESTING
-    int x = 100;
-    int y = 100;
-    int speed = 2;
 
     /**
      * Creates the game screen and sets up a keyboard listener.

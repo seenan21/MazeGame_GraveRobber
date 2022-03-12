@@ -1,22 +1,40 @@
 package items;
 
+import Characters.Direction;
+
+import java.awt.image.BufferedImage;
+
 /**
  * Contains methods that are applicable to all items.
  */
 public abstract class Item {
-    private String name;
-    private int[] location = new int[2];
+    private String _name;
+    private int[] _position = new int[2];
+    private BufferedImage _image;
+
 
     /**
      * Constructor for the item class.
      *
      * @param name - Name of the item
-     * @param locationX - X coordinate of item location
-     * @param locationY - Y coordinate of item location
+     * @param positionX - X coordinate of item location
+     * @param positionY - Y coordinate of item location
      */
-    public Item(String name, int locationX, int locationY){
-        this.setLocation(locationX,locationY);
+    public Item(String name, int positionX, int positionY){
+        this.setPosition(positionX,positionY);
         this.setName(name);
+    }
+
+    /**
+     * Finds the sprite image for the item.
+     */
+    public abstract void getImage();
+
+    /**
+     * Assigns the item's image.
+     */
+    public void setImage(BufferedImage image) {
+        this._image = image;
     }
 
     /**
@@ -25,16 +43,16 @@ public abstract class Item {
      * @param x - X coordinate of item location
      * @param y - Y coordinate of item location
      */
-    public void setLocation(int x, int y) {
-        this.location[0] = x;
-        this.location[1] = y;
+    public void setPosition(int x, int y) {
+        this._position[0] = x;
+        this._position[1] = y;
     }
 
     /**
      * Returns item's location.
      */
-    public int[] getLocation() {
-        return location;
+    public int[] getPosition() {
+        return _position;
     }
 
     /**
@@ -43,13 +61,13 @@ public abstract class Item {
      * @param name - Name of the item
      */
     public void setName(String name) {
-        this.name = name;
+        this._name = name;
     }
 
     /**
      * Returns item's name.
      */
     public String getName() {
-        return name;
+        return _name;
     }
 }
