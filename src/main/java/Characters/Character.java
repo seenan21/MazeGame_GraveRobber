@@ -56,7 +56,7 @@ public abstract class Character {
     }
 
     /**
-     * Returns character's speed
+     * @returns character's speed
      */
     public int getSpeed() {
         return _speed;
@@ -64,13 +64,14 @@ public abstract class Character {
 
     /**
      * Sets character's speed
+     * @param _speed
      */
     public void setSpeed(int _speed) {
         this._speed = _speed;
     }
 
     /**
-     * Returns player's current health.
+     * @returns player's current health.
      *
      */
     public int getHealth() {
@@ -107,7 +108,7 @@ public abstract class Character {
     }
 
     /**
-     * Returns player's current position.
+     * @returns player's current position.
      */
     public int[] getPosition() {
         return this.position;
@@ -125,7 +126,7 @@ public abstract class Character {
     }
 
     /**
-     * Returns player's original position.
+     * @returns player's original position.
      */
     public int[] getStartState() {
         return startState;
@@ -141,7 +142,7 @@ public abstract class Character {
     }
 
     /**
-     * Returns player's direction they are facing on the map.
+     * @returns player's direction they are facing on the map.
      */
     public Direction getDirectionFacing() {
         return directionFacing;
@@ -149,20 +150,22 @@ public abstract class Character {
 
     /**
      * Sets player's previous direction they were facing on the map.
+     *
+     * @param previousDirectionFacing previous direction facing
      */
     public void setPreviousDirectionFacing(Direction previousDirectionFacing) {
         this.previousDirectionFacing = previousDirectionFacing;
     }
 
     /**
-     * Returns player's previous direction they were facing on the map.
+     * @returns player's previous direction they were facing on the map.
      */
     public Direction getPreviousDirectionFacing() {
         return previousDirectionFacing;
     }
 
     /**
-     * Returns player's sprite based on direction.
+     * @returns player's sprite based on direction.
      */
     public BufferedImage getSprite(Direction direction) {
         if (direction == Direction.NORTH) {
@@ -203,6 +206,9 @@ public abstract class Character {
 
     /**
      * Assigns the player's sprite image based on direction.
+     * @param direction direction
+     * @param spriteNum number of sprites
+     * @param sprite image of sprite
      */
     public void setSprite(Direction direction, int spriteNum, BufferedImage sprite) {
         if (direction == Direction.NORTH) {
