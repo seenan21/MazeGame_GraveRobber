@@ -27,13 +27,14 @@ public class Main {
 
         final Runnable runnable = new Runnable() {
             int countUpStarter = 0;
+            int timeLimit = 60;
 
             public void run() {
                 String temp = "" + countUpStarter;
                 time.setText("TIME: " + temp);
                 countUpStarter++;
 
-                if (countUpStarter < 0) {
+                if (countUpStarter > timeLimit) {
                     System.out.println("Timer Over!");
                 PopUpWindow pop = new PopUpWindow();
                     scheduler.shutdown();
