@@ -20,7 +20,7 @@ public class Level {
     protected Level(Grid grid, Keyboard keyboard, File level) throws FileNotFoundException {
         this.grid = grid;
         this.keyboard = keyboard;
-//        walls = new int[grid.getHorizontalTiles()][grid.getVerticalTiles()];
+
         zombies = new ArrayList<Zombie>();
         wallsList = new ArrayList<Wall>();
 
@@ -35,18 +35,18 @@ public class Level {
                 switch (chars[x]) {                     //What to do in different cases
                     case '#':
                         walls[x][y] = 1;
-                        break;
                     case 'Z':
                         zombies.add(new Zombie(grid, keyboard, x, y));
-                        break;
                     case 'S':
-                        Hero = new PlayerActor(grid,keyboard); //Should position be passed onto the hero here from the map? If so new paramter
+                        Hero = new PlayerActor(grid,keyboard); //Should position be passed onto the hero here from the map? If so new paramte
                 }
                 x++;
             }
             y++;
         }
         myReader.close();
+
+        wallsGenerate();
 
 
     }
@@ -55,12 +55,23 @@ public class Level {
         for(int i=0; i < walls.length; i++) {
             for(int j=0; j< walls.length; j++) {
                 if (walls[i][j] == 1){
-                    //Wall wall = new Wall(i,j, ); //Fix this when
-//                    wallsList.add(wall);
+                    Wall wall = new Wall(i,j, grid);
+                    wallsList.add(wall);
                 }
             }
         }
 
+
+    }
+
+    public void update(){
+        Hero.update();
+        for (int i = 0; i < zombies.size(); i++) {
+            zombies.get(i).update();
+        }
+    }
+
+    public void draw(){
 
     }
 
