@@ -3,6 +3,7 @@ package Characters;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
+import Map.Level;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -12,13 +13,16 @@ import java.util.Random;
 import java.awt.*;
 
 public class Zombie extends Character {
+    boolean rush;
+    Direction rushDirection;
 
-    public Zombie(Grid grid, Keyboard keyboard, int positionX, int positionY) {
-        super(grid, keyboard);
+    public Zombie(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level) {
+        super(grid, keyboard, level);
         this.setPosition(positionX, positionY);
         this.setStartState(positionX, positionY);
-        this.setSpeed(3); //Testing speed
+        this.setSpeed(1); //Testing speed
         this.getImage();
+        rush = false;
     }
 
     public void getImage(){
@@ -40,26 +44,86 @@ public class Zombie extends Character {
         }
     }
 
+    public boolean heroKill(PlayerActor hero){
+        int[] position = new int[2];
+        position = hero.getPosition();
+
+        Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],_grid.getTileSize(),_grid.getTileSize());
+        Rectangle h = new Rectangle(position[0], position[1], _grid.getTileSize(), _grid.getTileSize());
+
+        return z.intersects(h);
+
+    }
+
     public void update() {
+
+        if (heroKill(level.getHero())){
+            System.out.println("LLLLLLLLLLLL");
+        }
         Random rand = new Random();
 
         int n = rand.nextInt(4);
 
+        if(rush){
+            if(rushDirection == Direction.NORTH){
+                if(level.wallCheck(getPosition()[0], getPosition()[1] - this.getSpeed()) == false){
+                    moveCharacter(rushDirection);
+                    return;
+                }
+            }
+            if(rushDirection == Direction.SOUTH){
+                if(level.wallCheck(getPosition()[0], getPosition()[1] + this.getSpeed()) == false){
+                    moveCharacter(rushDirection);
+                    return;
+                }
+            }
+            if(rushDirection == Direction.WEST){
+                if(level.wallCheck(getPosition()[0] - this.getSpeed(), getPosition()[1]) == false) {
+                    moveCharacter(rushDirection);
+                    return;
+                }
+            }
+            if(rushDirection == Direction.EAST){
+                if(level.wallCheck(getPosition()[0] + this.getSpeed(), getPosition()[1]) == false) {
+                    moveCharacter(rushDirection);
+                    return;
+                }
+            }
+            rush = false;
+        }
+
         if(n == 0) {
-            moveCharacter(Direction.NORTH);
-            moveCharacter(Direction.NORTH);
+            if(level.wallCheck(getPosition()[0], getPosition()[1] - this.getSpeed()) == false) {
+                moveCharacter(Direction.NORTH);
+                rushDirection = Direction.NORTH;
+                rush = true;
+            }
         }
         else if(n == 1) {
-            moveCharacter(Direction.SOUTH);
-            moveCharacter(Direction.SOUTH);
+            if(level.wallCheck(getPosition()[0], getPosition()[1] + this.getSpeed()) == false) {
+                moveCharacter(Direction.SOUTH);
+                rushDirection = Direction.SOUTH;
+                rush = true;
+            }
         }
         else if(n == 2) {
-            moveCharacter(Direction.WEST);
-            moveCharacter(Direction.WEST);
+            if(level.wallCheck(getPosition()[0] - this.getSpeed(), getPosition()[1]) == false) {
+                moveCharacter(Direction.WEST);
+                rushDirection = Direction.WEST;
+                rush = true;
+            }
         }
         else if(n == 3) {
-            moveCharacter(Direction.EAST);
-            moveCharacter(Direction.EAST);
+            if(level.wallCheck(getPosition()[0] + this.getSpeed(), getPosition()[1]) == false) {
+                moveCharacter(Direction.EAST);
+                rushDirection = Direction.EAST;
+                rush = true;
+            }
+        }
+
+
+        if (heroKill(level.getHero())){
+            System.out.println("LLLLLLLLLLLL");
         }
     }
     public void draw(Graphics2D g2) {

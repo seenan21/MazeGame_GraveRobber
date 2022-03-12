@@ -1,12 +1,12 @@
 package Map;
 import Characters.Character;
-import Characters.Mummy;
 import Characters.PlayerActor;
 import Characters.Zombie;
 import Constants.Constants;
 import IO.Keyboard;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -27,10 +27,18 @@ public class Grid extends JPanel implements Runnable{
 
     Keyboard keyboard = new Keyboard();
     Thread screenThread;
-    PlayerActor playerActor = new PlayerActor(this, this.keyboard);
+
+
+
+    String path = "/Levels/level_1";
+
+
+
+    Level level = new Level(this, keyboard, path);
+
     GridSquareFactory gridSquareFactory = new GridSquareFactory(this);
-    Zombie zombo =new Zombie(this, this.keyboard, _screenWidth/2, _screenHeight/2); // Just for testing rn
-//    Mummy mum =new Mummy(this, this.keyboard, _screenWidth/2+20, _screenHeight/2+20); // Just for testing rn
+
+
 
     // TEMP PLAYER VARIABLES FOR TESTING
     int x = 100;
@@ -40,7 +48,7 @@ public class Grid extends JPanel implements Runnable{
     /**
      * Creates the game screen and sets up a keyboard listener.
      */
-    public Grid() {
+    public Grid() throws IOException {
         this.setPreferredSize(new Dimension(_screenWidth, _screenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true); // Improves rendering
@@ -108,40 +116,44 @@ public class Grid extends JPanel implements Runnable{
             double tick = 1000000000/FRAMES_PER_SECOND;
             double nextTick = System.nanoTime() + tick;
 
-            while(screenThread != null) {
 
-                update();
-                repaint(); // Calls this.paintComponent
 
-                try {
-                    double timeTillNextTick = nextTick - System.nanoTime();
-                    timeTillNextTick = timeTillNextTick/1000000;// Nanoseconds to milliseconds conversion
 
-                    // Error check
-                    if(timeTillNextTick < 0) {
-                        timeTillNextTick = 0;
+            while (screenThread != null) {
+                    update();
+                    repaint();
+
+
+                    try {
+                        double timeTillNextTick = nextTick - System.nanoTime();
+                        timeTillNextTick = timeTillNextTick / 1000000;// Nanoseconds to milliseconds conversion
+
+                        // Error check
+                        if (timeTillNextTick < 0) {
+                            timeTillNextTick = 0;
+                        }
+
+                        Thread.sleep((long) timeTillNextTick); // Sleep until tick is over
+
+                        nextTick += tick;
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-
-                    Thread.sleep((long)timeTillNextTick); // Sleep until tick is over
-
-                    nextTick += tick;
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
-
             }
-
-        }
     }
+
+
+
+
 
     /**
      * Updates the character and enemy movements.
      */
     public void update() {
-        playerActor.update();
-        zombo.update();
-//        mum.update(playerActor);
+        level.update();
+
     }
 
     /**
@@ -153,10 +165,8 @@ public class Grid extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D)g;
 
         gridSquareFactory.draw(g2);
+        level.draw(g2);
 
-        playerActor.draw(g2);
-        zombo.draw(g2);
-//        mum.draw(g2);
 
         g2.dispose(); // Saves memory
     }

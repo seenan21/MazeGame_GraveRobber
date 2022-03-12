@@ -28,6 +28,7 @@ public abstract class Character {
     private Direction previousDirectionFacing;
     private BufferedImage _spriteNorth0, _spriteSouth0, _spriteEast0, _spriteWest0, _spriteNorth1, _spriteSouth1, _spriteEast1, _spriteWest1, _spriteNorth2, _spriteSouth2, _spriteEast2, _spriteWest2;
     public int spriteCounter = 0;
+    Level level;
 
     /**
      * Constructor for the character class.
@@ -36,9 +37,10 @@ public abstract class Character {
      * //     * @param directionFacing - Direction the character is facing
      * //     * @param map - Map the character is being added to
      */
-    public Character(Grid grid, Keyboard keyboard) {
+    public Character(Grid grid, Keyboard keyboard, Level level) {
         this._keyboard = keyboard;
         this._grid = grid;
+        this.level = level;
     }
 
     /**
@@ -302,7 +304,6 @@ public abstract class Character {
         } else {
             spriteCounter++;
         }
-        System.out.println(spriteCounter);
     }
 
     /**

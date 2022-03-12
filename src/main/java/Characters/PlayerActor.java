@@ -3,11 +3,13 @@ package Characters;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
+import Map.Level;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.awt.Rectangle;
 
 /**
  * This PlayerActor refers to the main character controlled by the user. The player should be able to pickup items,
@@ -21,16 +23,18 @@ public class PlayerActor extends Character{
 
     /**
      * Constructor for the character class.
-     *
-     * @param grid - Grid which is used for game map
+     *  @param grid - Grid which is used for game map
      * @param keyboard - Listener for keyboard
+     * @param position
      */
-    public PlayerActor(Grid grid, Keyboard keyboard) {
-        super(grid, keyboard);
-        this.setStartState(grid.getStartTile()[Constants.X], grid.getStartTile()[Constants.Y]);
-        this.setPosition(grid.getStartTile()[Constants.X], grid.getStartTile()[Constants.Y]);
+    public PlayerActor(Grid grid, Keyboard keyboard, int[] position, Level level) {
+        super(grid, keyboard, level);
+        this.setStartState(position[0], position[1]);
+        this.setPosition(position[0], position[1]);
         this.setDefault();
         this.getImage();
+
+
     }
 
     /**
@@ -64,14 +68,27 @@ public class PlayerActor extends Character{
      * Updates the player's position when player presses W,A,S,D keys on keyboard.
      */
     public void update() {
+
+
+
+
         if (_keyboard.upKeyPressed) {
-            moveCharacter(Direction.NORTH);
+            if(level.wallCheck(getPosition()[0], getPosition()[1] - this.getSpeed()) == false) {
+                moveCharacter(Direction.NORTH);
+            }
+
         } else if (_keyboard.downKeyPressed) {
-            moveCharacter(Direction.SOUTH);
+            if(level.wallCheck(getPosition()[0], getPosition()[1] + this.getSpeed()) == false) {
+                moveCharacter(Direction.SOUTH);
+            }
         } else if (_keyboard.leftKeyPressed) {
-            moveCharacter(Direction.WEST);
+            if(level.wallCheck(getPosition()[0] - this.getSpeed(), getPosition()[1]) == false) {
+                moveCharacter(Direction.WEST);
+            }
         } else if (_keyboard.rightKeyPressed) {
-            moveCharacter(Direction.EAST);
+            if(level.wallCheck(getPosition()[0] + this.getSpeed(), getPosition()[1]) == false) {
+                moveCharacter(Direction.EAST);
+            }
         }
     }
 
