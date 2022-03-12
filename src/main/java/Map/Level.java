@@ -3,11 +3,12 @@ import Characters.PlayerActor;
 import Characters.Zombie;
 import IO.Keyboard;
 
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
 public class Level {
-    private int[][] walls;
+    public int[][] walls;
     ArrayList<Zombie> zombies;
     private PlayerActor Hero;
     private Grid grid;
@@ -21,6 +22,7 @@ public class Level {
 
         zombies = new ArrayList<Zombie>();
         wallsList = new ArrayList<Wall>();
+        walls = new int[24][24];
 
         BufferedReader myReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path)));
         int y = 0;
@@ -29,31 +31,38 @@ public class Level {
             System.out.println(str);
             char[] chars = str.toCharArray();           //Turn line into char array for easy traversal
             int x = 0;
-            while (x <= str.length()){
-//                switch (chars[x]) {                     //What to do in different cases
-//                    case '#':
-//                        walls[x][y] = 1;
-//                    case 'Z':
-//                        zombies.add(new Zombie(grid, keyboard, x, y));
-//                    case 'S':
-//                        Hero = new PlayerActor(grid,keyboard); //Should position be passed onto the hero here from the map? If so new paramte
-//                }
+            while (x < str.length()){
+                if (chars[x] == '#'){
+                    walls[x][y] = 1;
+                }
+                else if(chars[x] == 'Z'){
+                    zombies.add(new Zombie(grid, keyboard, x*grid.getTileSize(), y*grid.getTileSize(), this));
+                }else if (chars[x] == 'S'){
+                    int[] position = new int[2];
+                    position[0] = x* grid.getTileSize();
+                    position[1] = y* grid.getTileSize();
+                    Hero = new PlayerActor(grid,keyboard, position, this ); //Should position be passed onto the hero here from the map? If so new paramter                }
+                }
                 x++;
             }
             y++;
         }
         myReader.close();
 
-//        wallsGenerate();
+        wallsGenerate();
 
 
+    }
+
+    public PlayerActor getHero() {
+        return Hero;
     }
 
     public void wallsGenerate(){
         for(int i=0; i < walls.length; i++) {
             for(int j=0; j< walls.length; j++) {
                 if (walls[i][j] == 1){
-                    Wall wall = new Wall(i,j, grid);
+                    Wall wall = new Wall(i* grid.getTileSize(),j* grid.getTileSize(), grid);
                     wallsList.add(wall);
                 }
             }
@@ -69,7 +78,16 @@ public class Level {
         }
     }
 
-    public void draw(){
+    public void draw(Graphics2D g2){
+        for (Zombie zombie: zombies){
+            zombie.draw(g2);
+        }
+
+        for (Wall wall: wallsList){
+            wall.draw(g2);
+        }
+
+        Hero.draw(g2);
 
     }
 

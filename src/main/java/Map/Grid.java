@@ -27,10 +27,18 @@ public class Grid extends JPanel implements Runnable{
 
     Keyboard keyboard = new Keyboard();
     Thread screenThread;
-    PlayerActor playerActor = new PlayerActor(this, this.keyboard);
+
+
+
+    String path = "/Levels/level_1";
+
+
+
+    Level level = new Level(this, keyboard, path);
+
     GridSquareFactory gridSquareFactory = new GridSquareFactory(this);
-    Zombie zombo =new Zombie(this, this.keyboard, _screenWidth/2, _screenHeight/2); // Just for testing rn
-//    Mummy mum =new Mummy(this, this.keyboard, _screenWidth/2+20, _screenHeight/2+20); // Just for testing rn
+
+
 
     // TEMP PLAYER VARIABLES FOR TESTING
     int x = 100;
@@ -40,7 +48,7 @@ public class Grid extends JPanel implements Runnable{
     /**
      * Creates the game screen and sets up a keyboard listener.
      */
-    public Grid() {
+    public Grid() throws IOException {
         this.setPreferredSize(new Dimension(_screenWidth, _screenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true); // Improves rendering
@@ -108,9 +116,6 @@ public class Grid extends JPanel implements Runnable{
             double tick = 1000000000/FRAMES_PER_SECOND;
             double nextTick = System.nanoTime() + tick;
 
-            String path = "/Levels/level_1";
-            try {
-                Level level = new Level(this, keyboard, path);
 
 
 
@@ -136,22 +141,19 @@ public class Grid extends JPanel implements Runnable{
                         e.printStackTrace();
                     }
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-            }
+    }
 
 
-        }
+
 
 
     /**
      * Updates the character and enemy movements.
      */
     public void update() {
-        playerActor.update();
-        zombo.update();
-//        mum.update(playerActor);
+        level.update();
+
     }
 
     /**
@@ -163,10 +165,8 @@ public class Grid extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D)g;
 
         gridSquareFactory.draw(g2);
+        level.draw(g2);
 
-        playerActor.draw(g2);
-        zombo.draw(g2);
-//        mum.draw(g2);
 
         g2.dispose(); // Saves memory
     }

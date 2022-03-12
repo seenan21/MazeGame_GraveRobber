@@ -3,6 +3,7 @@ package Characters;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
+import Map.Level;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -13,8 +14,8 @@ import java.awt.*;
 
 public class Zombie extends Character {
 
-    public Zombie(Grid grid, Keyboard keyboard, int positionX, int positionY) {
-        super(grid, keyboard);
+    public Zombie(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level) {
+        super(grid, keyboard, level);
         this.setPosition(positionX, positionY);
         this.setStartState(positionX, positionY);
         this.setSpeed(3); //Testing speed
@@ -40,7 +41,21 @@ public class Zombie extends Character {
         }
     }
 
+    public boolean heroKill(PlayerActor hero){
+        int[] position = new int[2];
+        position = hero.getPosition();
+
+        if (position[0] == this.getPosition()[0] && position[1] == this.getPosition()[1]){
+            return true;
+        }
+        return false;
+    }
+
     public void update() {
+
+        if (heroKill(level.getHero())){
+            System.out.println("LLLLLLLLLLLL");
+        }
         Random rand = new Random();
 
         int n = rand.nextInt(4);
@@ -60,6 +75,11 @@ public class Zombie extends Character {
         else if(n == 3) {
             moveCharacter(Direction.EAST);
             moveCharacter(Direction.EAST);
+        }
+
+
+        if (heroKill(level.getHero())){
+            System.out.println("LLLLLLLLLLLL");
         }
     }
     public void draw(Graphics2D g2) {

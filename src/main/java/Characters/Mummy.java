@@ -3,6 +3,7 @@ package Characters;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
+import Map.Level;
 
 
 import java.util.*;
@@ -13,13 +14,12 @@ public class Mummy extends Character {
 
     PlayerActor target;
 
-    public Mummy(Grid grid, Keyboard keyboard, int positionX, int positionY, PlayerActor Hero
-            /*Adds this parameter later for walls  Level level*/) {
-        super(grid, keyboard);
+    public Mummy(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level) {
+        super(grid, keyboard, level);
         this.setPosition(positionX, positionY);
         this.setStartState(positionX, positionY);
         this.setSpeed(5); //Testing speed
-        target = Hero;
+        target = level.getHero();
 
     }
 

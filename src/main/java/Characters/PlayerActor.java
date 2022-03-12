@@ -3,6 +3,7 @@ package Characters;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
+import Map.Level;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -21,14 +22,14 @@ public class PlayerActor extends Character{
 
     /**
      * Constructor for the character class.
-     *
-     * @param grid - Grid which is used for game map
+     *  @param grid - Grid which is used for game map
      * @param keyboard - Listener for keyboard
+     * @param position
      */
-    public PlayerActor(Grid grid, Keyboard keyboard) {
-        super(grid, keyboard);
-        this.setStartState(grid.getStartTile()[Constants.X], grid.getStartTile()[Constants.Y]);
-        this.setPosition(grid.getStartTile()[Constants.X], grid.getStartTile()[Constants.Y]);
+    public PlayerActor(Grid grid, Keyboard keyboard, int[] position, Level level) {
+        super(grid, keyboard, level);
+        this.setStartState(position[0], position[1]);
+        this.setPosition(position[0], position[1]);
         this.setDefault();
         this.getImage();
     }
@@ -64,8 +65,14 @@ public class PlayerActor extends Character{
      * Updates the player's position when player presses W,A,S,D keys on keyboard.
      */
     public void update() {
+
+
         if (_keyboard.upKeyPressed) {
-            moveCharacter(Direction.NORTH);
+            //if (level.walls[getPosition()[0]/ _grid.getTileSize()][getPosition()[1]-getSpeed()/ _grid.getScreenHeight()] == 0){
+                moveCharacter(Direction.NORTH);
+
+
+
         } else if (_keyboard.downKeyPressed) {
             moveCharacter(Direction.SOUTH);
         } else if (_keyboard.leftKeyPressed) {
