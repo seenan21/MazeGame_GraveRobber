@@ -1,6 +1,5 @@
 package Map;
 import Characters.Character;
-import Characters.Mummy;
 import Characters.PlayerActor;
 import Characters.Zombie;
 import Constants.Constants;
@@ -26,13 +25,14 @@ public class Grid extends JPanel implements Runnable{
     private int[] _startTile = new int[2]; // Starting tile for player when the game begins
     private int[] _endTile = new int[2]; // Ending tile for player when all treasures have been collected
     private ArrayList<Character> characters = new ArrayList<Character>();
+    private final int ITEM_LIMIT = 5;
     //Might get rid of this. This list will help us keep track of entities that need to be updated in the game loop.
 
     Keyboard keyboard = new Keyboard();
     Thread screenThread;
     PlayerActor playerActor = new PlayerActor(this, this.keyboard);
     GridSquareFactory gridSquareFactory = new GridSquareFactory(this);
-    public Item item[] = new Item[5];
+    public Item reward[] = new Item[ITEM_LIMIT];
 
     Zombie zombo = new Zombie(this, this.keyboard, _screenWidth/2, _screenHeight/2); // Just for testing rn
 //    Mummy mum =new Mummy(this, this.keyboard, _screenWidth/2+20, _screenHeight/2+20); // Just for testing rn
@@ -49,7 +49,7 @@ public class Grid extends JPanel implements Runnable{
         this.setFocusable(true);
         this.setDefault();
 
-        item[0] = new Treasure(5*TILE_SIZE, 5*TILE_SIZE);
+        reward[0] = new Treasure(this, 5*TILE_SIZE, 5*TILE_SIZE);
     }
 
     /**
@@ -155,11 +155,18 @@ public class Grid extends JPanel implements Runnable{
 
         Graphics2D g2 = (Graphics2D)g;
 
+        // Background
         gridSquareFactory.draw(g2);
 
-        playerActor.draw(g2);
+        // Treasures
+        ((Treasure) reward[0]).draw(g2);
+
+        // Enemies
         zombo.draw(g2);
-//        mum.draw(g2);
+        //        mum.draw(g2);
+
+        // Player
+        playerActor.draw(g2);
 
         g2.dispose(); // Saves memory
     }

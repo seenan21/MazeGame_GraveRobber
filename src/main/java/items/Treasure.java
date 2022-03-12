@@ -1,8 +1,12 @@
 package items;
 
 import Characters.Direction;
+import Constants.Constants;
+import Map.Grid;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -18,19 +22,21 @@ public class Treasure extends Item{
      * @param positionX - X coordinate of item location
      * @param positionY - Y coordinate of item location
      */
-    public Treasure(int positionX, int positionY) {
-        super("Reward", positionX, positionY);
+    public Treasure(Grid grid, int positionX, int positionY) {
+        super(grid,"Reward", positionX, positionY);
         setPoints(100);
         getImage();
     }
 
     @Override
-    public void getImage() {
+    public BufferedImage getImage() {
         try {
             setImage(ImageIO.read(getClass().getResourceAsStream("/item/treasure_128.png")));
+            return this._image;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     /**
@@ -47,5 +53,9 @@ public class Treasure extends Item{
      */
     public int getPoints() {
         return points;
+    }
+
+    public void draw(Graphics2D g2) {
+        g2.drawImage(getImage(),getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
     }
 }

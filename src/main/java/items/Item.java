@@ -1,6 +1,7 @@
 package items;
 
 import Characters.Direction;
+import Map.Grid;
 
 import java.awt.image.BufferedImage;
 
@@ -8,9 +9,12 @@ import java.awt.image.BufferedImage;
  * Contains methods that are applicable to all items.
  */
 public abstract class Item {
+
+    protected Grid _grid;
     private String _name;
     private int[] _position = new int[2];
-    private BufferedImage _image;
+    protected BufferedImage _image;
+
 
 
     /**
@@ -20,15 +24,16 @@ public abstract class Item {
      * @param positionX - X coordinate of item location
      * @param positionY - Y coordinate of item location
      */
-    public Item(String name, int positionX, int positionY){
+    public Item(Grid grid, String name, int positionX, int positionY){
         this.setPosition(positionX,positionY);
         this.setName(name);
+        this._grid = grid;
     }
 
     /**
      * Finds the sprite image for the item.
      */
-    public abstract void getImage();
+    public abstract BufferedImage getImage();
 
     /**
      * Assigns the item's image.
