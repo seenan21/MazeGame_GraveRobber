@@ -15,14 +15,12 @@ public class Treasure extends Item{
     /**
      * Constructor for the treasure class.
      *
-     * @param name - Name of the item
-     * @param locationX - X coordinate of item location
-     * @param locationY - Y coordinate of item location
-     * @param points - Points that the item will reward
+     * @param positionX - X coordinate of item location
+     * @param positionY - Y coordinate of item location
      */
-    public Treasure(String name, int locationX, int locationY, int points) {
-        super(name, locationX, locationY);
-        setPoints(points);
+    public Treasure(int positionX, int positionY) {
+        super("Reward", positionX, positionY);
+        setPoints(100);
         getImage();
     }
 

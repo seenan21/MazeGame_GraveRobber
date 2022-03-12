@@ -32,8 +32,7 @@ public class Grid extends JPanel implements Runnable{
     Thread screenThread;
     PlayerActor playerActor = new PlayerActor(this, this.keyboard);
     GridSquareFactory gridSquareFactory = new GridSquareFactory(this);
-//    public Item item[] = new Item[5];
-//    item[0] = new Treasure();
+    public Item item[] = new Item[5];
 
     Zombie zombo = new Zombie(this, this.keyboard, _screenWidth/2, _screenHeight/2); // Just for testing rn
 //    Mummy mum =new Mummy(this, this.keyboard, _screenWidth/2+20, _screenHeight/2+20); // Just for testing rn
@@ -49,6 +48,8 @@ public class Grid extends JPanel implements Runnable{
         this.addKeyListener(keyboard);
         this.setFocusable(true);
         this.setDefault();
+
+        item[0] = new Treasure(5*TILE_SIZE, 5*TILE_SIZE);
     }
 
     /**
