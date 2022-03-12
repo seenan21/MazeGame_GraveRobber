@@ -1,10 +1,13 @@
 package Map;
 import Characters.Character;
-import Characters.Mummy;
 import Characters.PlayerActor;
 import Characters.Zombie;
 import Constants.Constants;
 import IO.Keyboard;
+import items.Item;
+import items.ItemDetection;
+import items.Treasure;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -22,20 +25,17 @@ public class Grid extends JPanel implements Runnable{
     private final int _screenHeight = TILE_SIZE * VERTICAL_TILES;
     private int[] _startTile = new int[2]; // Starting tile for player when the game begins
     private int[] _endTile = new int[2]; // Ending tile for player when all treasures have been collected
-    private ArrayList<Character> characters = new ArrayList<Character>();
-    //Might get rid of this. This list will help us keep track of entities that need to be updated in the game loop.
+    private ArrayList<Character> characters = new ArrayList<>();
+    private final int ITEM_LIMIT = 5;
 
-    Keyboard keyboard = new Keyboard();
-    Thread screenThread;
-    PlayerActor playerActor = new PlayerActor(this, this.keyboard);
-    GridSquareFactory gridSquareFactory = new GridSquareFactory(this);
-    Zombie zombo =new Zombie(this, this.keyboard, _screenWidth/2, _screenHeight/2); // Just for testing rn
+    private Keyboard keyboard = new Keyboard();
+    private Thread screenThread;
+    private PlayerActor playerActor = new PlayerActor(this, this.keyboard);
+    private ItemDetection itemDetection = new ItemDetection(this);
+    private GridSquareFactory gridSquareFactory = new GridSquareFactory(this);
+    public Item treasure[] = new Item[ITEM_LIMIT]; // Need to solve later so this does not need to be public
+    private Zombie zombo = new Zombie(this, this.keyboard, _screenWidth/2, _screenHeight/2); // Just for testing rn
 //    Mummy mum =new Mummy(this, this.keyboard, _screenWidth/2+20, _screenHeight/2+20); // Just for testing rn
-
-    // TEMP PLAYER VARIABLES FOR TESTING
-    int x = 100;
-    int y = 100;
-    int speed = 2;
 
     /**
      * Creates the game screen and sets up a keyboard listener.
@@ -47,6 +47,13 @@ public class Grid extends JPanel implements Runnable{
         this.addKeyListener(keyboard);
         this.setFocusable(true);
         this.setDefault();
+
+        // Later this should be generated when the map is created.
+        treasure[0] = new Treasure(this, 5*TILE_SIZE, 5*TILE_SIZE);
+        treasure[1] = new Treasure(this, 10*TILE_SIZE, 4*TILE_SIZE);
+        treasure[2] = new Treasure(this, 22*TILE_SIZE, 3*TILE_SIZE);
+        treasure[3] = new Treasure(this, 11*TILE_SIZE, 20*TILE_SIZE);
+        treasure[4] = new Treasure(this, 20*TILE_SIZE, 20*TILE_SIZE);
     }
 
     /**
@@ -56,8 +63,18 @@ public class Grid extends JPanel implements Runnable{
         return _screenWidth;
     }
 
+    /**
+     * Returns the number of horizontal tiles on the map.
+     *
+     * @return
+     */
     public int getHorizontalTiles(){return HORIZONTAL_TILES;}
 
+    /**
+     * Returns the number of vertical tiles on the map.
+     *
+     * @return
+     */
     public int getVerticalTiles() { return VERTICAL_TILES;    }
 
     /**
@@ -67,6 +84,11 @@ public class Grid extends JPanel implements Runnable{
         return _screenHeight;
     }
 
+    /**
+     * Returns the number of maps tile size.
+     *
+     * @return
+     */
     public int getTileSize() {
         return TILE_SIZE;
     }
@@ -78,10 +100,23 @@ public class Grid extends JPanel implements Runnable{
         return _startTile;
     }
 
+    /**
+     * Returns the player's ending tile.
+     */
     public int[] getEndTile() {
         return _endTile;
     }
 
+    /**
+     * Returns the map's item limit.
+     */
+    public int getItemLimit() {
+        return ITEM_LIMIT;
+    }
+
+    /**
+     * Sets the map's default values.
+     */
     public void setDefault() {
         this._startTile[Constants.X] = 0;
         this._startTile[Constants.Y] = 0;
@@ -90,7 +125,7 @@ public class Grid extends JPanel implements Runnable{
     }
 
     /**
-     * INFO HERE
+     * Starts the thread for the map.
      */
     public void startThread() {
         screenThread = new Thread(this);
@@ -140,6 +175,7 @@ public class Grid extends JPanel implements Runnable{
      */
     public void update() {
         playerActor.update();
+        itemDetection.onItem(playerActor);
         zombo.update();
 //        mum.update(playerActor);
     }
@@ -152,11 +188,20 @@ public class Grid extends JPanel implements Runnable{
 
         Graphics2D g2 = (Graphics2D)g;
 
+        // Background
         gridSquareFactory.draw(g2);
 
-        playerActor.draw(g2);
-        zombo.draw(g2);
-//        mum.draw(g2);
+        // Treasures
+        for (int i = 0; i < ITEM_LIMIT; i++) {
+            if (treasure[i] != null) {treasure[i].draw(g2);}
+        }
+
+        // Enemies
+        if (zombo != null) {zombo.draw(g2);}
+//        if (mum != null) {mum.draw(g2);}
+
+        // Player
+        if (playerActor != null) {playerActor.draw(g2);}
 
         g2.dispose(); // Saves memory
     }
