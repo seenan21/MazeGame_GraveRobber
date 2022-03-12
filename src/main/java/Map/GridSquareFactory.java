@@ -32,7 +32,7 @@ public class GridSquareFactory {
         try {
             gridSquare[Constants.GRASS] = new GridSquare();
 
-            gridSquare[Constants.GRASS].setSquare(ImageIO.read(getClass().getResourceAsStream("/map/grass1_128.png")));
+            gridSquare[Constants.GRASS].setSquare(ImageIO.read(getClass().getResourceAsStream("/map/grass_1_128.png")));
         } catch(IOException e) {
             e.printStackTrace();
 
