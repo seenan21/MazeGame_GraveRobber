@@ -73,20 +73,20 @@ public class PlayerActor extends Character{
 
 
         if (_keyboard.upKeyPressed) {
-            if(level.wallCheck(getPosition()[0], getPosition()[1] - this.getSpeed(), Direction.NORTH) == false) {
+            if(level.wallCheck(getPosition()[0], getPosition()[1] - this.getSpeed()) == false) {
                 moveCharacter(Direction.NORTH);
             }
 
         } else if (_keyboard.downKeyPressed) {
-            if(level.wallCheck(getPosition()[0], getPosition()[1] + this.getSpeed(), Direction.SOUTH) == false) {
+            if(level.wallCheck(getPosition()[0], getPosition()[1] + this.getSpeed()) == false) {
                 moveCharacter(Direction.SOUTH);
             }
         } else if (_keyboard.leftKeyPressed) {
-            if(level.wallCheck(getPosition()[0] - this.getSpeed(), getPosition()[1], Direction.WEST) == false) {
+            if(level.wallCheck(getPosition()[0] - this.getSpeed(), getPosition()[1]) == false) {
                 moveCharacter(Direction.WEST);
             }
         } else if (_keyboard.rightKeyPressed) {
-            if(level.wallCheck(getPosition()[0] + this.getSpeed(), getPosition()[1], Direction.EAST) == false) {
+            if(level.wallCheck(getPosition()[0] + this.getSpeed(), getPosition()[1]) == false) {
                 moveCharacter(Direction.EAST);
             }
         }

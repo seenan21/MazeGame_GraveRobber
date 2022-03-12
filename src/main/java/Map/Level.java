@@ -86,19 +86,20 @@ public class Level {
     }
 
     public void draw(Graphics2D g2){
-        for (Zombie zombie: zombies){
-            zombie.draw(g2);
-        }
+
 
         for (Wall wall: wallsList){
             wall.draw(g2);
+        }
+        for (Zombie zombie: zombies){
+            zombie.draw(g2);
         }
 
         Hero.draw(g2);
 
     }
 
-    public boolean wallCheck(int x, int y, Direction d){
+    public boolean wallCheck(int x, int y){
         Rectangle character = new Rectangle(x,y,grid.getTileSize(),grid.getTileSize());
 
         int wallx;
