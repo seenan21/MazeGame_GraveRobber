@@ -6,14 +6,26 @@ import Map.Grid;
 
 import java.awt.*;
 
+/**
+ * When the player steps on an item, it should disappear and award the player points based on the item.
+ */
 public class ItemDetection {
 
     Grid _grid;
 
+    /**
+     * Constructor for ItemDetection
+     * @param grid
+     */
     public ItemDetection(Grid grid) {
         this._grid = grid;
     }
 
+    /**
+     * If the player is on top of an item, the item will award the player points, and the item will be removed.
+     *
+     * @param playerActor - Player's character.
+     */
     public void onItem(PlayerActor playerActor) {
 
         // Cycle though Items on Grid
@@ -30,7 +42,6 @@ public class ItemDetection {
                 itemBodyGrid.x = positionItem[Constants.X];
                 itemBodyGrid.y = positionItem[Constants.Y];
 
-
                 // Get current position of the Player
                 int[] positionPlayer = new int[2];
                 positionPlayer = playerActor.getPosition();
@@ -40,19 +51,12 @@ public class ItemDetection {
                 playerBodyGrid.x = positionPlayer[Constants.X];
                 playerBodyGrid.y = positionPlayer[Constants.Y];
 
-                System.out.println("Player");
-                System.out.println(playerBodyGrid.x);
-                System.out.println(playerBodyGrid.y);
-                System.out.println("Item");
-                System.out.println(itemBodyGrid.x);
-                System.out.println(itemBodyGrid.y);
-
+                // Remove item from map and award points to player
                 if(playerBodyGrid.intersects(itemBodyGrid)) {
                     System.out.println("ON");
                     playerActor.addToScore((_grid.treasure[i]).getPoints());
                     _grid.treasure[i] = null;
                 }
-
             }
             i++;
         }

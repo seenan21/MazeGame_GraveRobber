@@ -19,9 +19,8 @@ import java.io.IOException;
  */
 public class PlayerActor extends Character{
 
-    private boolean hasBossReward;
+    private boolean _hasBossReward;
     private int _score = 0;
-    private ItemDetection itemDetection;
 
     /**
      * Constructor for the character class.
@@ -35,7 +34,6 @@ public class PlayerActor extends Character{
         this.setPosition(grid.getStartTile()[Constants.X], grid.getStartTile()[Constants.Y]);
         this.setDefault();
         this.getImage();
-        this.itemDetection = new ItemDetection(grid);
     }
 
     /**
@@ -44,14 +42,14 @@ public class PlayerActor extends Character{
      * @param hasBossReward - Player has achieved the final boss award
      */
     public void setHasBossReward(boolean hasBossReward) {
-        this.hasBossReward = hasBossReward;
+        this._hasBossReward = hasBossReward;
     }
 
     /**
      * Returns if the player has the final boss's reward
      */
     public boolean getHasBossReward() {
-        return this.hasBossReward;
+        return this._hasBossReward;
     }
 
     /**
@@ -78,8 +76,6 @@ public class PlayerActor extends Character{
         } else if (_keyboard.rightKeyPressed) {
             moveCharacter(Direction.EAST);
         }
-
-        itemDetection.onItem(this);
     }
 
     /**
@@ -104,20 +100,20 @@ public class PlayerActor extends Character{
         }
     }
 
+    /**
+     * Adds to the player's total score.
+     *
+     * @param addedPoints - Points to be added to the player's score
+     */
     public void addToScore(int addedPoints) {
         this._score = this._score + addedPoints;
     }
 
+    /**
+     * Returns the player's current score.
+     */
     public int getScore() {
         return _score;
-    }
-
-    public void treasureFound(boolean isFound, int treasureNumber) {
-        if (isFound) {
-            int addedPoints = ((Treasure) _grid.treasure[treasureNumber]).getPoints();
-            addToScore(addedPoints);
-            _grid.treasure[treasureNumber] = null;
-        }
     }
 
     /**

@@ -64,10 +64,11 @@ public abstract class Character {
     }
 
     /**
-     * Returns character's speed
+     * Returns player's current health.
+     *
      */
-    public int getSpeed() {
-        return _speed;
+    public int getHealth() {
+        return health;
     }
 
     /**
@@ -78,11 +79,10 @@ public abstract class Character {
     }
 
     /**
-     * Returns player's current health.
-     *
+     * Returns character's speed
      */
-    public int getHealth() {
-        return health;
+    public int getSpeed() {
+        return _speed;
     }
 
     public Rectangle getSpriteBody() {
