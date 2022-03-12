@@ -3,6 +3,7 @@ import Characters.Character;
 import Characters.PlayerActor;
 import Characters.Zombie;
 import Constants.Constants;
+import GUI.UI;
 import IO.Keyboard;
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +24,7 @@ public class Grid extends JPanel implements Runnable{
     private int[] _startTile = new int[2]; // Starting tile for player when the game begins
     private int[] _endTile = new int[2]; // Ending tile for player when all treasures have been collected
     private ArrayList<Character> characters = new ArrayList<Character>();
+    private UI ui = new UI(this);
     //Might get rid of this. This list will help us keep track of entities that need to be updated in the game loop.
 
     Keyboard keyboard = new Keyboard();
@@ -167,7 +169,7 @@ public class Grid extends JPanel implements Runnable{
         gridSquareFactory.draw(g2);
         level.draw(g2);
 
-
+        ui.draw(g2);
         g2.dispose(); // Saves memory
     }
 }
