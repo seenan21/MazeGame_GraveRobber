@@ -296,7 +296,6 @@ public abstract class Character {
         } else {
             spriteCounter++;
         }
-        System.out.println(spriteCounter);
     }
 
     /**

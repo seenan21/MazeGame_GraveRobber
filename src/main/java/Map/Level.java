@@ -5,7 +5,6 @@ import IO.Keyboard;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Level {
     private int[][] walls;
@@ -16,36 +15,36 @@ public class Level {
     ArrayList<Wall> wallsList;
 
     //May need to refactor in the future in order to make it safer for User
-    protected Level(Grid grid, Keyboard keyboard, InputStream level) throws IOException {
+    protected Level(Grid grid, Keyboard keyboard, String path) throws IOException {
         this.grid = grid;
         this.keyboard = keyboard;
 
         zombies = new ArrayList<Zombie>();
         wallsList = new ArrayList<Wall>();
 
-
-        BufferedReader myReader = new BufferedReader(new InputStreamReader(level));
+        BufferedReader myReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path)));
         int y = 0;
         while (myReader.readLine() != null  ) {
             String str = myReader.readLine();           //One line of map
+            System.out.println(str);
             char[] chars = str.toCharArray();           //Turn line into char array for easy traversal
             int x = 0;
             while (x <= str.length()){
-                switch (chars[x]) {                     //What to do in different cases
-                    case '#':
-                        walls[x][y] = 1;
-                    case 'Z':
-                        zombies.add(new Zombie(grid, keyboard, x, y));
-                    case 'S':
-                        Hero = new PlayerActor(grid,keyboard); //Should position be passed onto the hero here from the map? If so new paramte
-                }
+//                switch (chars[x]) {                     //What to do in different cases
+//                    case '#':
+//                        walls[x][y] = 1;
+//                    case 'Z':
+//                        zombies.add(new Zombie(grid, keyboard, x, y));
+//                    case 'S':
+//                        Hero = new PlayerActor(grid,keyboard); //Should position be passed onto the hero here from the map? If so new paramte
+//                }
                 x++;
             }
             y++;
         }
         myReader.close();
 
-        wallsGenerate();
+//        wallsGenerate();
 
 
     }

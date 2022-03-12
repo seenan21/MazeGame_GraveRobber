@@ -1,16 +1,12 @@
 package Map;
 import Characters.Character;
-import Characters.Mummy;
 import Characters.PlayerActor;
 import Characters.Zombie;
 import Constants.Constants;
 import IO.Keyboard;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -112,9 +108,9 @@ public class Grid extends JPanel implements Runnable{
             double tick = 1000000000/FRAMES_PER_SECOND;
             double nextTick = System.nanoTime() + tick;
 
-            InputStream file = getClass().getResourceAsStream("/Levels/Level 1.txt");
+            String path = "/Levels/level_1";
             try {
-                Level level = new Level(this, keyboard, file);
+                Level level = new Level(this, keyboard, path);
 
 
 
