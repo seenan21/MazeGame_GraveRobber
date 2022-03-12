@@ -18,7 +18,7 @@ public class Main {
         window.setResizable(false);
         window.setTitle("Grave Robber");
         JPanel status = new JPanel(new BorderLayout());
-        JLabel health = new JLabel("100");
+        JLabel health = new JLabel("HEALTH: " + "100");
         final JLabel time = new JLabel();
 
         //
