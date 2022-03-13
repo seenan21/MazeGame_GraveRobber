@@ -28,10 +28,9 @@ public abstract class Character {
     private int[] startState = new int[2];
     private Direction directionFacing;
     private Direction previousDirectionFacing;
-    private Direction nextMovement;
+    private Direction nextMovement = Direction.NONE;
     private BufferedImage _spriteNorth0, _spriteSouth0, _spriteEast0, _spriteWest0, _spriteNorth1, _spriteSouth1, _spriteEast1, _spriteWest1, _spriteNorth2, _spriteSouth2, _spriteEast2, _spriteWest2;
     private Rectangle spriteBody;
-    TickClock tickClock;
     public int spriteCounter = 0;
     Level level;
     private boolean _walking = false;
@@ -44,12 +43,11 @@ public abstract class Character {
      * //     * @param directionFacing - Direction the character is facing
      * //     * @param map - Map the character is being added to
      */
-    public Character(Grid grid, Keyboard keyboard, Level level, TickClock tickClock) {
+    public Character(Grid grid, Keyboard keyboard, Level level) {
         this._keyboard = keyboard;
         this._grid = grid;
         this.level = level;
         spriteBody = new Rectangle(0,0, _grid.getTileSize(),_grid.getTileSize());
-        this.tickClock = tickClock;
     }
 
     /**
@@ -318,7 +316,7 @@ public abstract class Character {
     public void moveCharacter(Direction direction) {
 
         setPreviousDirectionFacing(getDirectionFacing());
-        if(isWalking() == false && tickClock.isReady()) {
+        if(isWalking() == false) {
             setWalking(true);
             // Walking thread
             CharacterClock characterClock = new CharacterClock(_grid, level, this, direction);

@@ -58,6 +58,7 @@ public class CharacterClock implements Runnable{
             }
             steps = steps + _character.getSpeed();
         }
+        _character.setNextMovement(Direction.NONE);
         _character.setWalking(false);
     }
 }

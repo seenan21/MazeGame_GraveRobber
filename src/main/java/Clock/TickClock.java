@@ -1,31 +1,27 @@
 package Clock;
 
+import Characters.PlayerActor;
 import Constants.Constants;
 
 public class TickClock implements Runnable{
 
     private boolean _isReady;
+    private PlayerActor playerActor;
 
-    public TickClock() {
+    public TickClock(PlayerActor playerActor) {
+        this.playerActor = playerActor;
     }
 
     @Override
     public void run() {
         while(true) {
-            _isReady = true;
-            System.out.println("Ready");
 
             try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+                Thread.sleep(Constants.TICK);
+                if(playerActor.isWalking() == false) {
+                    playerActor.moveCharacter(playerActor.getNextMovement());
+                }
 
-            _isReady = false;
-            System.out.println("Pause");
-
-            try {
-                Thread.sleep(Constants.TICK - 10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

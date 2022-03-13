@@ -30,8 +30,8 @@ public class PlayerActor extends Character{
      * @param keyboard - Listener for keyboard
      * @param position
      */
-    public PlayerActor(Grid grid, Keyboard keyboard, int[] position, Level level, TickClock tickClock) {
-        super(grid, keyboard, level, tickClock);
+    public PlayerActor(Grid grid, Keyboard keyboard, int[] position, Level level) {
+        super(grid, keyboard, level);
         this.setStartState(position[0], position[1]);
         this.setPosition(position[0], position[1]);
         this.setDefault();
@@ -70,16 +70,20 @@ public class PlayerActor extends Character{
      */
     public void update() {
         if (_keyboard.upKeyPressed) {
-            moveCharacter(Direction.NORTH);
+            setNextMovement(Direction.NORTH);
+//            moveCharacter(Direction.NORTH);
         }
         else if (_keyboard.downKeyPressed) {
-                moveCharacter(Direction.SOUTH);
+            setNextMovement(Direction.SOUTH);
+//            moveCharacter(Direction.SOUTH);
         }
         else if (_keyboard.leftKeyPressed) {
-                moveCharacter(Direction.WEST);
+            setNextMovement(Direction.WEST);
+//            moveCharacter(Direction.WEST);
         }
         else if (_keyboard.rightKeyPressed) {
-                moveCharacter(Direction.EAST);
+            setNextMovement(Direction.EAST);
+//            moveCharacter(Direction.EAST);
         }
     }
 
@@ -138,6 +142,8 @@ public class PlayerActor extends Character{
         }
         else if (getDirectionFacing() == Direction.WEST) {
             sprite = getSprite(Direction.WEST);
+        } else {
+            sprite = getSprite(Direction.SOUTH);
         }
         g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
     }

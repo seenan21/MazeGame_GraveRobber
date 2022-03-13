@@ -17,8 +17,8 @@ public class Zombie extends Character {
     boolean rush;
     Direction rushDirection;
 
-    public Zombie(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level, TickClock tickClock) {
-        super(grid, keyboard, level, tickClock);
+    public Zombie(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level) {
+        super(grid, keyboard, level);
         this.setPosition(positionX, positionY);
         this.setStartState(positionX, positionY);
         this.setSpeed(1); //Testing speed
