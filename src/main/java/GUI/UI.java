@@ -17,11 +17,17 @@ public class UI{
     Grid gr;
     Font times_40;
     Font statusFont;
-    double time;
+    public double time;
+    public final int timeLimit = 30;
     DecimalFormat decimalFormat = new DecimalFormat("#0.00");
     public int menuNum = 0;
     Keyboard _keyboard;
 
+    /**
+     * Constructor for UI.
+     * @param gr Grid
+     * @param keyboard Keyboard we're using
+     */
     public UI(Grid gr, Keyboard keyboard){
         this.gr = gr;
         this._keyboard = keyboard;
@@ -29,6 +35,10 @@ public class UI{
         statusFont = new Font("Ariel", Font.PLAIN, 20);
     }
 
+    /**
+     * Draw UI for the game. UI includes TIMER, SCORE, HEALTH.
+     * @param g2 Graphics2D
+     */
     public void draw(Graphics2D g2) {
 
         boolean lose = false;
@@ -74,12 +84,21 @@ public class UI{
             // health
             g2.drawString("Health: " + "100", 10, 25);
 
+            // score
+            g2.drawString("Score: " + "0", 10, 35);
+
             // timer
             time += (double) 1 / 60;
             g2.drawString("Time: " + decimalFormat.format(time), gr.getTileSize() * 19, 25);
 
         }
     }
+
+    /**
+     *
+     * @param g2 Graphics2D
+     * @throws IOException
+     */
     public void drawTitlePage(Graphics2D g2) throws IOException {
 
         g2.setColor(new Color(70,120,80));
