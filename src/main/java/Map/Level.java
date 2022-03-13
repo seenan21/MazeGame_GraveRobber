@@ -1,35 +1,40 @@
 package Map;
-import Characters.Direction;
 import Characters.PlayerActor;
 import Characters.Zombie;
 import IO.Keyboard;
+import items.BonusTreasure;
+import items.Item;
+import items.ItemDetection;
+import items.Treasure;
+
 import java.awt.Rectangle;
 
 
-import javax.swing.text.Position;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
 public class Level {
-
-
-    public int[][] walls;
-    ArrayList<Zombie> zombies;
+    private int[][] walls;
+    ArrayList<Zombie> zombieList;
     private PlayerActor Hero;
     private Grid grid;
     private Keyboard keyboard;
-    ArrayList<Wall> wallsList;
+    private ItemDetection itemDetection;
+    private ArrayList<Wall> wallList;
+    private ArrayList<Item> itemList;
+    private final int ITEM_LIMIT = 5;
 
     //May need to refactor in the future in order to make it safer for User
     protected Level(Grid grid, Keyboard keyboard, String path) throws IOException {
         this.grid = grid;
         this.keyboard = keyboard;
 
-
-        zombies = new ArrayList<Zombie>();
-        wallsList = new ArrayList<Wall>();
-        walls = new int[24][24];
+        this.zombieList = new ArrayList<Zombie>();
+        this.wallList = new ArrayList<Wall>();
+        this.itemList = new ArrayList<Item>();
+        this.walls = new int[24][24];
+        this.itemDetection = new ItemDetection(this, grid);
 
         BufferedReader myReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path)));
         int y = 0;
@@ -43,8 +48,15 @@ public class Level {
                     walls[x][y] = 1;
                 }
                 else if(chars[x] == 'Z'){
-                    zombies.add(new Zombie(grid, keyboard, x*grid.getTileSize(), y*grid.getTileSize(), this));
-                }else if (chars[x] == 'S'){
+                    zombieList.add(new Zombie(grid, keyboard, x*grid.getTileSize(), y*grid.getTileSize(), this));
+                }
+                else if(chars[x] == 'T'){
+                    itemList.add(0, new Treasure(grid, x*grid.getTileSize(), y*grid.getTileSize()));
+                }
+                else if(chars[x] == 'B'){
+                    itemList.add(0, new BonusTreasure(grid, x*grid.getTileSize(), y*grid.getTileSize()));
+                }
+                else if (chars[x] == 'S'){
                     int[] position = new int[2];
                     position[0] = x* grid.getTileSize();
                     position[1] = y* grid.getTileSize();
@@ -57,12 +69,21 @@ public class Level {
         myReader.close();
 
         wallsGenerate();
-
-
     }
 
     public PlayerActor getHero() {
         return Hero;
+    }
+
+    /**
+     * Returns the map's item limit.
+     */
+    public int getItemLimit() {
+        return ITEM_LIMIT;
+    }
+
+    public ArrayList<Item> getItemList() {
+        return itemList;
     }
 
     public void wallsGenerate(){
@@ -70,32 +91,40 @@ public class Level {
             for(int j=0; j< walls.length; j++) {
                 if (walls[i][j] == 1){
                     Wall wall = new Wall(i* grid.getTileSize(),j* grid.getTileSize(), grid);
-                    wallsList.add(wall);
+                    wallList.add(wall);
                 }
             }
         }
-
-
     }
 
     public void update(){
         Hero.update();
-        for (int i = 0; i < zombies.size(); i++) {
-            zombies.get(i).update();
+        itemDetection.onItem(Hero);
+        for (int i = 0; i < itemList.size(); i++) {
+            if(itemList.get(i) != null) {
+                itemList.get(i).update();
+            }
+
+        }
+        for (int i = 0; i < zombieList.size(); i++) {
+            zombieList.get(i).update();
         }
     }
 
     public void draw(Graphics2D g2){
 
-
-        for (Wall wall: wallsList){
-            wall.draw(g2);
+        for (Wall wall: wallList){
+            if (wall != null) {wall.draw(g2);}
         }
-        for (Zombie zombie: zombies){
-            zombie.draw(g2);
+        for (Zombie zombie: zombieList){
+            if (zombie != null) {zombie.draw(g2);}
         }
 
-        Hero.draw(g2);
+        for(Item item: itemList) {
+            if (item != null) {item.draw(g2);}
+        }
+
+        if (Hero != null) {Hero.draw(g2);}
 
     }
 

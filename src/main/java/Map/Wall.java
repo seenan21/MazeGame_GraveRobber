@@ -15,7 +15,6 @@ public class Wall {
     public Wall(int posX, int posY, Grid grid){
         this.posX = posX;
         this.posY = posY;
-        this.sprite = sprite;
         _grid = grid;
 
     }
