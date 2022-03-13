@@ -27,12 +27,19 @@ public class Grid extends JPanel implements Runnable{
     private final int _screenHeight = TILE_SIZE * VERTICAL_TILES;
     private int[] _startTile = new int[2]; // Starting tile for player when the game begins
     private int[] _endTile = new int[2]; // Ending tile for player when all treasures have been collected
-    private UI ui = new UI(this);
     private Keyboard keyboard = new Keyboard();
+    private UI ui = new UI(this, keyboard);
     private Thread screenThread;
     private GridSquareFactory gridSquareFactory = new GridSquareFactory(this);
     private String path = "/level/level_1";
     private Level level = new Level(this, keyboard, path);
+
+    public int gameState;
+    public final int titleState = 0;
+    public final int playState = 1;
+    public final int endState = 2;
+
+
 
     /**
      * Creates the game screen and sets up a keyboard listener.
@@ -174,11 +181,18 @@ public class Grid extends JPanel implements Runnable{
 
         Graphics2D g2 = (Graphics2D)g;
 
+        // Title Page
+        if (gameState == titleState) {
+            ui.draw(g2);
         // Background
-        gridSquareFactory.draw(g2);
-        level.draw(g2);
+        }
+        if (gameState == playState){
+            gridSquareFactory.draw(g2);
+            level.draw(g2);
 
-        ui.draw(g2);
-        g2.dispose(); // Saves memory
+            // UI
+            ui.draw(g2);
+            g2.dispose(); // Saves memory
+        }
     }
 }

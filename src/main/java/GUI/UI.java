@@ -22,8 +22,9 @@ public class UI{
     public int menuNum = 0;
     Keyboard _keyboard;
 
-    public UI(Grid gr){
+    public UI(Grid gr, Keyboard keyboard){
         this.gr = gr;
+        this._keyboard = keyboard;
         times_40 = new Font("Times New Roman", Font.PLAIN, 40);
         statusFont = new Font("Ariel", Font.PLAIN, 20);
     }
@@ -79,8 +80,8 @@ public class UI{
 
         }
     }
-    public void drawTitlePage(Graphics2D g2, Keyboard keyboard) throws IOException {
-        this._keyboard =
+    public void drawTitlePage(Graphics2D g2) throws IOException {
+
         g2.setColor(new Color(70,120,80));
         g2.fillRect(0,0,gr.getScreenWidth(),gr.getScreenHeight());
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 96F));
@@ -109,17 +110,23 @@ public class UI{
         x = gr.getScreenWidth() / 2 - gr.getTileSize()*2;
         y += gr.getTileSize()*5;
         g2.drawString(text, x, y);
-//        if (_keyboard.choosingMenu == 0){
-////            g2.drawString(">", x-gr.getTileSize(), y);
-//        }
+        if (_keyboard.choosingMenu){
+            g2.drawString(">", x-gr.getTileSize()*2, y);
+        }
+        if (_keyboard.changeGameState == 1){
+            gr.gameState = 1;
+        }
 
         text = "QUIT";
         x = gr.getScreenWidth() / 2 - gr.getTileSize()*2;
         y += gr.getTileSize();
         g2.drawString(text, x, y);
-//        if (_keyboard.choosingMenu == 1){
-////            g2.drawString(">", x-gr.getTileSize(), y);
-//        }
+        if (!_keyboard.choosingMenu){
+            g2.drawString(">", x-gr.getTileSize()*2, y);
+        }
+        if (_keyboard.changeGameState == 2){
+            gr.gameState = 2;
+        }
 
 
     }
