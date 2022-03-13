@@ -1,6 +1,8 @@
 package Map;
 import Characters.PlayerActor;
 import Characters.Zombie;
+import Clock.BonusTreasureClock;
+import Clock.TickClock;
 import IO.Keyboard;
 import items.BonusTreasure;
 import items.Item;
@@ -24,11 +26,16 @@ public class Level {
     private ArrayList<Wall> wallList;
     private ArrayList<Item> itemList;
     private final int ITEM_LIMIT = 5;
+    private TickClock tickClock;
+    private Thread tickClockThread;
 
     //May need to refactor in the future in order to make it safer for User
     protected Level(Grid grid, Keyboard keyboard, String path) throws IOException {
         this.grid = grid;
         this.keyboard = keyboard;
+        this.tickClock = new TickClock();
+        this.tickClockThread = new Thread(tickClock);
+        this.tickClockThread.start();
 
         this.zombieList = new ArrayList<Zombie>();
         this.wallList = new ArrayList<Wall>();
@@ -48,7 +55,7 @@ public class Level {
                     walls[x][y] = 1;
                 }
                 else if(chars[x] == 'Z'){
-                    zombieList.add(new Zombie(grid, keyboard, x*grid.getTileSize(), y*grid.getTileSize(), this));
+                    zombieList.add(new Zombie(grid, keyboard, x*grid.getTileSize(), y*grid.getTileSize(), this, tickClock));
                 }
                 else if(chars[x] == 'T'){
                     itemList.add(0, new Treasure(grid, x*grid.getTileSize(), y*grid.getTileSize()));
@@ -60,7 +67,7 @@ public class Level {
                     int[] position = new int[2];
                     position[0] = x* grid.getTileSize();
                     position[1] = y* grid.getTileSize();
-                    Hero = new PlayerActor(grid,keyboard, position, this ); //Should position be passed onto the hero here from the map? If so new paramter                }
+                    Hero = new PlayerActor(grid,keyboard, position, this, tickClock ); //Should position be passed onto the hero here from the map? If so new paramter                }
                 }
                 x++;
             }

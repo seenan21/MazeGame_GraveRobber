@@ -1,5 +1,6 @@
 package Characters;
 
+import Clock.TickClock;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
@@ -14,8 +15,8 @@ public class Mummy extends Character {
 
     PlayerActor target;
 
-    public Mummy(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level) {
-        super(grid, keyboard, level);
+    public Mummy(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level, TickClock tickClock) {
+        super(grid, keyboard, level, tickClock);
         this.setPosition(positionX, positionY);
         this.setStartState(positionX, positionY);
         this.setSpeed(5); //Testing speed

@@ -1,5 +1,6 @@
 package Characters;
 
+import Clock.TickClock;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
@@ -29,8 +30,8 @@ public class PlayerActor extends Character{
      * @param keyboard - Listener for keyboard
      * @param position
      */
-    public PlayerActor(Grid grid, Keyboard keyboard, int[] position, Level level) {
-        super(grid, keyboard, level);
+    public PlayerActor(Grid grid, Keyboard keyboard, int[] position, Level level, TickClock tickClock) {
+        super(grid, keyboard, level, tickClock);
         this.setStartState(position[0], position[1]);
         this.setPosition(position[0], position[1]);
         this.setDefault();

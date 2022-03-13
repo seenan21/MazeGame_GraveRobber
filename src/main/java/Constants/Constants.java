@@ -8,4 +8,7 @@ public class Constants {
     // Map Squares
     public final static int GRASS = 0;
 
+    // Time
+    public final static int TICK = 1000; // milliseconds
+
 }

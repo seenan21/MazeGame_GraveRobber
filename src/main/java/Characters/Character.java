@@ -1,5 +1,7 @@
 package Characters;
 
+import Clock.CharacterClock;
+import Clock.TickClock;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
@@ -26,10 +28,14 @@ public abstract class Character {
     private int[] startState = new int[2];
     private Direction directionFacing;
     private Direction previousDirectionFacing;
+    private Direction nextMovement;
     private BufferedImage _spriteNorth0, _spriteSouth0, _spriteEast0, _spriteWest0, _spriteNorth1, _spriteSouth1, _spriteEast1, _spriteWest1, _spriteNorth2, _spriteSouth2, _spriteEast2, _spriteWest2;
     private Rectangle spriteBody;
+    TickClock tickClock;
     public int spriteCounter = 0;
     Level level;
+    private boolean _walking = false;
+    private int steps = 0;
 
     /**
      * Constructor for the character class.
@@ -38,11 +44,12 @@ public abstract class Character {
      * //     * @param directionFacing - Direction the character is facing
      * //     * @param map - Map the character is being added to
      */
-    public Character(Grid grid, Keyboard keyboard, Level level) {
+    public Character(Grid grid, Keyboard keyboard, Level level, TickClock tickClock) {
         this._keyboard = keyboard;
         this._grid = grid;
         this.level = level;
-        spriteBody = new Rectangle(0,0, _grid.getTileSize()/2,_grid.getTileSize()/2);
+        spriteBody = new Rectangle(0,0, _grid.getTileSize(),_grid.getTileSize());
+        this.tickClock = tickClock;
     }
 
     /**
@@ -89,6 +96,14 @@ public abstract class Character {
 
     public Rectangle getSpriteBody() {
         return spriteBody;
+    }
+
+    public void setWalking(boolean walking) {
+        this._walking = walking;
+    }
+
+    public boolean isWalking() {
+        return _walking;
     }
 
     /**
@@ -175,6 +190,14 @@ public abstract class Character {
      */
     public Direction getPreviousDirectionFacing() {
         return previousDirectionFacing;
+    }
+
+    public void setNextMovement(Direction nextMovement) {
+        this.nextMovement = nextMovement;
+    }
+
+    public Direction getNextMovement() {
+        return nextMovement;
     }
 
     /**
@@ -295,58 +318,69 @@ public abstract class Character {
     public void moveCharacter(Direction direction) {
 
         setPreviousDirectionFacing(getDirectionFacing());
+        if(isWalking() == false && tickClock.isReady()) {
+            setWalking(true);
+            // Walking thread
+            CharacterClock characterClock = new CharacterClock(_grid, level, this, direction);
+            Thread clockThread = new Thread(characterClock);
+            clockThread.start(); // Calls this.run()
+//            this.setDirectionFacing(direction);
+        }
+
+
+
         boolean isFacingWall = true;
 
-        if (direction == Direction.NORTH && level.wallCheck(getPosition()[0], getPosition()[1] - getSpeed()) == false) {
-            moveNorth();
-            isFacingWall = false;
-        }else if (direction == Direction.SOUTH && level.wallCheck(getPosition()[0], getPosition()[1] + getSpeed()) == false) {
-            moveSouth();
-            isFacingWall = false;
-        } else if (direction == Direction.EAST && level.wallCheck(getPosition()[0] + getSpeed(), getPosition()[1]) == false) {
-            moveEast();
-            isFacingWall = false;
-        } else if (direction == Direction.WEST && level.wallCheck(getPosition()[0] - getSpeed(), getPosition()[1]) == false) {
-            moveWest();
-            isFacingWall = false;
-        }
+//        if (direction == Direction.NORTH && level.wallCheck(getPosition()[0], getPosition()[1] - getSpeed()) == false) {
+//            moveNorth();
+//            isFacingWall = false;
+//        } else if (direction == Direction.SOUTH && level.wallCheck(getPosition()[0], getPosition()[1] + getSpeed()) == false) {
+//            moveSouth();
+//            isFacingWall = false;
+//        } else if (direction == Direction.EAST && level.wallCheck(getPosition()[0] + getSpeed(), getPosition()[1]) == false) {
+//            moveEast();
+//            isFacingWall = false;
+//        } else if (direction == Direction.WEST && level.wallCheck(getPosition()[0] - getSpeed(), getPosition()[1]) == false) {
+//            moveWest();
+//            isFacingWall = false;
+//        }
 
-        this.setDirectionFacing(direction);
 
-        if (getPreviousDirectionFacing() != getDirectionFacing() || isFacingWall == true) {
-            spriteCounter = 0;
-        } else if (spriteCounter >= 2) {
-            spriteCounter = 0;
-        } else {
-            spriteCounter++;
-        }
+
+//        if (getPreviousDirectionFacing() != getDirectionFacing() || isFacingWall == true) {
+//            spriteCounter = 0;
+//        } else if (spriteCounter >= 2) {
+//            spriteCounter = 0;
+//        } else {
+//            spriteCounter++;
+//        }
     }
 
     /**
      * Moves character's position one tile north
      */
-    private void moveNorth() {
+    public void moveNorth() {
         this.setPosition(getPosition()[Constants.X],getPosition()[Constants.Y] - _speed);
     }
 
     /**
      * Moves character's position one tile south
      */
-    private void moveSouth() {
+    public void moveSouth() {
         this.setPosition(getPosition()[Constants.X],getPosition()[Constants.Y] + _speed);
     }
 
     /**
      * Moves character's position one tile east
      */
-    private void moveEast() {
+    public void moveEast() {
         this.setPosition(getPosition()[Constants.X] + _speed, getPosition()[Constants.Y]);
     }
 
     /**
      * Moves character's position one tile west
      */
-    private void moveWest() {
+    public void moveWest() {
         this.setPosition(getPosition()[Constants.X] - _speed, getPosition()[Constants.Y]);
     }
 }

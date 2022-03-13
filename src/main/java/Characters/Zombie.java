@@ -1,5 +1,6 @@
 package Characters;
 
+import Clock.TickClock;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
@@ -16,8 +17,8 @@ public class Zombie extends Character {
     boolean rush;
     Direction rushDirection;
 
-    public Zombie(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level) {
-        super(grid, keyboard, level);
+    public Zombie(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level, TickClock tickClock) {
+        super(grid, keyboard, level, tickClock);
         this.setPosition(positionX, positionY);
         this.setStartState(positionX, positionY);
         this.setSpeed(1); //Testing speed
@@ -67,6 +68,7 @@ public class Zombie extends Character {
         if(rush){
             if(rushDirection == Direction.NORTH){
                 if(level.wallCheck(getPosition()[0], getPosition()[1] - this.getSpeed()) == false){
+                    setNextMovement(rushDirection);
                     moveCharacter(rushDirection);
                     return;
                 }
@@ -74,18 +76,21 @@ public class Zombie extends Character {
             if(rushDirection == Direction.SOUTH){
                 if(level.wallCheck(getPosition()[0], getPosition()[1] + this.getSpeed()) == false){
                     moveCharacter(rushDirection);
+                    setNextMovement(rushDirection);
                     return;
                 }
             }
             if(rushDirection == Direction.WEST){
                 if(level.wallCheck(getPosition()[0] - this.getSpeed(), getPosition()[1]) == false) {
                     moveCharacter(rushDirection);
+                    setNextMovement(rushDirection);
                     return;
                 }
             }
             if(rushDirection == Direction.EAST){
                 if(level.wallCheck(getPosition()[0] + this.getSpeed(), getPosition()[1]) == false) {
                     moveCharacter(rushDirection);
+                    setNextMovement(rushDirection);
                     return;
                 }
             }
