@@ -12,6 +12,8 @@ public class Keyboard implements KeyListener {
     public boolean downKeyPressed;
     public boolean leftKeyPressed;
     public boolean rightKeyPressed;
+    public int choosingMenu = 0;
+
 
     /**
      * Unused, but required by KeyListener
