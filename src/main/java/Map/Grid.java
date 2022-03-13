@@ -186,13 +186,16 @@ public class Grid extends JPanel implements Runnable{
             ui.draw(g2);
         // Background
         }
-        if (gameState == playState){
+        if (gameState == playState) {
             gridSquareFactory.draw(g2);
             level.draw(g2);
 
             // UI
             ui.draw(g2);
             g2.dispose(); // Saves memory
+        }
+        if (gameState == endState) {
+            System.exit(0);
         }
     }
 }
