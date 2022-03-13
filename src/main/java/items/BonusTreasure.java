@@ -1,6 +1,6 @@
 package items;
 
-import Clock.BonusRewardClock;
+import Clock.BonusTreasureClock;
 import Map.Grid;
 
 import javax.imageio.ImageIO;
@@ -8,9 +8,13 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Bonus Treasure will randomly appear and disappear on the map.
+ * Players will only be able to collect the reward when the item is visible.
+ */
 public class BonusTreasure extends Item{
 
-    private BonusRewardClock clock;
+    private BonusTreasureClock clock;
     private Thread clockThread;
 
     /**
@@ -24,7 +28,7 @@ public class BonusTreasure extends Item{
         setPoints(500);
         getImage();
 
-        clock = new BonusRewardClock();
+        clock = new BonusTreasureClock();
         clockThread = new Thread(clock);
         clockThread.start(); // Calls this.run()
     }
