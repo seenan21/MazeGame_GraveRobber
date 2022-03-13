@@ -27,6 +27,7 @@ public abstract class Character {
     private Direction directionFacing;
     private Direction previousDirectionFacing;
     private BufferedImage _spriteNorth0, _spriteSouth0, _spriteEast0, _spriteWest0, _spriteNorth1, _spriteSouth1, _spriteEast1, _spriteWest1, _spriteNorth2, _spriteSouth2, _spriteEast2, _spriteWest2;
+    private Rectangle spriteBody;
     public int spriteCounter = 0;
     Level level;
 
@@ -41,7 +42,13 @@ public abstract class Character {
         this._keyboard = keyboard;
         this._grid = grid;
         this.level = level;
+        spriteBody = new Rectangle(0,0, _grid.getTileSize()/2,_grid.getTileSize()/2);
     }
+
+    /**
+     * Finds the sprite image for the character.
+     */
+    public abstract void getImage();
 
     /**
      * Changes the health of the player.
@@ -55,6 +62,14 @@ public abstract class Character {
             System.out.println("ERROR: Health must be between 0 and 100");
             System.exit(-1);
         }
+    }
+
+    /**
+     * @returns player's current health.
+     *
+     */
+    public int getHealth() {
+        return health;
     }
 
     /**
@@ -72,12 +87,8 @@ public abstract class Character {
         this._speed = _speed;
     }
 
-    /**
-     * @returns player's current health.
-     *
-     */
-    public int getHealth() {
-        return health;
+    public Rectangle getSpriteBody() {
+        return spriteBody;
     }
 
     /**

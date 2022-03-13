@@ -23,6 +23,11 @@ public class Mummy extends Character {
 
     }
 
+    @Override
+    public void getImage() {
+        //
+    }
+
     public void render(Graphics g)
     {
         int[] position = this.getPosition();

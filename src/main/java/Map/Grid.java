@@ -5,6 +5,10 @@ import Characters.Zombie;
 import Constants.Constants;
 import GUI.UI;
 import IO.Keyboard;
+import items.Item;
+import items.ItemDetection;
+import items.Treasure;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -23,29 +27,12 @@ public class Grid extends JPanel implements Runnable{
     private final int _screenHeight = TILE_SIZE * VERTICAL_TILES;
     private int[] _startTile = new int[2]; // Starting tile for player when the game begins
     private int[] _endTile = new int[2]; // Ending tile for player when all treasures have been collected
-    private ArrayList<Character> characters = new ArrayList<Character>();
     private UI ui = new UI(this);
-    //Might get rid of this. This list will help us keep track of entities that need to be updated in the game loop.
-
-    Keyboard keyboard = new Keyboard();
-    Thread screenThread;
-
-
-
-    String path = "/Levels/level_1";
-
-
-
-    Level level = new Level(this, keyboard, path);
-
-    GridSquareFactory gridSquareFactory = new GridSquareFactory(this);
-
-
-
-    // TEMP PLAYER VARIABLES FOR TESTING
-    int x = 100;
-    int y = 100;
-    int speed = 2;
+    private Keyboard keyboard = new Keyboard();
+    private Thread screenThread;
+    private GridSquareFactory gridSquareFactory = new GridSquareFactory(this);
+    private String path = "/level/level_1";
+    private Level level = new Level(this, keyboard, path);
 
     /**
      * Creates the game screen and sets up a keyboard listener.
@@ -66,8 +53,18 @@ public class Grid extends JPanel implements Runnable{
         return _screenWidth;
     }
 
+    /**
+     * Returns the number of horizontal tiles on the map.
+     *
+     * @return
+     */
     public int getHorizontalTiles(){return HORIZONTAL_TILES;}
 
+    /**
+     * Returns the number of vertical tiles on the map.
+     *
+     * @return
+     */
     public int getVerticalTiles() { return VERTICAL_TILES;    }
 
     /**
@@ -77,6 +74,11 @@ public class Grid extends JPanel implements Runnable{
         return _screenHeight;
     }
 
+    /**
+     * Returns the number of maps tile size.
+     *
+     * @return
+     */
     public int getTileSize() {
         return TILE_SIZE;
     }
@@ -88,10 +90,16 @@ public class Grid extends JPanel implements Runnable{
         return _startTile;
     }
 
+    /**
+     * Returns the player's ending tile.
+     */
     public int[] getEndTile() {
         return _endTile;
     }
 
+    /**
+     * Sets the map's default values.
+     */
     public void setDefault() {
         this._startTile[Constants.X] = 0;
         this._startTile[Constants.Y] = 0;
@@ -100,11 +108,18 @@ public class Grid extends JPanel implements Runnable{
     }
 
     /**
-     * INFO HERE
+     * Starts the thread for the map.
      */
     public void startThread() {
         screenThread = new Thread(this);
         screenThread.start(); // Calls this.run()
+    }
+
+    /**
+     * @return current level on grid.
+     */
+    public Level getLevel() {
+        return level;
     }
 
     /**
@@ -118,13 +133,10 @@ public class Grid extends JPanel implements Runnable{
             double tick = 1000000000/FRAMES_PER_SECOND;
             double nextTick = System.nanoTime() + tick;
 
+            while(screenThread != null) {
 
-
-
-            while (screenThread != null) {
-                    update();
-                    repaint();
-
+                update();
+                repaint(); // Calls this.paintComponent
 
                     try {
                         double timeTillNextTick = nextTick - System.nanoTime();
@@ -146,10 +158,6 @@ public class Grid extends JPanel implements Runnable{
             }
     }
 
-
-
-
-
     /**
      * Updates the character and enemy movements.
      */
@@ -166,6 +174,7 @@ public class Grid extends JPanel implements Runnable{
 
         Graphics2D g2 = (Graphics2D)g;
 
+        // Background
         gridSquareFactory.draw(g2);
         level.draw(g2);
 

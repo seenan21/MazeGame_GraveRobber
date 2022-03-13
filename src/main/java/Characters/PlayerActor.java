@@ -3,13 +3,13 @@ package Characters;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
+import items.ItemDetection;
 import Map.Level;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.awt.Rectangle;
 
 /**
  * This PlayerActor refers to the main character controlled by the user. The player should be able to pickup items,
@@ -19,7 +19,9 @@ import java.awt.Rectangle;
  */
 public class PlayerActor extends Character{
 
-    private boolean hasBossReward;
+    private boolean _hasBossReward;
+    private int _score = 0;
+
 
     /**
      * Constructor for the character class.
@@ -33,8 +35,6 @@ public class PlayerActor extends Character{
         this.setPosition(position[0], position[1]);
         this.setDefault();
         this.getImage();
-
-
     }
 
     /**
@@ -43,14 +43,14 @@ public class PlayerActor extends Character{
      * @param hasBossReward - Player has achieved the final boss award
      */
     public void setHasBossReward(boolean hasBossReward) {
-        this.hasBossReward = hasBossReward;
+        this._hasBossReward = hasBossReward;
     }
 
     /**
      * @return if the player has the final boss's reward
      */
     public boolean getHasBossReward() {
-        return this.hasBossReward;
+        return this._hasBossReward;
     }
 
     /**
@@ -68,10 +68,6 @@ public class PlayerActor extends Character{
      * Updates the player's position when player presses W,A,S,D keys on keyboard.
      */
     public void update() {
-
-
-
-
         if (_keyboard.upKeyPressed) {
             if(level.wallCheck(getPosition()[0], getPosition()[1] - this.getSpeed()) == false) {
                 moveCharacter(Direction.NORTH);
@@ -112,6 +108,22 @@ public class PlayerActor extends Character{
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Adds to the player's total score.
+     *
+     * @param addedPoints - Points to be added to the player's score
+     */
+    public void addToScore(int addedPoints) {
+        this._score = this._score + addedPoints;
+    }
+
+    /**
+     * Returns the player's current score.
+     */
+    public int getScore() {
+        return _score;
     }
 
     /**

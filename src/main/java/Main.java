@@ -1,4 +1,3 @@
-import Characters.PlayerActor;
 import GUI.PopUpWindow;
 import Map.Grid;
 
