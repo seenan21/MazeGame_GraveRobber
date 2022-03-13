@@ -1,5 +1,6 @@
 package Map;
 import Characters.Character;
+import Characters.Mummy;
 import Characters.PlayerActor;
 import Characters.Zombie;
 import Constants.Constants;
@@ -10,6 +11,7 @@ import items.Treasure;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -26,34 +28,23 @@ public class Grid extends JPanel implements Runnable{
     private int[] _startTile = new int[2]; // Starting tile for player when the game begins
     private int[] _endTile = new int[2]; // Ending tile for player when all treasures have been collected
     private ArrayList<Character> characters = new ArrayList<>();
-    private final int ITEM_LIMIT = 5;
 
     private Keyboard keyboard = new Keyboard();
     private Thread screenThread;
-    private PlayerActor playerActor = new PlayerActor(this, this.keyboard);
-    private ItemDetection itemDetection = new ItemDetection(this);
     private GridSquareFactory gridSquareFactory = new GridSquareFactory(this);
-    public Item treasure[] = new Item[ITEM_LIMIT]; // Need to solve later so this does not need to be public
-    private Zombie zombo = new Zombie(this, this.keyboard, _screenWidth/2, _screenHeight/2); // Just for testing rn
-//    Mummy mum =new Mummy(this, this.keyboard, _screenWidth/2+20, _screenHeight/2+20); // Just for testing rn
+    private String path = "/level/level_1";
+    private Level level = new Level(this, keyboard, path);
 
     /**
      * Creates the game screen and sets up a keyboard listener.
      */
-    public Grid() {
+    public Grid() throws IOException {
         this.setPreferredSize(new Dimension(_screenWidth, _screenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true); // Improves rendering
         this.addKeyListener(keyboard);
         this.setFocusable(true);
         this.setDefault();
-
-        // Later this should be generated when the map is created.
-        treasure[0] = new Treasure(this, 5*TILE_SIZE, 5*TILE_SIZE);
-        treasure[1] = new Treasure(this, 10*TILE_SIZE, 4*TILE_SIZE);
-        treasure[2] = new Treasure(this, 22*TILE_SIZE, 3*TILE_SIZE);
-        treasure[3] = new Treasure(this, 11*TILE_SIZE, 20*TILE_SIZE);
-        treasure[4] = new Treasure(this, 20*TILE_SIZE, 20*TILE_SIZE);
     }
 
     /**
@@ -108,13 +99,6 @@ public class Grid extends JPanel implements Runnable{
     }
 
     /**
-     * Returns the map's item limit.
-     */
-    public int getItemLimit() {
-        return ITEM_LIMIT;
-    }
-
-    /**
      * Sets the map's default values.
      */
     public void setDefault() {
@@ -133,6 +117,13 @@ public class Grid extends JPanel implements Runnable{
     }
 
     /**
+     * @return current level on grid.
+     */
+    public Level getLevel() {
+        return level;
+    }
+
+    /**
      * Loop which tells the UI to update every tick.
      * Also checks if character locations have changed.
      */
@@ -148,36 +139,32 @@ public class Grid extends JPanel implements Runnable{
                 update();
                 repaint(); // Calls this.paintComponent
 
-                try {
-                    double timeTillNextTick = nextTick - System.nanoTime();
-                    timeTillNextTick = timeTillNextTick/1000000;// Nanoseconds to milliseconds conversion
+                    try {
+                        double timeTillNextTick = nextTick - System.nanoTime();
+                        timeTillNextTick = timeTillNextTick / 1000000;// Nanoseconds to milliseconds conversion
 
-                    // Error check
-                    if(timeTillNextTick < 0) {
-                        timeTillNextTick = 0;
+                        // Error check
+                        if (timeTillNextTick < 0) {
+                            timeTillNextTick = 0;
+                        }
+
+                        Thread.sleep((long) timeTillNextTick); // Sleep until tick is over
+
+                        nextTick += tick;
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-
-                    Thread.sleep((long)timeTillNextTick); // Sleep until tick is over
-
-                    nextTick += tick;
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
-
             }
-
-        }
     }
 
     /**
      * Updates the character and enemy movements.
      */
     public void update() {
-        playerActor.update();
-        itemDetection.onItem(playerActor);
-        zombo.update();
-//        mum.update(playerActor);
+        level.update();
+
     }
 
     /**
@@ -190,18 +177,7 @@ public class Grid extends JPanel implements Runnable{
 
         // Background
         gridSquareFactory.draw(g2);
-
-        // Treasures
-        for (int i = 0; i < ITEM_LIMIT; i++) {
-            if (treasure[i] != null) {treasure[i].draw(g2);}
-        }
-
-        // Enemies
-        if (zombo != null) {zombo.draw(g2);}
-//        if (mum != null) {mum.draw(g2);}
-
-        // Player
-        if (playerActor != null) {playerActor.draw(g2);}
+        level.draw(g2);
 
         g2.dispose(); // Saves memory
     }
