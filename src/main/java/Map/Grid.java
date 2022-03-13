@@ -1,9 +1,9 @@
 package Map;
 import Characters.Character;
-import Characters.Mummy;
 import Characters.PlayerActor;
 import Characters.Zombie;
 import Constants.Constants;
+import GUI.UI;
 import IO.Keyboard;
 import items.Item;
 import items.ItemDetection;
@@ -27,8 +27,7 @@ public class Grid extends JPanel implements Runnable{
     private final int _screenHeight = TILE_SIZE * VERTICAL_TILES;
     private int[] _startTile = new int[2]; // Starting tile for player when the game begins
     private int[] _endTile = new int[2]; // Ending tile for player when all treasures have been collected
-    private ArrayList<Character> characters = new ArrayList<>();
-
+    private UI ui = new UI(this);
     private Keyboard keyboard = new Keyboard();
     private Thread screenThread;
     private GridSquareFactory gridSquareFactory = new GridSquareFactory(this);
@@ -179,6 +178,7 @@ public class Grid extends JPanel implements Runnable{
         gridSquareFactory.draw(g2);
         level.draw(g2);
 
+        ui.draw(g2);
         g2.dispose(); // Saves memory
     }
 }
