@@ -18,6 +18,7 @@ public abstract class Item {
     private int _points = 100;
     protected BufferedImage _image;
     private Rectangle _itemBody;
+    boolean _available = false;
 
     /**
      * Constructor for the item class.
@@ -31,8 +32,6 @@ public abstract class Item {
         this.setName(name);
         this._grid = grid;
         this._itemBody = new Rectangle(0,0,_grid.getTileSize()/2,_grid.getTileSize()/2);
-
-
     }
 
     /**
@@ -83,6 +82,9 @@ public abstract class Item {
         this._points = points;
     }
 
+    /**
+     * Returns the points that the treasure rewards.
+     */
     public int getPoints() {
         return _points;
     }
@@ -98,7 +100,17 @@ public abstract class Item {
         return _itemBody;
     }
 
+    public void setAvailable(boolean available) {
+        this._available = available;
+    }
+
+    public boolean isAvailable() {
+        return this._available;
+    }
+
     public void draw(Graphics2D g2) {
         g2.drawImage(getImage(),getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
     }
+
+    public abstract void update();
 }

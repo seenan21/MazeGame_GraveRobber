@@ -58,7 +58,7 @@ public class ItemDetection {
                 playerBodyGrid.y = positionPlayer[Constants.Y];
 
                 // Remove item from map and award points to player
-                if(playerBodyGrid.intersects(itemBodyGrid)) {
+                if(playerBodyGrid.intersects(itemBodyGrid) && itemList.get(i).isAvailable()) {
                     System.out.println("ON");
                     playerActor.addToScore((itemList.get(i)).getPoints());
                     itemList.set(i, null);

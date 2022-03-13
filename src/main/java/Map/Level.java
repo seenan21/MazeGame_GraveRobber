@@ -2,6 +2,7 @@ package Map;
 import Characters.PlayerActor;
 import Characters.Zombie;
 import IO.Keyboard;
+import items.BonusTreasure;
 import items.Item;
 import items.ItemDetection;
 import items.Treasure;
@@ -14,8 +15,6 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Level {
-
-
     private int[][] walls;
     ArrayList<Zombie> zombieList;
     private PlayerActor Hero;
@@ -25,8 +24,6 @@ public class Level {
     private ArrayList<Wall> wallList;
     private ArrayList<Item> itemList;
     private final int ITEM_LIMIT = 5;
-//    public Item treasures[] = new Item[ITEM_LIMIT]; // Need to solve later so this does not need to be public
-
 
     //May need to refactor in the future in order to make it safer for User
     protected Level(Grid grid, Keyboard keyboard, String path) throws IOException {
@@ -55,6 +52,9 @@ public class Level {
                 }
                 else if(chars[x] == 'T'){
                     itemList.add(0, new Treasure(grid, x*grid.getTileSize(), y*grid.getTileSize()));
+                }
+                else if(chars[x] == 'B'){
+                    itemList.add(0, new BonusTreasure(grid, x*grid.getTileSize(), y*grid.getTileSize()));
                 }
                 else if (chars[x] == 'S'){
                     int[] position = new int[2];
@@ -100,6 +100,12 @@ public class Level {
     public void update(){
         Hero.update();
         itemDetection.onItem(Hero);
+        for (int i = 0; i < itemList.size(); i++) {
+            if(itemList.get(i) != null) {
+                itemList.get(i).update();
+            }
+
+        }
         for (int i = 0; i < zombieList.size(); i++) {
             zombieList.get(i).update();
         }

@@ -14,8 +14,6 @@ import java.io.IOException;
  * After walking over the treasure, it will disappear on the map.
  */
 public class Treasure extends Item{
-    private int points;
-
     /**
      * Constructor for the treasure class.
      *
@@ -39,11 +37,8 @@ public class Treasure extends Item{
         return null;
     }
 
-    /**
-     * Returns the points that the treasure rewards.
-     */
-    public int getPoints() {
-        return points;
+    @Override
+    public void update() {
+        setAvailable(true);
     }
-
 }
