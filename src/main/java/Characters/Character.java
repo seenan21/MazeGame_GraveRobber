@@ -295,20 +295,25 @@ public abstract class Character {
     public void moveCharacter(Direction direction) {
 
         setPreviousDirectionFacing(getDirectionFacing());
+        boolean isFacingWall = true;
 
-        if (direction == Direction.NORTH) {
+        if (direction == Direction.NORTH && level.wallCheck(getPosition()[0], getPosition()[1] - getSpeed()) == false) {
             moveNorth();
-        }else if (direction == Direction.SOUTH) {
+            isFacingWall = false;
+        }else if (direction == Direction.SOUTH && level.wallCheck(getPosition()[0], getPosition()[1] + getSpeed()) == false) {
             moveSouth();
-        } else if (direction == Direction.EAST) {
+            isFacingWall = false;
+        } else if (direction == Direction.EAST && level.wallCheck(getPosition()[0] + getSpeed(), getPosition()[1]) == false) {
             moveEast();
-        } else if (direction == Direction.WEST) {
+            isFacingWall = false;
+        } else if (direction == Direction.WEST && level.wallCheck(getPosition()[0] - getSpeed(), getPosition()[1]) == false) {
             moveWest();
+            isFacingWall = false;
         }
 
         this.setDirectionFacing(direction);
 
-        if (getPreviousDirectionFacing() != getDirectionFacing()) {
+        if (getPreviousDirectionFacing() != getDirectionFacing() || isFacingWall == true) {
             spriteCounter = 0;
         } else if (spriteCounter >= 2) {
             spriteCounter = 0;
