@@ -9,6 +9,7 @@ public class Constants {
     public final static int GRASS = 0;
 
     // Time
-    public final static int TICK = 500; // milliseconds
-
+    // Adjust these speeds to manipulate tick movement
+    public final static int TICK = 400; // milliseconds
+    public final static int WALK_TIME = 40; // milliseconds
 }

@@ -1,6 +1,5 @@
 package Characters;
 
-import Clock.TickClock;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
@@ -13,7 +12,10 @@ import java.util.Random;
 
 import java.awt.*;
 
-public class Zombie extends Character {
+/**
+ *
+ */
+public class Zombie extends Character implements Runnable {
     boolean rush;
     Direction rushDirection;
 
@@ -21,11 +23,15 @@ public class Zombie extends Character {
         super(grid, keyboard, level);
         this.setPosition(positionX, positionY);
         this.setStartState(positionX, positionY);
-        this.setSpeed(1); //Testing speed
+        this.setSpeed(2); //Testing speed
+        this.setStepsAllowed(1);
         this.getImage();
         rush = false;
     }
 
+    /**
+     *
+     */
     public void getImage(){
         try{
             setSprite(Direction.NORTH, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie up-1.png")));
@@ -45,6 +51,11 @@ public class Zombie extends Character {
         }
     }
 
+    /**
+     *
+     * @param hero
+     * @return
+     */
     public boolean heroKill(PlayerActor hero){
         int[] position = new int[2];
         position = hero.getPosition();
@@ -56,76 +67,70 @@ public class Zombie extends Character {
 
     }
 
+    /**
+     *
+     * @param rushDirection
+     * @return
+     */
+    public boolean rush(Direction rushDirection) {
+        if(rush){
+            if(this.rushDirection == Direction.NORTH){
+                if(level.wallCheck(getPosition()[0], getPosition()[1] - this.getSpeed()) == false){
+                    moveCharacter(this.rushDirection);
+                    return true;
+                }
+            }
+            else if(this.rushDirection == Direction.SOUTH){
+                if(level.wallCheck(getPosition()[0], getPosition()[1] + this.getSpeed()) == false){
+                    moveCharacter(this.rushDirection);
+                    return true;
+                }
+            }
+            else if(this.rushDirection == Direction.WEST){
+                if(level.wallCheck(getPosition()[0] - this.getSpeed(), getPosition()[1]) == false) {
+                    moveCharacter(this.rushDirection);
+                    return true;
+                }
+            }
+            else if(this.rushDirection == Direction.EAST){
+                if(level.wallCheck(getPosition()[0] + this.getSpeed(), getPosition()[1]) == false) {
+                    moveCharacter(this.rushDirection);
+                    return true;
+                }
+            }
+            rush = false;
+        }
+        return false;
+    }
+
     public void update() {
 
         if (heroKill(level.getHero())){
             System.out.println("LLLLLLLLLLLL");
         }
-        Random rand = new Random();
 
+        // If the zombie is rushing forward, then we do not want to change direction
+        if (rush) {
+            return;
+        }
+
+        rush = true;
+
+        Random rand = new Random();
         int n = rand.nextInt(4);
 
-        if(rush){
-            if(rushDirection == Direction.NORTH){
-                if(level.wallCheck(getPosition()[0], getPosition()[1] - this.getSpeed()) == false){
-                    setNextMovement(rushDirection);
-                    moveCharacter(rushDirection);
-                    return;
-                }
-            }
-            if(rushDirection == Direction.SOUTH){
-                if(level.wallCheck(getPosition()[0], getPosition()[1] + this.getSpeed()) == false){
-                    moveCharacter(rushDirection);
-                    setNextMovement(rushDirection);
-                    return;
-                }
-            }
-            if(rushDirection == Direction.WEST){
-                if(level.wallCheck(getPosition()[0] - this.getSpeed(), getPosition()[1]) == false) {
-                    moveCharacter(rushDirection);
-                    setNextMovement(rushDirection);
-                    return;
-                }
-            }
-            if(rushDirection == Direction.EAST){
-                if(level.wallCheck(getPosition()[0] + this.getSpeed(), getPosition()[1]) == false) {
-                    moveCharacter(rushDirection);
-                    setNextMovement(rushDirection);
-                    return;
-                }
-            }
-            rush = false;
-        }
-
         if(n == 0) {
-            if(level.wallCheck(getPosition()[0], getPosition()[1] - this.getSpeed()) == false) {
-                moveCharacter(Direction.NORTH);
-                rushDirection = Direction.NORTH;
-                rush = true;
-            }
+            rushDirection = Direction.NORTH;
         }
         else if(n == 1) {
-            if(level.wallCheck(getPosition()[0], getPosition()[1] + this.getSpeed()) == false) {
-                moveCharacter(Direction.SOUTH);
-                rushDirection = Direction.SOUTH;
-                rush = true;
-            }
+            rushDirection = Direction.SOUTH;
         }
         else if(n == 2) {
-            if(level.wallCheck(getPosition()[0] - this.getSpeed(), getPosition()[1]) == false) {
-                moveCharacter(Direction.WEST);
-                rushDirection = Direction.WEST;
-                rush = true;
-            }
+            rushDirection = Direction.WEST;
         }
         else if(n == 3) {
-            if(level.wallCheck(getPosition()[0] + this.getSpeed(), getPosition()[1]) == false) {
-                moveCharacter(Direction.EAST);
-                rushDirection = Direction.EAST;
-                rush = true;
-            }
+            rushDirection = Direction.EAST;
         }
-
 
         if (heroKill(level.getHero())){
             System.out.println("LLLLLLLLLLLL");
@@ -150,8 +155,8 @@ public class Zombie extends Character {
     }
 
 
-
-
-
-
+    @Override
+    public void run() {
+        rush(rushDirection);
+    }
 }

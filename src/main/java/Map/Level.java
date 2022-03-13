@@ -1,7 +1,6 @@
 package Map;
 import Characters.PlayerActor;
 import Characters.Zombie;
-import Clock.BonusTreasureClock;
 import Clock.TickClock;
 import IO.Keyboard;
 import items.BonusTreasure;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 
 public class Level {
     private int[][] walls;
-    ArrayList<Zombie> zombieList;
+    private ArrayList<Zombie> zombieList;
     private PlayerActor Hero;
     private Grid grid;
     private Keyboard keyboard;
@@ -71,7 +70,7 @@ public class Level {
             y++;
         }
 
-        this.tickClock = new TickClock(Hero);
+        this.tickClock = new TickClock(Hero, zombieList);
         this.tickClockThread = new Thread(tickClock);
         this.tickClockThread.start();
 
@@ -91,6 +90,10 @@ public class Level {
         return ITEM_LIMIT;
     }
 
+    /**
+     *
+     * @return the items available in the level
+     */
     public ArrayList<Item> getItemList() {
         return itemList;
     }
@@ -137,6 +140,12 @@ public class Level {
 
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     * @return
+     */
     public boolean wallCheck(int x, int y){
         Rectangle character = new Rectangle(x,y,grid.getTileSize(),grid.getTileSize());
 

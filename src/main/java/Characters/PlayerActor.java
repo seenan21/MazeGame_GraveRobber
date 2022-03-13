@@ -18,11 +18,10 @@ import java.io.IOException;
  *
  * The player will always spawn at the map's startCell.
  */
-public class PlayerActor extends Character{
+public class PlayerActor extends Character implements Runnable{
 
     private boolean _hasBossReward;
     private int _score = 0;
-
 
     /**
      * Constructor for the character class.
@@ -71,19 +70,15 @@ public class PlayerActor extends Character{
     public void update() {
         if (_keyboard.upKeyPressed) {
             setNextMovement(Direction.NORTH);
-//            moveCharacter(Direction.NORTH);
         }
         else if (_keyboard.downKeyPressed) {
             setNextMovement(Direction.SOUTH);
-//            moveCharacter(Direction.SOUTH);
         }
         else if (_keyboard.leftKeyPressed) {
             setNextMovement(Direction.WEST);
-//            moveCharacter(Direction.WEST);
         }
         else if (_keyboard.rightKeyPressed) {
             setNextMovement(Direction.EAST);
-//            moveCharacter(Direction.EAST);
         }
     }
 
@@ -146,5 +141,10 @@ public class PlayerActor extends Character{
             sprite = getSprite(Direction.SOUTH);
         }
         g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
+    }
+
+    @Override
+    public void run() {
+        this.moveCharacter(getNextMovement());
     }
 }

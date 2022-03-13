@@ -1,7 +1,6 @@
 package Characters;
 
-import Clock.CharacterClock;
-import Clock.TickClock;
+import Clock.CharacterMovementThread;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
@@ -11,12 +10,11 @@ import items.Item;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * Contains methods that are applicable to all npc and human players.
  */
-public abstract class Character {
+public abstract class Character{
 
     Grid _grid;
     Keyboard _keyboard;
@@ -25,6 +23,7 @@ public abstract class Character {
     private ArrayList<Item> bag = new ArrayList<>();
     private int[] position = new int[2];
     private int _speed;
+    private int _stepsAllowed;
     private int[] startState = new int[2];
     private Direction directionFacing;
     private Direction previousDirectionFacing;
@@ -34,7 +33,6 @@ public abstract class Character {
     public int spriteCounter = 0;
     Level level;
     private boolean _walking = false;
-    private int steps = 0;
 
     /**
      * Constructor for the character class.
@@ -47,6 +45,7 @@ public abstract class Character {
         this._keyboard = keyboard;
         this._grid = grid;
         this.level = level;
+        setStepsAllowed(1);
         spriteBody = new Rectangle(0,0, _grid.getTileSize(),_grid.getTileSize());
     }
 
@@ -92,16 +91,47 @@ public abstract class Character {
         this._speed = _speed;
     }
 
+    /**
+     *
+     * @return sprite's body dimensions
+     */
     public Rectangle getSpriteBody() {
         return spriteBody;
     }
 
+    /** Set if the character is currently walking.
+     *
+     * @param walking - is the character in the middle of walking?
+     */
     public void setWalking(boolean walking) {
         this._walking = walking;
     }
 
+    /**
+     *
+     * @return if the character is currently walking
+     */
     public boolean isWalking() {
         return _walking;
+    }
+
+    /**
+     *
+     * @return The number of steps that a character can take.
+     * One step == half a tile
+     */
+    public int getStepsAllowed() {
+        return _stepsAllowed;
+    }
+
+    /**
+     * The number of steps that a character can take.
+     * One step == half a tile
+     * @param _stepsAllowed - The number of steps that a character can take.
+     *
+     */
+    public void setStepsAllowed(int _stepsAllowed) {
+        this._stepsAllowed = _grid.getTileSize()*_stepsAllowed;
     }
 
     /**
@@ -190,10 +220,18 @@ public abstract class Character {
         return previousDirectionFacing;
     }
 
+    /**
+     * Stores the characters next movement direction
+     * @param nextMovement - The next direction the character will walk in
+     */
     public void setNextMovement(Direction nextMovement) {
         this.nextMovement = nextMovement;
     }
 
+    /**
+     *
+     * @return the character's next movement direction
+     */
     public Direction getNextMovement() {
         return nextMovement;
     }
@@ -318,40 +356,12 @@ public abstract class Character {
         setPreviousDirectionFacing(getDirectionFacing());
         if(isWalking() == false) {
             setWalking(true);
+
             // Walking thread
-            CharacterClock characterClock = new CharacterClock(_grid, level, this, direction);
-            Thread clockThread = new Thread(characterClock);
+            CharacterMovementThread characterMovementThread = new CharacterMovementThread(_grid, level, this, direction);
+            Thread clockThread = new Thread(characterMovementThread);
             clockThread.start(); // Calls this.run()
-//            this.setDirectionFacing(direction);
         }
-
-
-
-        boolean isFacingWall = true;
-
-//        if (direction == Direction.NORTH && level.wallCheck(getPosition()[0], getPosition()[1] - getSpeed()) == false) {
-//            moveNorth();
-//            isFacingWall = false;
-//        } else if (direction == Direction.SOUTH && level.wallCheck(getPosition()[0], getPosition()[1] + getSpeed()) == false) {
-//            moveSouth();
-//            isFacingWall = false;
-//        } else if (direction == Direction.EAST && level.wallCheck(getPosition()[0] + getSpeed(), getPosition()[1]) == false) {
-//            moveEast();
-//            isFacingWall = false;
-//        } else if (direction == Direction.WEST && level.wallCheck(getPosition()[0] - getSpeed(), getPosition()[1]) == false) {
-//            moveWest();
-//            isFacingWall = false;
-//        }
-
-
-
-//        if (getPreviousDirectionFacing() != getDirectionFacing() || isFacingWall == true) {
-//            spriteCounter = 0;
-//        } else if (spriteCounter >= 2) {
-//            spriteCounter = 0;
-//        } else {
-//            spriteCounter++;
-//        }
     }
 
     /**
