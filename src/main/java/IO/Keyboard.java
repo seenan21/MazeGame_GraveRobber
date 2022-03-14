@@ -12,6 +12,9 @@ public class Keyboard implements KeyListener {
     public boolean downKeyPressed;
     public boolean leftKeyPressed;
     public boolean rightKeyPressed;
+    public boolean choosingMenu = true;
+    public int changeGameState = 0;
+
 
     /**
      * Unused, but required by KeyListener
@@ -30,15 +33,25 @@ public class Keyboard implements KeyListener {
 
         if (userPressed == KeyEvent.VK_W) {
             upKeyPressed = true;
+            choosingMenu = true;
         }
         if (userPressed == KeyEvent.VK_S) {
             downKeyPressed = true;
+            choosingMenu = false;
         }
         if (userPressed == KeyEvent.VK_A) {
             leftKeyPressed = true;
         }
         if (userPressed == KeyEvent.VK_D) {
             rightKeyPressed = true;
+        }
+        if (userPressed == KeyEvent.VK_ENTER) {
+            if (choosingMenu){
+                changeGameState = 1;
+            }
+            else{
+                changeGameState = 2;
+            }
         }
     }
 
