@@ -1,11 +1,8 @@
 package Characters;
 
-import Clock.TickClock;
 import Constants.Constants;
 import IO.Keyboard;
-import IO.PlayerInput;
 import Map.Grid;
-import items.ItemDetection;
 import Map.Level;
 
 import javax.imageio.ImageIO;
