@@ -8,4 +8,8 @@ public class Constants {
     // Map Squares
     public final static int GRASS = 0;
 
+    // Time
+    // Adjust these speeds to manipulate tick movement
+    public final static int TICK = 400; // milliseconds
+    public final static int WALK_TIME = 40; // milliseconds
 }

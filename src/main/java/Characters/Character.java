@@ -1,5 +1,6 @@
 package Characters;
 
+import Clock.CharacterMovementThread;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
@@ -9,12 +10,11 @@ import items.Item;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * Contains methods that are applicable to all npc and human players.
  */
-public abstract class Character {
+public abstract class Character{
 
     Grid _grid;
     Keyboard _keyboard;
@@ -23,13 +23,16 @@ public abstract class Character {
     private ArrayList<Item> bag = new ArrayList<>();
     private int[] position = new int[2];
     private int _speed;
+    private int _stepsAllowed;
     private int[] startState = new int[2];
     private Direction directionFacing;
     private Direction previousDirectionFacing;
+    private Direction nextMovement = Direction.NONE;
     private BufferedImage _spriteNorth0, _spriteSouth0, _spriteEast0, _spriteWest0, _spriteNorth1, _spriteSouth1, _spriteEast1, _spriteWest1, _spriteNorth2, _spriteSouth2, _spriteEast2, _spriteWest2;
     private Rectangle spriteBody;
     public int spriteCounter = 0;
     Level level;
+    private boolean _walking = false;
 
     /**
      * Constructor for the character class.
@@ -42,7 +45,8 @@ public abstract class Character {
         this._keyboard = keyboard;
         this._grid = grid;
         this.level = level;
-        spriteBody = new Rectangle(0,0, _grid.getTileSize()/2,_grid.getTileSize()/2);
+        setStepsAllowed(1);
+        spriteBody = new Rectangle(0,0, _grid.getTileSize(),_grid.getTileSize());
     }
 
     /**
@@ -87,8 +91,47 @@ public abstract class Character {
         this._speed = _speed;
     }
 
+    /**
+     *
+     * @return sprite's body dimensions
+     */
     public Rectangle getSpriteBody() {
         return spriteBody;
+    }
+
+    /** Set if the character is currently walking.
+     *
+     * @param walking - is the character in the middle of walking?
+     */
+    public void setWalking(boolean walking) {
+        this._walking = walking;
+    }
+
+    /**
+     *
+     * @return if the character is currently walking
+     */
+    public boolean isWalking() {
+        return _walking;
+    }
+
+    /**
+     *
+     * @return The number of steps that a character can take.
+     * One step == half a tile
+     */
+    public int getStepsAllowed() {
+        return _stepsAllowed;
+    }
+
+    /**
+     * The number of steps that a character can take.
+     * One step == half a tile
+     * @param _stepsAllowed - The number of steps that a character can take.
+     *
+     */
+    public void setStepsAllowed(int _stepsAllowed) {
+        this._stepsAllowed = _grid.getTileSize()*_stepsAllowed;
     }
 
     /**
@@ -175,6 +218,22 @@ public abstract class Character {
      */
     public Direction getPreviousDirectionFacing() {
         return previousDirectionFacing;
+    }
+
+    /**
+     * Stores the characters next movement direction
+     * @param nextMovement - The next direction the character will walk in
+     */
+    public void setNextMovement(Direction nextMovement) {
+        this.nextMovement = nextMovement;
+    }
+
+    /**
+     *
+     * @return the character's next movement direction
+     */
+    public Direction getNextMovement() {
+        return nextMovement;
     }
 
     /**
@@ -295,53 +354,41 @@ public abstract class Character {
     public void moveCharacter(Direction direction) {
 
         setPreviousDirectionFacing(getDirectionFacing());
+        if(isWalking() == false) {
+            setWalking(true);
 
-        if (direction == Direction.NORTH) {
-            moveNorth();
-        }else if (direction == Direction.SOUTH) {
-            moveSouth();
-        } else if (direction == Direction.EAST) {
-            moveEast();
-        } else if (direction == Direction.WEST) {
-            moveWest();
-        }
-
-        this.setDirectionFacing(direction);
-
-        if (getPreviousDirectionFacing() != getDirectionFacing()) {
-            spriteCounter = 0;
-        } else if (spriteCounter >= 2) {
-            spriteCounter = 0;
-        } else {
-            spriteCounter++;
+            // Walking thread
+            CharacterMovementThread characterMovementThread = new CharacterMovementThread(_grid, level, this, direction);
+            Thread clockThread = new Thread(characterMovementThread);
+            clockThread.start(); // Calls this.run()
         }
     }
 
     /**
      * Moves character's position one tile north
      */
-    private void moveNorth() {
+    public void moveNorth() {
         this.setPosition(getPosition()[Constants.X],getPosition()[Constants.Y] - _speed);
     }
 
     /**
      * Moves character's position one tile south
      */
-    private void moveSouth() {
+    public void moveSouth() {
         this.setPosition(getPosition()[Constants.X],getPosition()[Constants.Y] + _speed);
     }
 
     /**
      * Moves character's position one tile east
      */
-    private void moveEast() {
+    public void moveEast() {
         this.setPosition(getPosition()[Constants.X] + _speed, getPosition()[Constants.Y]);
     }
 
     /**
      * Moves character's position one tile west
      */
-    private void moveWest() {
+    public void moveWest() {
         this.setPosition(getPosition()[Constants.X] - _speed, getPosition()[Constants.Y]);
     }
 }

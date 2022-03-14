@@ -1,5 +1,6 @@
 package Characters;
 
+import Clock.TickClock;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
@@ -17,11 +18,10 @@ import java.io.IOException;
  *
  * The player will always spawn at the map's startCell.
  */
-public class PlayerActor extends Character{
+public class PlayerActor extends Character implements Runnable{
 
     private boolean _hasBossReward;
     private int _score = 0;
-
 
     /**
      * Constructor for the character class.
@@ -69,22 +69,16 @@ public class PlayerActor extends Character{
      */
     public void update() {
         if (_keyboard.upKeyPressed) {
-            if(level.wallCheck(getPosition()[0], getPosition()[1] - this.getSpeed()) == false) {
-                moveCharacter(Direction.NORTH);
-            }
-
-        } else if (_keyboard.downKeyPressed) {
-            if(level.wallCheck(getPosition()[0], getPosition()[1] + this.getSpeed()) == false) {
-                moveCharacter(Direction.SOUTH);
-            }
-        } else if (_keyboard.leftKeyPressed) {
-            if(level.wallCheck(getPosition()[0] - this.getSpeed(), getPosition()[1]) == false) {
-                moveCharacter(Direction.WEST);
-            }
-        } else if (_keyboard.rightKeyPressed) {
-            if(level.wallCheck(getPosition()[0] + this.getSpeed(), getPosition()[1]) == false) {
-                moveCharacter(Direction.EAST);
-            }
+            setNextMovement(Direction.NORTH);
+        }
+        else if (_keyboard.downKeyPressed) {
+            setNextMovement(Direction.SOUTH);
+        }
+        else if (_keyboard.leftKeyPressed) {
+            setNextMovement(Direction.WEST);
+        }
+        else if (_keyboard.rightKeyPressed) {
+            setNextMovement(Direction.EAST);
         }
     }
 
@@ -143,7 +137,14 @@ public class PlayerActor extends Character{
         }
         else if (getDirectionFacing() == Direction.WEST) {
             sprite = getSprite(Direction.WEST);
+        } else {
+            sprite = getSprite(Direction.SOUTH);
         }
         g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
+    }
+
+    @Override
+    public void run() {
+        this.moveCharacter(getNextMovement());
     }
 }

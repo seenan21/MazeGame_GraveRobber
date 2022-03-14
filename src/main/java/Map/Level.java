@@ -1,6 +1,7 @@
 package Map;
 import Characters.PlayerActor;
 import Characters.Zombie;
+import Clock.TickClock;
 import IO.Keyboard;
 import items.BonusTreasure;
 import items.Item;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 
 public class Level {
     private int[][] walls;
-    ArrayList<Zombie> zombieList;
+    private ArrayList<Zombie> zombieList;
     private PlayerActor Hero;
     private Grid grid;
     private Keyboard keyboard;
@@ -24,6 +25,8 @@ public class Level {
     private ArrayList<Wall> wallList;
     private ArrayList<Item> itemList;
     private final int ITEM_LIMIT = 5;
+    private TickClock tickClock;
+    private Thread tickClockThread;
 
     //May need to refactor in the future in order to make it safer for User
     protected Level(Grid grid, Keyboard keyboard, String path) throws IOException {
@@ -60,12 +63,17 @@ public class Level {
                     int[] position = new int[2];
                     position[0] = x* grid.getTileSize();
                     position[1] = y* grid.getTileSize();
-                    Hero = new PlayerActor(grid,keyboard, position, this ); //Should position be passed onto the hero here from the map? If so new paramter                }
+                    Hero = new PlayerActor(grid,keyboard, position, this); //Should position be passed onto the hero here from the map? If so new paramter                }
                 }
                 x++;
             }
             y++;
         }
+
+        this.tickClock = new TickClock(Hero, zombieList);
+        this.tickClockThread = new Thread(tickClock);
+        this.tickClockThread.start();
+
         myReader.close();
 
         wallsGenerate();
@@ -82,6 +90,10 @@ public class Level {
         return ITEM_LIMIT;
     }
 
+    /**
+     *
+     * @return the items available in the level
+     */
     public ArrayList<Item> getItemList() {
         return itemList;
     }
@@ -128,6 +140,12 @@ public class Level {
 
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     * @return
+     */
     public boolean wallCheck(int x, int y){
         Rectangle character = new Rectangle(x,y,grid.getTileSize(),grid.getTileSize());
 
