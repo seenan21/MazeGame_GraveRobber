@@ -3,6 +3,7 @@ import Characters.Character;
 import Characters.PlayerActor;
 import Characters.Zombie;
 import Constants.Constants;
+import GUI.PopUpWindow;
 import GUI.UI;
 import IO.Keyboard;
 import items.Item;
@@ -192,6 +193,9 @@ public class Grid extends JPanel implements Runnable{
 
             // UI
             ui.draw(g2);
+//            if (ui.time >= timesLimit) {
+//                new PopUpWindow();
+//            }
             g2.dispose(); // Saves memory
         }
         if (gameState == endState) {
