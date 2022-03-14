@@ -236,6 +236,8 @@ public abstract class Character{
         return nextMovement;
     }
 
+    public abstract void stopMovement();
+
     /**
      * @returns player's sprite based on direction.
      */

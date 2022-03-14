@@ -29,6 +29,11 @@ public class Mummy extends Character {
         //
     }
 
+    @Override
+    public void stopMovement() {
+
+    }
+
     public void render(Graphics g)
     {
         int[] position = this.getPosition();
