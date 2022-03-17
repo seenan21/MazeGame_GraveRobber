@@ -67,8 +67,8 @@ public class Keyboard implements KeyListener {
             }
         }
     }
-
-    public void clearKeys() {
+    @Override
+    public void keyReleased(KeyEvent e) {
         upKeyPressed = false;
         downKeyPressed = false;
         leftKeyPressed = false;
@@ -78,8 +78,8 @@ public class Keyboard implements KeyListener {
     /**
      * Listens for when a player releases the W,A,S,D keys.
      */
-    @Override
-    public void keyReleased(KeyEvent e) {
+    //@Override
+    //public void keyReleased(KeyEvent e) {
 //        int userReleased = e.getKeyCode(); // Returns number of released key
 //
 //        if (userReleased == KeyEvent.VK_W) {
@@ -94,5 +94,5 @@ public class Keyboard implements KeyListener {
 //        if (userReleased == KeyEvent.VK_D) {
 //            rightKeyPressed = false;
 //        }
-    }
+    //}
 }
