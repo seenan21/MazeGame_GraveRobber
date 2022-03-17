@@ -33,12 +33,19 @@ public class Keyboard implements KeyListener {
         int userPressed = e.getKeyCode(); // Returns number of pressed key
 
         if (userPressed == KeyEvent.VK_W) {
-            upKeyPressed = true;
             choosingTitleMenu = true;
+            upKeyPressed = true;
+            downKeyPressed = false;
+            leftKeyPressed = false;
+            rightKeyPressed = false;
         }
         if (userPressed == KeyEvent.VK_S) {
-            downKeyPressed = true;
             choosingTitleMenu = false;
+            upKeyPressed = false;
+            downKeyPressed = true;
+            leftKeyPressed = false;
+            rightKeyPressed = false;
+
         }
         if (userPressed == KeyEvent.VK_A) {
             leftKeyPressed = true;
