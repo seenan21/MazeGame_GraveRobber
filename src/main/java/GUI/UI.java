@@ -3,6 +3,7 @@ package GUI;
 import Characters.Character;
 import Characters.Direction;
 import Characters.PlayerActor;
+import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
 
@@ -17,7 +18,7 @@ public class UI{
     Grid gr;
     Font times_40;
     Font statusFont;
-    public double time;
+    public double time = Constants.TIME_LIMIT;
     public final int timeLimit = 30;
     DecimalFormat decimalFormat = new DecimalFormat("#0.00");
     public int menuNum = 0;
@@ -70,6 +71,7 @@ public class UI{
             }
         }
         if (gr.gameState == gr.titleState) {
+
             try {
                 drawTitlePage(g2);
             }catch(IOException e){
@@ -79,18 +81,28 @@ public class UI{
         }
         // not losing and time is not up
         else {
-            g2.setFont(statusFont);
-            g2.setColor(Color.BLACK);
-            // health
-            g2.drawString("Health: " + "100", 10, 25);
+            if (time >= 0) {
+                g2.setFont(statusFont);
+                g2.setColor(Color.BLACK);
+                // health
+                g2.drawString("Health: " + "100", 10, 25);
 
-            // score
-            g2.drawString("Score: " + "0", 10, 35);
+                // score
+                g2.drawString("Score: " + "0", 10, 35);
 
-            // timer
-            time += (double) 1 / 60;
-            g2.drawString("Time: " + decimalFormat.format(time), gr.getTileSize() * 19, 25);
+                // timer
+                time -= (double) 1 / 60;
+                g2.drawString("Time: " + decimalFormat.format(time), gr.getTileSize() * 19, 25);
+            }
+            else {
 
+                try {
+                    drawTimesUpPage(g2);
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+
+            }
         }
     }
 
@@ -129,7 +141,7 @@ public class UI{
         x = gr.getScreenWidth() / 2 - gr.getTileSize()*2;
         y += gr.getTileSize()*5;
         g2.drawString(text, x, y);
-        if (_keyboard.choosingMenu){
+        if (_keyboard.choosingTitleMenu){
             g2.drawString(">", x-gr.getTileSize()*2, y);
         }
         if (_keyboard.changeGameState == 1){
@@ -140,13 +152,57 @@ public class UI{
         x = gr.getScreenWidth() / 2 - gr.getTileSize()*2;
         y += gr.getTileSize();
         g2.drawString(text, x, y);
-        if (!_keyboard.choosingMenu){
+        if (!_keyboard.choosingTitleMenu){
             g2.drawString(">", x-gr.getTileSize()*2, y);
         }
         if (_keyboard.changeGameState == 2){
             gr.gameState = 2;
         }
 
+
+    }
+
+    public void drawTimesUpPage(Graphics2D g2) throws IOException{
+
+        int x, y, textLength;
+
+        g2.setColor(Color.BLACK);
+        g2.fillRect(0,0,gr.getScreenWidth(),gr.getScreenHeight());
+
+        // TEXT: TIME'S UP!
+        String text = "TIME'S UP!";
+        g2.setColor(Color.RED);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 96F));
+        textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        x = gr.getScreenWidth() / 2 - textLength / 2;
+        y = gr.getScreenHeight() / 2 - (gr.getTileSize() * 3);
+        g2.drawString(text, x, y);
+
+
+
+        // BUTTON: PLAY AGAIN
+        text = "PLAY AGAIN";
+        x = gr.getScreenWidth() / 2 - gr.getTileSize()*2;
+        y += gr.getTileSize()*5;
+        g2.drawString(text, x, y);
+        if (_keyboard.choosingTitleMenu){
+            g2.drawString(">", x-gr.getTileSize()*2, y);
+        }
+        if (_keyboard.changeGameState == 2){
+            gr.gameState = 1;
+        }
+
+        // BUTTON: TITLE PAGE
+        text = "QUIT";
+        x = gr.getScreenWidth() / 2 - gr.getTileSize()*2;
+        y += gr.getTileSize();
+        g2.drawString(text, x, y);
+        if (!_keyboard.choosingTitleMenu){
+            g2.drawString(">", x-gr.getTileSize()*2, y);
+        }
+        if (_keyboard.changeGameState == 2){
+            gr.gameState = 0;
+        }
 
     }
 

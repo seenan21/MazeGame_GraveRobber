@@ -6,6 +6,7 @@ import Constants.Constants;
 import GUI.PopUpWindow;
 import GUI.UI;
 import IO.Keyboard;
+import Map.tiles.TileM;
 import items.Item;
 import items.ItemDetection;
 import items.Treasure;
@@ -39,6 +40,8 @@ public class Grid extends JPanel implements Runnable{
     public final int titleState = 0;
     public final int playState = 1;
     public final int endState = 2;
+
+    TileM tilem = new TileM(this);
 
 
 
@@ -185,17 +188,22 @@ public class Grid extends JPanel implements Runnable{
         // Title Page
         if (gameState == titleState) {
             ui.draw(g2);
+            g2.dispose();
         // Background
         }
         if (gameState == playState) {
-            gridSquareFactory.draw(g2);
+            tilem.draw(g2);
             level.draw(g2);
+
+            //gridSquareFactory.draw(g2);
+            //level.draw(g2);
+
 
             // UI
             ui.draw(g2);
-//            if (ui.time >= timesLimit) {
-//                new PopUpWindow();
-//            }
+            if (ui.time >= Constants.TIME_LIMIT) {
+                ui.draw(g2);
+            }
             g2.dispose(); // Saves memory
         }
         if (gameState == endState) {
