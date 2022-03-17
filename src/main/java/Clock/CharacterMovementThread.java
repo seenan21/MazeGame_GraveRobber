@@ -29,8 +29,6 @@ public class CharacterMovementThread implements Runnable{
     @Override
     public void run() {
 
-        _character.stopMovement();
-
         while(steps <= _character.getStepsAllowed()) {
 
             boolean isFacingWall = true;
@@ -63,13 +61,12 @@ public class CharacterMovementThread implements Runnable{
 
             _character.setDirectionFacing(_direction);
 
-            steps = steps + _character.getSpeed();
-
             try {
                 Thread.sleep(Constants.WALK_TIME);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            steps = steps + _character.getSpeed();
         }
         _character.setNextMovement(Direction.NONE);
         _character.setWalking(false);

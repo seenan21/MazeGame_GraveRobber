@@ -23,8 +23,8 @@ public class Zombie extends Character implements Runnable {
         super(grid, keyboard, level);
         this.setPosition(positionX, positionY);
         this.setStartState(positionX, positionY);
-        this.setSpeed(1); //Testing speed
-        this.setStepsAllowed(2);
+        this.setSpeed(2); //Testing speed
+        this.setStepsAllowed(1);
         this.getImage();
         rush = false;
     }
@@ -49,11 +49,6 @@ public class Zombie extends Character implements Runnable {
         }catch(IOException e){
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void stopMovement() {
-
     }
 
     /**

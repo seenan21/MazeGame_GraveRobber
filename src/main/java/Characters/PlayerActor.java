@@ -1,8 +1,10 @@
 package Characters;
 
+import Clock.TickClock;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
+import items.ItemDetection;
 import Map.Level;
 
 import javax.imageio.ImageIO;
@@ -20,8 +22,6 @@ public class PlayerActor extends Character implements Runnable{
 
     private boolean _hasBossReward;
     private int _score = 0;
-//    PlayerInput playerInput;
-//    Thread playerInputThread;
 
     /**
      * Constructor for the character class.
@@ -35,10 +35,6 @@ public class PlayerActor extends Character implements Runnable{
         this.setPosition(position[0], position[1]);
         this.setDefault();
         this.getImage();
-
-//        playerInput = new PlayerInput(_keyboard);
-//        playerInputThread = new Thread(playerInput);
-//        playerInputThread.start(); // Calls this.run()
     }
 
     /**
@@ -62,15 +58,10 @@ public class PlayerActor extends Character implements Runnable{
      */
     public void setDefault() {
         this.setHealth(100);
-        this.setSpeed(1);
+        this.setSpeed(2);
         this.setHasBossReward(false);
         this.setPosition(getStartState()[Constants.X],getStartState()[Constants.Y]);
         this.setDirectionFacing(Direction.SOUTH);
-    }
-
-    @Override
-    public void stopMovement() {
-        _keyboard.clearKeys();
     }
 
     /**
@@ -89,13 +80,6 @@ public class PlayerActor extends Character implements Runnable{
         else if (_keyboard.rightKeyPressed) {
             setNextMovement(Direction.EAST);
         }
-
-//        if (playerInput.getDirection() != Direction.NONE) {
-//            setNextMovement(playerInput.getDirection());
-//            playerInput.clearDirection();
-//        }
-
-
     }
 
     /**

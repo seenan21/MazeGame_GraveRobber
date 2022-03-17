@@ -125,9 +125,9 @@ public class Level {
 
     public void draw(Graphics2D g2){
 
-        for (Wall wall: wallList){
-            if (wall != null) {wall.draw(g2);}
-        }
+//        for (Wall wall: wallList){
+//            if (wall != null) {wall.draw(g2);}
+//        }
         for (Zombie zombie: zombieList){
             if (zombie != null) {zombie.draw(g2);}
         }
