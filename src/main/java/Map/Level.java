@@ -41,8 +41,9 @@ public class Level {
 
         BufferedReader myReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path)));
         int y = 0;
-        while (myReader.readLine() != null  ) {
-            String str = myReader.readLine();           //One line of map
+        String str = myReader.readLine();
+        while (str != null  ) {
+            //One line of map
             System.out.println(str);
             char[] chars = str.toCharArray();           //Turn line into char array for easy traversal
             int x = 0;
@@ -68,6 +69,7 @@ public class Level {
                 x++;
             }
             y++;
+            str = myReader.readLine();
         }
 
         this.tickClock = new TickClock(Hero, zombieList);
@@ -102,7 +104,7 @@ public class Level {
         for(int i=0; i < walls.length; i++) {
             for(int j=0; j< walls.length; j++) {
                 if (walls[i][j] == 1){
-                    Wall wall = new Wall(i* grid.getTileSize(),j* grid.getTileSize(), grid);
+                    Wall wall = new Wall(i * grid.getTileSize(),j * grid.getTileSize(), grid);
                     wallList.add(wall);
                 }
             }
@@ -125,9 +127,10 @@ public class Level {
 
     public void draw(Graphics2D g2){
 
-//        for (Wall wall: wallList){
-//            if (wall != null) {wall.draw(g2);}
-//        }
+        for (Wall wall: wallList){
+            if (wall != null) {wall.draw(g2);}
+        }
+
         for (Zombie zombie: zombieList){
             if (zombie != null) {zombie.draw(g2);}
         }
@@ -137,7 +140,6 @@ public class Level {
         }
 
         if (Hero != null) {Hero.draw(g2);}
-
     }
 
     /**

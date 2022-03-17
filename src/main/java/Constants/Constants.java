@@ -13,5 +13,5 @@ public class Constants {
     public final static int TICK = 256; // milliseconds
     public final static int WALK_TIME = TICK/32; // milliseconds
 
-    public final static int TIME_LIMIT = 10; // seconds
+    public final static int TIME_LIMIT = 60; // seconds
 }

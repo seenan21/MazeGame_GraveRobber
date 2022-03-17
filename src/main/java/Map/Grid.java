@@ -1,20 +1,12 @@
 package Map;
-import Characters.Character;
-import Characters.PlayerActor;
-import Characters.Zombie;
 import Constants.Constants;
-import GUI.PopUpWindow;
 import GUI.UI;
 import IO.Keyboard;
 import Map.tiles.TileM;
-import items.Item;
-import items.ItemDetection;
-import items.Treasure;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * The grid represents the layout of the map. Maps are quadrilaterals made of tiles.
@@ -22,8 +14,11 @@ import java.util.ArrayList;
 public class Grid extends JPanel implements Runnable{
 
     private final int TILE_SIZE = 32; // Size of an individual tile in pixels
+    private final int TILE_SIZE_BACKGROUND = 128;
     private final int HORIZONTAL_TILES = 24; // Total tiles horizontally on map
     private final int VERTICAL_TILES = 24; // Total tiles vertically on map
+    private final int HORIZONTAL_TILES_BACKGROUND = 6;
+    private final int VERTICAL_TILES_BACKGROUND = 6;
     private final double FRAMES_PER_SECOND = 60;
     private final int _screenWidth = TILE_SIZE * HORIZONTAL_TILES;
     private final int _screenHeight = TILE_SIZE * VERTICAL_TILES;
@@ -32,7 +27,6 @@ public class Grid extends JPanel implements Runnable{
     private Keyboard keyboard = new Keyboard();
     private UI ui = new UI(this, keyboard);
     private Thread screenThread;
-    private GridSquareFactory gridSquareFactory = new GridSquareFactory(this);
     private String path = "/level/level_1";
     private Level level = new Level(this, keyboard, path);
 
@@ -42,8 +36,6 @@ public class Grid extends JPanel implements Runnable{
     public final int endState = 2;
 
     TileM tilem = new TileM(this);
-
-
 
     /**
      * Creates the game screen and sets up a keyboard listener.
@@ -77,6 +69,31 @@ public class Grid extends JPanel implements Runnable{
      * @return
      */
     public int getVerticalTiles() { return VERTICAL_TILES;    }
+
+    /**
+     *
+     * @return the number of vertical tiles for background art.
+     */
+    public int getVerticalTilesBackground() {
+        return VERTICAL_TILES_BACKGROUND;
+    }
+
+    /**
+     *
+     * @return the number of horizontal tiles for background art.
+     */
+    public int getHorizontalTilesBackground() {
+        return HORIZONTAL_TILES_BACKGROUND;
+    }
+
+    /**
+     * Returns the number of maps tile size for background art.
+     *
+     * @return
+     */
+    public int getTileSizeBackground() {
+        return TILE_SIZE_BACKGROUND;
+    }
 
     /**
      * Returns the map's height.
@@ -194,10 +211,6 @@ public class Grid extends JPanel implements Runnable{
         if (gameState == playState) {
             tilem.draw(g2);
             level.draw(g2);
-
-            //gridSquareFactory.draw(g2);
-            //level.draw(g2);
-
 
             // UI
             ui.draw(g2);
