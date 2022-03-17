@@ -201,9 +201,6 @@ public class Grid extends JPanel implements Runnable{
 
             // UI
             ui.draw(g2);
-            if (ui.time >= Constants.TIME_LIMIT) {
-                ui.draw(g2);
-            }
             g2.dispose(); // Saves memory
         }
         if (gameState == endState) {
