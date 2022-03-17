@@ -1,7 +1,5 @@
 package Constants;
 
-import java.awt.*;
-
 public class Constants {
     // Position
     public final static int X = 0;
