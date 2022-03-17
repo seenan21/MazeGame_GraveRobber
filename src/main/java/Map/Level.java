@@ -16,13 +16,14 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Level {
-    private int[][] walls;
+    private int[][] graves;
+    private int[][] wallHorizontal;
     private ArrayList<Zombie> zombieList;
     private PlayerActor Hero;
     private Grid grid;
     private Keyboard keyboard;
     private ItemDetection itemDetection;
-    private ArrayList<Wall> wallList;
+    private ArrayList<Obstacle> obstacleList;
     private ArrayList<Item> itemList;
     private final int ITEM_LIMIT = 5;
     private TickClock tickClock;
@@ -34,9 +35,10 @@ public class Level {
         this.keyboard = keyboard;
 
         this.zombieList = new ArrayList<Zombie>();
-        this.wallList = new ArrayList<Wall>();
+        this.obstacleList = new ArrayList<Obstacle>();
         this.itemList = new ArrayList<Item>();
-        this.walls = new int[24][24];
+        this.graves = new int[24][24];
+        this.wallHorizontal = new int[24][24];
         this.itemDetection = new ItemDetection(this, grid);
 
         BufferedReader myReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path)));
@@ -49,7 +51,10 @@ public class Level {
             int x = 0;
             while (x < str.length()){
                 if (chars[x] == '#'){
-                    walls[x][y] = 1;
+                    graves[x][y] = 1;
+                }
+                else if (chars[x] == '='){
+                    wallHorizontal[x][y] = 1;
                 }
                 else if(chars[x] == 'Z'){
                     zombieList.add(new Zombie(grid, keyboard, x*grid.getTileSize(), y*grid.getTileSize(), this));
@@ -78,7 +83,8 @@ public class Level {
 
         myReader.close();
 
-        wallsGenerate();
+        gravesGenerate();
+        wallHorizontalGenerate();
     }
 
     public PlayerActor getHero() {
@@ -103,12 +109,28 @@ public class Level {
     /**
      *
      */
-    public void wallsGenerate(){
-        for(int i=0; i < walls.length; i++) {
-            for(int j=0; j< walls.length; j++) {
-                if (walls[i][j] == 1){
-                    Wall wall = new Wall(i * grid.getTileSize(),j * grid.getTileSize(), grid);
-                    wallList.add(wall);
+    public void gravesGenerate(){
+        for(int i = 0; i < graves.length; i++) {
+            for(int j = 0; j< graves.length; j++) {
+                if (graves[i][j] == 1){
+                    Obstacle obstacle = new Obstacle(i * grid.getTileSize(),j * grid.getTileSize(), grid);
+                    obstacle.setSprite(ObstacleSpecifier.GRAVE_1);
+                    obstacleList.add(obstacle);
+                }
+            }
+        }
+    }
+
+    /**
+     *
+     */
+    public void wallHorizontalGenerate(){
+        for(int i = 0; i < wallHorizontal.length; i++) {
+            for(int j = 0; j< wallHorizontal.length; j++) {
+                if (wallHorizontal[i][j] == 1){
+                    Obstacle obstacle = new Obstacle(i * grid.getTileSize(),j * grid.getTileSize(), grid);
+                    obstacle.setSprite(ObstacleSpecifier.WALL_HORIZONTAL_1);
+                    obstacleList.add(obstacle);
                 }
             }
         }
@@ -137,8 +159,9 @@ public class Level {
      */
     public void draw(Graphics2D g2){
 
-        for (Wall wall: wallList){
-            if (wall != null) {wall.draw(g2);}
+        for (Obstacle obstacle : obstacleList){
+            if (obstacle != null) {
+                obstacle.draw(g2);}
         }
 
         for (Zombie zombie: zombieList){
@@ -158,7 +181,7 @@ public class Level {
      * @param y
      * @return
      */
-    public boolean wallCheck(int x, int y){
+    public boolean obstacleCheck(int x, int y){
         Rectangle character = new Rectangle(x,y,grid.getTileSize(),grid.getTileSize());
 
         int wallx;
@@ -178,6 +201,6 @@ public class Level {
         }
         Rectangle rectangle2 = new Rectangle(wallx,wally,grid.getTileSize(),grid.getTileSize());
 
-        return (character.intersects(rectangle2)) && walls[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1;
+        return (character.intersects(rectangle2)) && (graves[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 || wallHorizontal[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1);
     }
 }

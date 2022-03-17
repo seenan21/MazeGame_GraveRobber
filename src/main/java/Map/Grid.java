@@ -2,7 +2,7 @@ package Map;
 import Constants.Constants;
 import GUI.UI;
 import IO.Keyboard;
-import Map.tiles.TileM;
+import Map.tiles.CreateBackground;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +27,7 @@ public class Grid extends JPanel implements Runnable{
     private Keyboard keyboard = new Keyboard();
     private UI ui = new UI(this, keyboard);
     private Thread screenThread;
-    private String path = "/level/level_1";
+    private String path = "/level/level_1_foreground.fg";
     private Level level = new Level(this, keyboard, path);
 
     public int gameState;
@@ -35,7 +35,7 @@ public class Grid extends JPanel implements Runnable{
     public final int playState = 1;
     public final int endState = 2;
 
-    TileM tilem = new TileM(this);
+    CreateBackground tilem = new CreateBackground(this);
 
     /**
      * Creates the game screen and sets up a keyboard listener.
