@@ -100,6 +100,9 @@ public class Level {
         return itemList;
     }
 
+    /**
+     *
+     */
     public void wallsGenerate(){
         for(int i=0; i < walls.length; i++) {
             for(int j=0; j< walls.length; j++) {
@@ -111,6 +114,9 @@ public class Level {
         }
     }
 
+    /**
+     *
+     */
     public void update(){
         Hero.update();
         itemDetection.onItem(Hero);
@@ -125,6 +131,10 @@ public class Level {
         }
     }
 
+    /**
+     *
+     * @param g2
+     */
     public void draw(Graphics2D g2){
 
         for (Wall wall: wallList){
@@ -169,12 +179,5 @@ public class Level {
         Rectangle rectangle2 = new Rectangle(wallx,wally,grid.getTileSize(),grid.getTileSize());
 
         return (character.intersects(rectangle2)) && walls[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1;
-
-
-
     }
-
-
-
-
 }
