@@ -45,12 +45,17 @@ public class Keyboard implements KeyListener {
             downKeyPressed = true;
             leftKeyPressed = false;
             rightKeyPressed = false;
-
         }
         if (userPressed == KeyEvent.VK_A) {
+            upKeyPressed = false;
+            downKeyPressed = false;
             leftKeyPressed = true;
+            rightKeyPressed = false;
         }
         if (userPressed == KeyEvent.VK_D) {
+            upKeyPressed = false;
+            downKeyPressed = false;
+            leftKeyPressed = false;
             rightKeyPressed = true;
         }
         if (userPressed == KeyEvent.VK_ENTER) {
@@ -63,24 +68,31 @@ public class Keyboard implements KeyListener {
         }
     }
 
+    public void clearKeys() {
+        upKeyPressed = false;
+        downKeyPressed = false;
+        leftKeyPressed = false;
+        rightKeyPressed = false;
+    }
+
     /**
      * Listens for when a player releases the W,A,S,D keys.
      */
     @Override
     public void keyReleased(KeyEvent e) {
-        int userReleased = e.getKeyCode(); // Returns number of released key
-
-        if (userReleased == KeyEvent.VK_W) {
-            upKeyPressed = false;
-        }
-        if (userReleased == KeyEvent.VK_S) {
-            downKeyPressed = false;
-        }
-        if (userReleased == KeyEvent.VK_A) {
-            leftKeyPressed = false;
-        }
-        if (userReleased == KeyEvent.VK_D) {
-            rightKeyPressed = false;
-        }
+//        int userReleased = e.getKeyCode(); // Returns number of released key
+//
+//        if (userReleased == KeyEvent.VK_W) {
+//            upKeyPressed = false;
+//        }
+//        if (userReleased == KeyEvent.VK_S) {
+//            downKeyPressed = false;
+//        }
+//        if (userReleased == KeyEvent.VK_A) {
+//            leftKeyPressed = false;
+//        }
+//        if (userReleased == KeyEvent.VK_D) {
+//            rightKeyPressed = false;
+//        }
     }
 }
