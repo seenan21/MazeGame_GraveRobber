@@ -19,9 +19,7 @@ public class UI{
     Font times_40;
     Font statusFont;
     public double time = Constants.TIME_LIMIT;
-    public final int timeLimit = 30;
     DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-    public int menuNum = 0;
     Keyboard _keyboard;
 
     /**
@@ -98,6 +96,8 @@ public class UI{
 
                 try {
                     drawTimesUpPage(g2);
+                    _keyboard.timesUp = true;
+
                 }catch(IOException e){
                     e.printStackTrace();
                 }
@@ -172,7 +172,7 @@ public class UI{
         // TEXT: TIME'S UP!
         String text = "TIME'S UP!";
         g2.setColor(Color.RED);
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 96F));
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
         textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         x = gr.getScreenWidth() / 2 - textLength / 2;
         y = gr.getScreenHeight() / 2 - (gr.getTileSize() * 3);
@@ -185,23 +185,23 @@ public class UI{
         x = gr.getScreenWidth() / 2 - gr.getTileSize()*2;
         y += gr.getTileSize()*5;
         g2.drawString(text, x, y);
-        if (_keyboard.choosingTitleMenu){
+        if (_keyboard.choosingTimesUpMenu){
             g2.drawString(">", x-gr.getTileSize()*2, y);
         }
-        if (_keyboard.changeGameState == 2){
+        if (_keyboard.changeGameState == 1){
             gr.gameState = 1;
         }
 
-        // BUTTON: TITLE PAGE
+        // BUTTON: Quit
         text = "QUIT";
         x = gr.getScreenWidth() / 2 - gr.getTileSize()*2;
         y += gr.getTileSize();
         g2.drawString(text, x, y);
-        if (!_keyboard.choosingTitleMenu){
+        if (!_keyboard.choosingTimesUpMenu){
             g2.drawString(">", x-gr.getTileSize()*2, y);
         }
-        if (_keyboard.changeGameState == 2){
-            gr.gameState = 0;
+        if (_keyboard.changeGameState == 1){
+
         }
 
     }

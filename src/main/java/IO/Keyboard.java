@@ -13,7 +13,8 @@ public class Keyboard implements KeyListener {
     public boolean leftKeyPressed;
     public boolean rightKeyPressed;
     public boolean choosingTitleMenu = true;
-    public int choosingTimesUpMenu = 0;
+    public boolean choosingTimesUpMenu = true;
+    public boolean timesUp = false;
     public int changeGameState = 0;
 
 
@@ -38,6 +39,11 @@ public class Keyboard implements KeyListener {
             downKeyPressed = false;
             leftKeyPressed = false;
             rightKeyPressed = false;
+
+            // Time's up menu
+            if (timesUp){
+                choosingTimesUpMenu = true;
+            }
         }
         if (userPressed == KeyEvent.VK_S) {
             choosingTitleMenu = false;
@@ -45,6 +51,11 @@ public class Keyboard implements KeyListener {
             downKeyPressed = true;
             leftKeyPressed = false;
             rightKeyPressed = false;
+
+            // Time's up menu
+            if (timesUp){
+                choosingTimesUpMenu = false;
+            }
         }
         if (userPressed == KeyEvent.VK_A) {
             upKeyPressed = false;
@@ -64,6 +75,16 @@ public class Keyboard implements KeyListener {
             }
             else{
                 changeGameState = 2;
+            }
+            if (timesUp){
+                // Play again
+                if (choosingTimesUpMenu){
+                    changeGameState = 1;
+                }
+                // Quit
+                else{
+                    System.exit(0);
+                }
             }
         }
     }
