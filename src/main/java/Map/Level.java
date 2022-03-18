@@ -184,6 +184,10 @@ public class Level {
     public boolean obstacleCheck(int x, int y){
         Rectangle character = new Rectangle(x,y,grid.getTileSize(),grid.getTileSize());
 
+        if (y > grid.getScreenHeight()-grid.getTileSize() || y < 0 || x < 0 || x > grid.getScreenWidth() - grid.getTileSize() ){
+            return true;
+        }
+
         int wallx;
         int wally;
 
