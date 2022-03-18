@@ -21,7 +21,7 @@ import java.io.IOException;
 public class PlayerActor extends Character implements Runnable{
 
     private boolean _hasBossReward;
-    private int _score = 0;
+    public int _health = 3;
 
     /**
      * Constructor for the character class.
@@ -105,19 +105,19 @@ public class PlayerActor extends Character implements Runnable{
     }
 
     /**
-     * Adds to the player's total score.
+     * Adds to the player's total health.
      *
-     * @param addedPoints - Points to be added to the player's score
+     * @param addedPoints - Points to be added to the player's health
      */
-    public void addToScore(int addedPoints) {
-        this._score = this._score + addedPoints;
-    }
+    public void addToHealth(int addedPoints) { this._health = this._health + addedPoints; }
+
+    public void minusToHealth(int minusPoints) { this._health = this._health - minusPoints; }
 
     /**
-     * Returns the player's current score.
+     * Returns the player's current health.
      */
-    public int getScore() {
-        return _score;
+    public int getHealth() {
+        return _health;
     }
 
     /**

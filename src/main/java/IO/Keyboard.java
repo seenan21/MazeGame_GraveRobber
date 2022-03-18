@@ -14,7 +14,6 @@ public class Keyboard implements KeyListener {
     public boolean rightKeyPressed;
     public boolean choosingTitleMenu = true;
     public boolean choosingTimesUpMenu = true;
-    public boolean timesUp = false;
     public int changeGameState = 0;
 
 
@@ -34,27 +33,25 @@ public class Keyboard implements KeyListener {
         int userPressed = e.getKeyCode(); // Returns number of pressed key
 
         if (userPressed == KeyEvent.VK_W) {
-            choosingTitleMenu = true;
-            upKeyPressed = true;
-            downKeyPressed = false;
-            leftKeyPressed = false;
-            rightKeyPressed = false;
-
-            // Time's up menu
-            if (timesUp){
-                choosingTimesUpMenu = true;
+            if (changeGameState == 0) {
+                choosingTitleMenu = true;
+            }
+            else {
+                upKeyPressed = true;
+                downKeyPressed = false;
+                leftKeyPressed = false;
+                rightKeyPressed = false;
             }
         }
         if (userPressed == KeyEvent.VK_S) {
-            choosingTitleMenu = false;
-            upKeyPressed = false;
-            downKeyPressed = true;
-            leftKeyPressed = false;
-            rightKeyPressed = false;
-
-            // Time's up menu
-            if (timesUp){
-                choosingTimesUpMenu = false;
+            if (changeGameState == 0) {
+                choosingTitleMenu = false;
+            }
+            else {
+                upKeyPressed = false;
+                downKeyPressed = true;
+                leftKeyPressed = false;
+                rightKeyPressed = false;
             }
         }
         if (userPressed == KeyEvent.VK_A) {
@@ -75,16 +72,6 @@ public class Keyboard implements KeyListener {
             }
             else{
                 changeGameState = 2;
-            }
-            if (timesUp){
-                // Play again
-                if (choosingTimesUpMenu){
-                    changeGameState = 1;
-                }
-                // Quit
-                else{
-                    System.exit(0);
-                }
             }
         }
     }
