@@ -22,7 +22,7 @@ public class Treasure extends Item{
      */
     public Treasure(Grid grid, int positionX, int positionY) {
         super(grid,"Reward", positionX, positionY);
-        setPoints(100);
+        setPoints(1);
         getImage();
     }
 
