@@ -33,19 +33,19 @@ public class CharacterMovementThread implements Runnable{
 
             boolean isFacingWall = true;
             if (_direction == Direction.NORTH &&
-                    _level.wallCheck(_character.getPosition()[0], _character.getPosition()[1] - _character.getSpeed()) == false) {
+                    _level.obstacleCheck(_character.getPosition()[0], _character.getPosition()[1] - _character.getSpeed()) == false) {
                 _character.moveNorth();
                 isFacingWall = false;
             } else if (_direction == Direction.SOUTH &&
-                    _level.wallCheck(_character.getPosition()[0], _character.getPosition()[1] + _character.getSpeed()) == false) {
+                    _level.obstacleCheck(_character.getPosition()[0], _character.getPosition()[1] + _character.getSpeed()) == false) {
                 _character.moveSouth();
                 isFacingWall = false;
             } else if (_direction == Direction.EAST &&
-                    _level.wallCheck(_character.getPosition()[0] + _character.getSpeed(), _character.getPosition()[1]) == false) {
+                    _level.obstacleCheck(_character.getPosition()[0] + _character.getSpeed(), _character.getPosition()[1]) == false) {
                 _character.moveEast();
                 isFacingWall = false;
             } else if (_direction == Direction.WEST &&
-                    _level.wallCheck(_character.getPosition()[0] - _character.getSpeed(),
+                    _level.obstacleCheck(_character.getPosition()[0] - _character.getSpeed(),
                             _character.getPosition()[1]) == false) {
                 _character.moveWest();
                 isFacingWall = false;
