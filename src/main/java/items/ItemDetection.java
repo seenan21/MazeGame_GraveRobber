@@ -59,8 +59,8 @@ public class ItemDetection {
 
                 // Remove item from map and award points to player
                 if(playerBodyGrid.intersects(itemBodyGrid) && itemList.get(i).isAvailable()) {
-                    System.out.println("Item collected.");
-                    playerActor.addToScore((itemList.get(i)).getPoints());
+                    System.out.println("Heart collected.");
+                    playerActor.addToHealth((itemList.get(i)).getPoints());
                     itemList.set(i, null);
                 }
             }

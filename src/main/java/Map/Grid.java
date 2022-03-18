@@ -25,10 +25,10 @@ public class Grid extends JPanel implements Runnable{
     private int[] _startTile = new int[2]; // Starting tile for player when the game begins
     private int[] _endTile = new int[2]; // Ending tile for player when all treasures have been collected
     private Keyboard keyboard = new Keyboard();
-    private UI ui = new UI(this, keyboard);
     private Thread screenThread;
     private String path = "/level/level_1_foreground.fg";
     private Level level = new Level(this, keyboard, path);
+    private UI ui = new UI(this, keyboard, level.getHero());
 
     public int gameState;
     public final int titleState = 0;
@@ -217,7 +217,8 @@ public class Grid extends JPanel implements Runnable{
             g2.dispose(); // Saves memory
         }
         if (gameState == endState) {
-            System.exit(0);
+            ui.draw(g2);
+            g2.dispose();
         }
     }
 }

@@ -18,7 +18,8 @@ public class UI{
     Grid gr;
     Font times_40;
     Font statusFont;
-    public double time = Constants.TIME_LIMIT;
+    PlayerActor playerActor;
+    public double time = 0;
     DecimalFormat decimalFormat = new DecimalFormat("#0.00");
     Keyboard _keyboard;
 
@@ -27,9 +28,10 @@ public class UI{
      * @param gr Grid
      * @param keyboard Keyboard we're using
      */
-    public UI(Grid gr, Keyboard keyboard){
+    public UI(Grid gr, Keyboard keyboard, PlayerActor playerActor){
         this.gr = gr;
         this._keyboard = keyboard;
+        this.playerActor = playerActor;
         times_40 = new Font("Times New Roman", Font.PLAIN, 40);
         statusFont = new Font("Ariel", Font.PLAIN, 20);
     }
@@ -40,34 +42,17 @@ public class UI{
      */
     public void draw(Graphics2D g2) {
 
-        boolean lose = false;
+        // endState
         if (gr.gameState == gr.endState) {
-            // game end
-            int x, y;
-            int textLength;
-            String text;
 
-            // lost the game by collision with monster
-            if (lose) {
-                g2.setFont(times_40);
-                g2.setColor(Color.RED);
-                text = "GAME OVER!";
-                textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-                x = gr.getScreenWidth() / 2 - textLength / 2;
-                y = gr.getScreenHeight() / 2 - (gr.getTileSize() * 3);
-                g2.drawString(text, x, y);
-//                gr.stop(); Need to stop the thread.
-            } else {
-                g2.setFont(times_40);
-                g2.setColor(Color.RED);
-                text = "YOU WIN!";
-                textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-                x = gr.getScreenWidth() / 2 - textLength / 2;
-                y = gr.getScreenHeight() / 2 - (gr.getTileSize() * 3);
-                g2.drawString(text, x, y);
-//                gr.stop(); Need to stop the thread.
+            try {
+                drawEndPage(g2);
+            }catch (IOException e){
+                e.printStackTrace();
             }
         }
+
+        // titleState
         if (gr.gameState == gr.titleState) {
 
             try {
@@ -77,31 +62,14 @@ public class UI{
             }
 
         }
-        // not losing and time is not up
-        else {
-            if (time >= 0) {
-                g2.setFont(statusFont);
-                g2.setColor(Color.BLACK);
-                // health
-                g2.drawString("Health: " + "100", 10, 25);
 
-                // score
-                g2.drawString("Score: " + "0", 10, 35);
+        // playState
+        if (gr.gameState == gr.playState) {
 
-                // timer
-                time -= (double) 1 / 60;
-                g2.drawString("Time: " + decimalFormat.format(time), gr.getTileSize() * 19, 25);
-            }
-            else {
-
-                try {
-                    drawTimesUpPage(g2);
-                    _keyboard.timesUp = true;
-
-                }catch(IOException e){
-                    e.printStackTrace();
-                }
-
+            try {
+                drawPlayingUI(g2);
+            }catch (IOException e){
+                e.printStackTrace();
             }
         }
     }
@@ -162,7 +130,18 @@ public class UI{
 
     }
 
-    public void drawTimesUpPage(Graphics2D g2) throws IOException{
+    public void drawPlayingUI(Graphics2D g2) throws IOException{
+        g2.setFont(statusFont);
+        g2.setColor(Color.BLACK);
+        // health
+        g2.drawString("Health: " + playerActor.getHealth(), 10, 25);
+
+        // timer
+        time += (double) 1 / 60;
+        g2.drawString("Time: " + decimalFormat.format(time), gr.getTileSize() * 19, 25);
+    }
+
+    public void drawEndPage(Graphics2D g2) throws IOException{
 
         int x, y, textLength;
 
@@ -170,7 +149,7 @@ public class UI{
         g2.fillRect(0,0,gr.getScreenWidth(),gr.getScreenHeight());
 
         // TEXT: TIME'S UP!
-        String text = "TIME'S UP!";
+        String text = "GAME OVER";
         g2.setColor(Color.RED);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
         textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();

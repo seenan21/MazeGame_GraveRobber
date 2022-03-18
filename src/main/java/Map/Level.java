@@ -7,6 +7,7 @@ import items.BonusTreasure;
 import items.Item;
 import items.ItemDetection;
 import items.Treasure;
+import items.Trap;
 
 import java.awt.Rectangle;
 
@@ -61,6 +62,9 @@ public class Level {
                 }
                 else if(chars[x] == 'T'){
                     itemList.add(0, new Treasure(grid, x*grid.getTileSize(), y*grid.getTileSize()));
+                }
+                else if(chars[x] == 'P'){
+                    itemList.add(0, new Trap(grid, x*grid.getTileSize(), y*grid.getTileSize()));
                 }
                 else if(chars[x] == 'B'){
                     itemList.add(0, new BonusTreasure(grid, x*grid.getTileSize(), y*grid.getTileSize()));
