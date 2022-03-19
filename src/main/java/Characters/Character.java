@@ -131,7 +131,7 @@ public abstract class Character{
      *
      */
     public void setStepsAllowed(int _stepsAllowed) {
-        this._stepsAllowed = _grid.getTileSize()*_stepsAllowed;
+        this._stepsAllowed = (_grid.getTileSize()-1)*_stepsAllowed;
     }
 
     /**
