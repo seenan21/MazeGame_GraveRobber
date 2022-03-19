@@ -13,8 +13,14 @@ public class Keyboard implements KeyListener {
     public boolean leftKeyPressed;
     public boolean rightKeyPressed;
     public boolean choosingTitleMenu = true;
-    public boolean choosingTimesUpMenu = true;
-    public int changeGameState = 0;
+    public boolean choosingEndMenu = true;
+    /**
+     * changeGameState:
+     * 0: in the title page.
+     * 1: playing state.
+     * 2: end state.
+     */
+    public int changeGameState = 0; // 0: in the title page. 1: playing state. 2:
 
 
     /**
@@ -36,7 +42,7 @@ public class Keyboard implements KeyListener {
             if (changeGameState == 0) {
                 choosingTitleMenu = true;
             }
-            else {
+            if (changeGameState == 1) {
                 upKeyPressed = true;
                 downKeyPressed = false;
                 leftKeyPressed = false;
@@ -47,7 +53,7 @@ public class Keyboard implements KeyListener {
             if (changeGameState == 0) {
                 choosingTitleMenu = false;
             }
-            else {
+            if (changeGameState == 1) {
                 upKeyPressed = false;
                 downKeyPressed = true;
                 leftKeyPressed = false;
@@ -55,23 +61,31 @@ public class Keyboard implements KeyListener {
             }
         }
         if (userPressed == KeyEvent.VK_A) {
-            upKeyPressed = false;
-            downKeyPressed = false;
-            leftKeyPressed = true;
-            rightKeyPressed = false;
+            if (changeGameState == 1) {
+                upKeyPressed = false;
+                downKeyPressed = false;
+                leftKeyPressed = true;
+                rightKeyPressed = false;
+            }
         }
         if (userPressed == KeyEvent.VK_D) {
-            upKeyPressed = false;
-            downKeyPressed = false;
-            leftKeyPressed = false;
-            rightKeyPressed = true;
+            if (changeGameState == 1) {
+                upKeyPressed = false;
+                downKeyPressed = false;
+                leftKeyPressed = false;
+                rightKeyPressed = true;
+            }
         }
         if (userPressed == KeyEvent.VK_ENTER) {
-            if (choosingTitleMenu){
-                changeGameState = 1;
+            if (changeGameState == 0) {
+                if (choosingTitleMenu) {
+                    changeGameState = 1;
+                } else {
+                    System.exit(0);
+                }
             }
-            else{
-                changeGameState = 2;
+            if (changeGameState == 2) {
+                System.exit(0);
             }
         }
     }

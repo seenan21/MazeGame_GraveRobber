@@ -18,6 +18,7 @@ import java.awt.*;
 public class Zombie extends Character implements Runnable {
     boolean rush;
     Direction rushDirection;
+    PlayerActor playerActor;
 
     public Zombie(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level) {
         super(grid, keyboard, level);
@@ -60,8 +61,8 @@ public class Zombie extends Character implements Runnable {
         int[] position = new int[2];
         position = hero.getPosition();
 
-        Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],_grid.getTileSize(),_grid.getTileSize());
-        Rectangle h = new Rectangle(position[0], position[1], _grid.getTileSize(), _grid.getTileSize());
+        Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],_grid.getTileSize()-10,_grid.getTileSize()-10);
+        Rectangle h = new Rectangle(position[0], position[1], _grid.getTileSize()-10, _grid.getTileSize()-10);
 
         return z.intersects(h);
 
@@ -106,7 +107,9 @@ public class Zombie extends Character implements Runnable {
     public void update() {
 
         if (heroKill(level.getHero())){
-            System.out.println("LLLLLLLLLLLL");
+            _keyboard.changeGameState = 2;
+            _grid.gameState = 2;
+
         }
 
         // If the zombie is rushing forward, then we do not want to change direction
@@ -130,10 +133,6 @@ public class Zombie extends Character implements Runnable {
         }
         else if(n == 3) {
             rushDirection = Direction.EAST;
-        }
-
-        if (heroKill(level.getHero())){
-            System.out.println("LLLLLLLLLLLL");
         }
     }
     public void draw(Graphics2D g2) {

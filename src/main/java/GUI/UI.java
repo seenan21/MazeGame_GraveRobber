@@ -131,14 +131,20 @@ public class UI{
     }
 
     public void drawPlayingUI(Graphics2D g2) throws IOException{
-        g2.setFont(statusFont);
-        g2.setColor(Color.BLACK);
-        // health
-        g2.drawString("Health: " + playerActor.getHealth(), 10, 25);
+        if (playerActor.getHealth() > 0) {
+            g2.setFont(statusFont);
+            g2.setColor(Color.BLACK);
+            // health
+            g2.drawString("Health: " + playerActor.getHealth(), 10, 25);
 
-        // timer
-        time += (double) 1 / 60;
-        g2.drawString("Time: " + decimalFormat.format(time), gr.getTileSize() * 19, 25);
+            // timer
+            time += (double) 1 / 60;
+            g2.drawString("Time: " + decimalFormat.format(time), gr.getTileSize() * 19, 25);
+        }
+        else {
+            _keyboard.changeGameState = 2;
+            gr.gameState = gr.endState;
+        }
     }
 
     public void drawEndPage(Graphics2D g2) throws IOException{
@@ -148,41 +154,63 @@ public class UI{
         g2.setColor(Color.BLACK);
         g2.fillRect(0,0,gr.getScreenWidth(),gr.getScreenHeight());
 
-        // TEXT: TIME'S UP!
+        // GAME OVER
         String text = "GAME OVER";
         g2.setColor(Color.RED);
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F));
         textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         x = gr.getScreenWidth() / 2 - textLength / 2;
         y = gr.getScreenHeight() / 2 - (gr.getTileSize() * 3);
         g2.drawString(text, x, y);
 
+        // HOW YOU DIED
+        if (playerActor.getHealth() <= 0){
+            text = "TRAPS JUST KILLED YOU!";
+            g2.setColor(Color.GREEN);
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
+            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+            x = gr.getScreenWidth() / 2 - textLength / 2;
+            y += gr.getTileSize()*2;
+            g2.drawString(text, x, y);
+        }
+        else {
+            text = "ZOMBIES JUST KILLED YOU!";
+            g2.setColor(Color.GREEN);
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
+            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+            x = gr.getScreenWidth() / 2 - textLength / 2;
+            y += gr.getTileSize()*2;
+            g2.drawString(text, x, y);
+        }
 
-
-        // BUTTON: PLAY AGAIN
-        text = "PLAY AGAIN";
-        x = gr.getScreenWidth() / 2 - gr.getTileSize()*2;
+        // Display TIME PLAYED
+        g2.setColor(Color.WHITE);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 28F));
+        text = "TIME PLAYED: " + decimalFormat.format(time) + " SECONDS";
+        textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        x = gr.getScreenWidth() / 2 - textLength / 2;
         y += gr.getTileSize()*5;
         g2.drawString(text, x, y);
-        if (_keyboard.choosingTimesUpMenu){
-            g2.drawString(">", x-gr.getTileSize()*2, y);
-        }
-        if (_keyboard.changeGameState == 1){
-            gr.gameState = 1;
-        }
 
-        // BUTTON: Quit
-        text = "QUIT";
-        x = gr.getScreenWidth() / 2 - gr.getTileSize()*2;
+        // Display SCORE
+        text = "HEART(REWARD) COLLECTED: " + playerActor.regularHeartCollected;
+        textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        x = gr.getScreenWidth() / 2 - textLength / 2;
         y += gr.getTileSize();
         g2.drawString(text, x, y);
-        if (!_keyboard.choosingTimesUpMenu){
-            g2.drawString(">", x-gr.getTileSize()*2, y);
-        }
-        if (_keyboard.changeGameState == 1){
 
-        }
+        text = "BIG HEART(BONUS REWARD) COLLECTED: " + playerActor.bigHeartCollected;
+        textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        x = gr.getScreenWidth() / 2 - textLength / 2;
+        y += gr.getTileSize();
+        g2.drawString(text, x, y);
 
+        // BUTTON: Quit
+        text = "PRESS ENTER TO QUIT";
+        textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        x = gr.getScreenWidth() / 2 - textLength / 2;
+        y += gr.getTileSize()*3;
+        g2.drawString(text, x, y);
     }
 
 }

@@ -22,6 +22,8 @@ public class PlayerActor extends Character implements Runnable{
 
     private boolean _hasBossReward;
     public int _health = 3;
+    public int regularHeartCollected = 0;
+    public int bigHeartCollected = 0;
 
     /**
      * Constructor for the character class.
@@ -109,7 +111,17 @@ public class PlayerActor extends Character implements Runnable{
      *
      * @param addedPoints - Points to be added to the player's health
      */
-    public void addToHealth(int addedPoints) { this._health = this._health + addedPoints; }
+    public void addToHealth(int addedPoints) {
+        this._health = this._health + addedPoints;
+        if (addedPoints >= 0){
+            if (addedPoints == 1){
+                regularHeartCollected += addedPoints;
+            }
+            else{
+                bigHeartCollected += addedPoints;
+            }
+        }
+    }
 
     /**
      * Returns the player's current health.
