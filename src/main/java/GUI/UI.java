@@ -183,6 +183,15 @@ public class UI{
             x = gr.getScreenWidth() / 2 - textLength / 2;
             y = gr.getScreenHeight() / 2 - (gr.getTileSize() * 3);
             g2.drawString(text, x, y);
+
+            text = "PLAYER'S FINAL HEALTH: " + playerActor.getHealth();
+            g2.setColor(Color.WHITE);
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 28F));
+            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+            x = gr.getScreenWidth() / 2 - textLength / 2;
+            y += gr.getTileSize();
+            g2.drawString(text, x, y);
+
         }
         else {
             text = "GAME OVER";
