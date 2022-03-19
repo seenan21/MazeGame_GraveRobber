@@ -192,8 +192,8 @@ public class UI{
             g2.setColor(Color.WHITE);
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 28F));
             textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            x = gr.getScreenWidth() / 2 - textLength / 2;
-            y += gr.getTileSize();
+            x = _grid.getScreenWidth() / 2 - textLength / 2;
+            y += _grid.getTileSize();
             g2.drawString(text, x, y);
 
         }

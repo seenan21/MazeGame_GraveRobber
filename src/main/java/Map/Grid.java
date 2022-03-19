@@ -29,6 +29,7 @@ public class Grid extends JPanel implements Runnable{
     private String path = "/level/level_1_foreground.fg";
     private Level level = new Level(this, keyboard, path);
     private UI ui = new UI(this, keyboard, level.getHero());
+    Sound sound = new Sound();
 
     public int gameState;
     public final int titleState = 0;
@@ -211,6 +212,9 @@ public class Grid extends JPanel implements Runnable{
 
         }
         if (gameState == playState) {
+            // Setup Music
+            playMusic(0);
+
             // Background
             tilem.draw(g2);
 
@@ -226,5 +230,20 @@ public class Grid extends JPanel implements Runnable{
             ui.draw(g2);
             g2.dispose();
         }
+    }
+
+    public void playMusic(int i) {
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+
+    public void stopMusic() {
+        sound.stop();
+    }
+
+    public void playSound(int i) {
+        sound.setFile(i);
+        sound.play();
     }
 }
