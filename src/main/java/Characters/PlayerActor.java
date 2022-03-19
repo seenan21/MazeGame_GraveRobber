@@ -111,8 +111,6 @@ public class PlayerActor extends Character implements Runnable{
      */
     public void addToHealth(int addedPoints) { this._health = this._health + addedPoints; }
 
-    public void minusToHealth(int minusPoints) { this._health = this._health - minusPoints; }
-
     /**
      * Returns the player's current health.
      */

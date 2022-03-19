@@ -15,7 +15,7 @@ public abstract class Item {
     protected Grid _grid;
     private String _name;
     private int[] _position = new int[2];
-    private int _points = 1;
+    private int _points;
     protected BufferedImage _image;
     private Rectangle _itemBody;
     boolean _available = false;

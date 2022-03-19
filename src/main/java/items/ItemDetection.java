@@ -16,6 +16,8 @@ public class ItemDetection {
     Grid _grid;
     Level _level;
 
+
+
     /**
      * Constructor for ItemDetection
      * @param grid
@@ -59,9 +61,21 @@ public class ItemDetection {
 
                 // Remove item from map and award points to player
                 if(playerBodyGrid.intersects(itemBodyGrid) && itemList.get(i).isAvailable()) {
-                    System.out.println("Heart collected.");
-                    playerActor.addToHealth((itemList.get(i)).getPoints());
-                    itemList.set(i, null);
+                    if ((itemList.get(i)).getPoints() == -1) {
+                        System.out.println("Trap triggered.");
+                        playerActor.addToHealth((itemList.get(i)).getPoints());
+                    }
+                    if ((itemList.get(i)).getPoints() == 1) {
+                        System.out.println("Heart collected.");
+                        playerActor.addToHealth((itemList.get(i)).getPoints());
+                        itemList.set(i, null);
+                    }
+                    if ((itemList.get(i)).getPoints() == 3) {
+                        System.out.println("BIG Heart collected.");
+                        playerActor.addToHealth((itemList.get(i)).getPoints());
+                        itemList.set(i, null);
+                    }
+
                 }
             }
             i++;
