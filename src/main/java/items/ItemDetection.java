@@ -1,6 +1,7 @@
 package items;
 
 import Characters.PlayerActor;
+import Clock.TrapClock;
 import Constants.Constants;
 import Map.Grid;
 import Map.Level;
@@ -15,6 +16,9 @@ public class ItemDetection {
 
     Grid _grid;
     Level _level;
+    private TrapClock clock;
+    private Thread clockThread;
+
 
     /**
      * Constructor for ItemDetection
@@ -23,6 +27,10 @@ public class ItemDetection {
     public ItemDetection(Level level, Grid grid) {
         this._grid = grid;
         this._level = level;
+
+        clock = new TrapClock();
+        clockThread = new Thread(clock);
+        clockThread.start();
     }
 
     /**
@@ -59,9 +67,24 @@ public class ItemDetection {
 
                 // Remove item from map and award points to player
                 if(playerBodyGrid.intersects(itemBodyGrid) && itemList.get(i).isAvailable()) {
-                    System.out.println("Heart collected.");
-                    playerActor.addToHealth((itemList.get(i)).getPoints());
-                    itemList.set(i, null);
+                    if ((itemList.get(i)).getPoints() == -1) {
+                        if (!clock.isHurting()) {
+                            System.out.println("Trap triggered.");
+                            playerActor.addToHealth((itemList.get(i)).getPoints());
+                            clock.setIsHurting(true);
+                        }
+                    }
+                    else if ((itemList.get(i)).getPoints() == 1) {
+                        System.out.println("Heart collected.");
+                        playerActor.addToHealth((itemList.get(i)).getPoints());
+                        itemList.set(i, null);
+                    }
+                    else if ((itemList.get(i)).getPoints() == 3) {
+                        System.out.println("BIG Heart collected.");
+                        playerActor.addToHealth((itemList.get(i)).getPoints());
+                        itemList.set(i, null);
+                    }
+
                 }
             }
             i++;

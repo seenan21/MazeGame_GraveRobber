@@ -202,17 +202,20 @@ public class Grid extends JPanel implements Runnable{
 
         Graphics2D g2 = (Graphics2D)g;
 
-        // Title Page
         if (gameState == titleState) {
+            // Title Page
             ui.draw(g2);
             g2.dispose();
-        // Background
+
         }
         if (gameState == playState) {
+            // Background
             tilem.draw(g2);
+
+            // Walls and characters
             level.draw(g2);
 
-            // UI
+            // UI: health, time
             ui.draw(g2);
             g2.dispose(); // Saves memory
         }

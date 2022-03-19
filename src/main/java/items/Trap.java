@@ -17,7 +17,7 @@ public class Trap extends Item{
     @Override
     public BufferedImage getImage() {
         try {
-            setImage(ImageIO.read(getClass().getResourceAsStream("/item/trap_32.png")));
+            setImage(ImageIO.read(getClass().getResourceAsStream("/item/trap_128.png")));
             return this._image;
         } catch (IOException e) {
             e.printStackTrace();
