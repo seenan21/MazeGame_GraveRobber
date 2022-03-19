@@ -84,6 +84,15 @@ public class ItemDetection {
                         playerActor.addToHealth((itemList.get(i)).getPoints());
                         itemList.set(i, null);
                     }
+                    else if ((itemList.get(i)).getPoints() == 999) {
+                        if (playerActor.regularHeartCollected >= Constants.regReward){
+                            _grid.gameState = 2;
+                            _grid.win = true;
+                        }
+                        else {
+                            System.out.println("You need to collect all the regular reward to win.");
+                        }
+                    }
 
                 }
             }

@@ -35,6 +35,8 @@ public class Grid extends JPanel implements Runnable{
     public final int playState = 1;
     public final int endState = 2;
 
+    public boolean win = false;
+
     CreateBackground tilem = new CreateBackground(this);
 
     /**
@@ -220,6 +222,7 @@ public class Grid extends JPanel implements Runnable{
             g2.dispose(); // Saves memory
         }
         if (gameState == endState) {
+            keyboard.changeGameState = 2;
             ui.draw(g2);
             g2.dispose();
         }

@@ -6,6 +6,7 @@ import Characters.PlayerActor;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
+import items.ItemDetection;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -150,32 +151,50 @@ public class UI{
     public void drawEndPage(Graphics2D g2) throws IOException{
 
         int x, y, textLength;
+        y = gr.getScreenHeight() / 2 - (gr.getTileSize() * 3);
+        String text;
 
         g2.setColor(Color.BLACK);
         g2.fillRect(0,0,gr.getScreenWidth(),gr.getScreenHeight());
 
-        // GAME OVER
-        String text = "GAME OVER";
-        g2.setColor(Color.RED);
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F));
-        textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        x = gr.getScreenWidth() / 2 - textLength / 2;
-        y = gr.getScreenHeight() / 2 - (gr.getTileSize() * 3);
-        g2.drawString(text, x, y);
-
         // HOW YOU DIED
         if (playerActor.getHealth() <= 0){
+            text = "GAME OVER";
+            g2.setColor(Color.RED);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F));
+            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+            x = gr.getScreenWidth() / 2 - textLength / 2;
+            y = gr.getScreenHeight() / 2 - (gr.getTileSize() * 3);
+            g2.drawString(text, x, y);
+
             text = "TRAPS JUST KILLED YOU!";
-            g2.setColor(Color.GREEN);
+            g2.setColor(Color.BLUE);
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
             textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             x = gr.getScreenWidth() / 2 - textLength / 2;
             y += gr.getTileSize()*2;
             g2.drawString(text, x, y);
         }
-        else {
-            text = "ZOMBIES JUST KILLED YOU!";
+        else if (gr.win){
+            text = "CONGRATULATIONS!";
             g2.setColor(Color.GREEN);
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+            x = gr.getScreenWidth() / 2 - textLength / 2;
+            y = gr.getScreenHeight() / 2 - (gr.getTileSize() * 3);
+            g2.drawString(text, x, y);
+        }
+        else {
+            text = "GAME OVER";
+            g2.setColor(Color.RED);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F));
+            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+            x = gr.getScreenWidth() / 2 - textLength / 2;
+            y = gr.getScreenHeight() / 2 - (gr.getTileSize() * 3);
+            g2.drawString(text, x, y);
+
+            text = "ZOMBIES JUST KILLED YOU!";
+            g2.setColor(Color.BLUE);
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
             textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             x = gr.getScreenWidth() / 2 - textLength / 2;

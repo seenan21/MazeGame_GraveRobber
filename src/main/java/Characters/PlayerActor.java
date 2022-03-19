@@ -115,10 +115,10 @@ public class PlayerActor extends Character implements Runnable{
         this._health = this._health + addedPoints;
         if (addedPoints >= 0){
             if (addedPoints == 1){
-                regularHeartCollected += addedPoints;
+                regularHeartCollected++;
             }
             else{
-                bigHeartCollected += addedPoints;
+                bigHeartCollected++;
             }
         }
     }

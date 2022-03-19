@@ -4,11 +4,7 @@ import Characters.Zombie;
 import Clock.TickClock;
 import Constants.Constants;
 import IO.Keyboard;
-import items.BonusTreasure;
-import items.Item;
-import items.ItemDetection;
-import items.Treasure;
-import items.Trap;
+import items.*;
 
 import java.awt.Rectangle;
 
@@ -112,6 +108,9 @@ public class Level {
                         break;
                     case Constants.TRAP_FOREGROUND:
                         itemList.add(0, new Trap(grid, x * grid.getTileSize(), y * grid.getTileSize()));
+                        break;
+                    case Constants.EXIT_FOREGROUND:
+                        itemList.add(0, new ExitCell(grid, x*grid.getTileSize(), y * grid.getTileSize()));
                         break;
                     case Constants.BONUS_FOREGROUND:
                         itemList.add(0, new BonusTreasure(grid, x * grid.getTileSize(), y * grid.getTileSize()));
