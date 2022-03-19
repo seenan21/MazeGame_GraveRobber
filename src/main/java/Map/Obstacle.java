@@ -1,5 +1,7 @@
 package Map;
 
+import Constants.Constants;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -19,80 +21,63 @@ public class Obstacle {
 
     }
 
-    public void setSprite(ObstacleSpecifier obstacleSpecifier) {
-        this._sprite = getSprite(obstacleSpecifier);
+    public void setSprite(char assetSpecifier) {
+        this._sprite = getSprite(assetSpecifier);
     }
 
     /**
      *
-     * @param obstacleSpecifier
+     * @param assetSpecifier
      * @return the image for the obstacle
      */
-    public BufferedImage getSprite(ObstacleSpecifier obstacleSpecifier) {
+    public BufferedImage getSprite(char assetSpecifier) {
 
-        if (obstacleSpecifier == ObstacleSpecifier.GRAVE_1) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/grave_1_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        String imagePath = "";
+
+        switch (assetSpecifier) {
+            case Constants.GRAVE_1:
+                imagePath = "/map/grave_1_128.png";
+                break;
+            case Constants.GRAVE_2:
+                imagePath = "/map/grave_2_128.png";
+                break;
+            case Constants.GRAVE_3_TOP:
+                imagePath = "/map/grave_3_top_128.png";
+                break;
+            case Constants.GRAVE_4_BOTTOM:
+                imagePath = "/map/grave_3_bottom_128.png";
+                break;
+            case Constants.WALL_HORIZONTAL_1:
+                imagePath = "/map/wall_horizontal_1_128.png";
+                break;
+            case Constants.WALL_HORIZONTAL_2:
+                imagePath = "/map/wall_horizontal_2_128.png";
+                break;
+            case Constants.WALL_HORIZONTAL_3:
+                imagePath = "/map/wall_horizontal_3_128.png";
+                break;
+            case Constants.WALL_HORIZONTAL_4:
+                imagePath = "/map/wall_horizontal_4_128.png";
+                break;
+            case Constants.WALL_VERTICAL_1:
+                imagePath = "/map/wall_top_32.jpg";
+                break;
+            case Constants.WALL_VERTICAL_2:
+                imagePath = "/map/wall_middle_32.jpg";
+                break;
+            case Constants.WALL_VERTICAL_3:
+                imagePath = "/map/wall_bottom_32.jpg";
+                break;
+            default:
+                return null;
         }
-        else if (obstacleSpecifier == ObstacleSpecifier.GRAVE_2) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/grave_2_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+        try {
+            this._sprite = ImageIO.read(getClass().getResourceAsStream(imagePath));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else if (obstacleSpecifier == ObstacleSpecifier.GRAVE_3_TOP) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/grave_3_top_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (obstacleSpecifier == ObstacleSpecifier.GRAVE_3_BOTTOM) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/grave_3_bottom_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (obstacleSpecifier == ObstacleSpecifier.WALL_TOP) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/wall_top_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (obstacleSpecifier == ObstacleSpecifier.WALL_BOTTOM) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/wall_middle_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (obstacleSpecifier == ObstacleSpecifier.WALL_BOTTOM) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/wall_bottom_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (obstacleSpecifier == ObstacleSpecifier.WALL_VERTICAL) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/wall_vertical_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (obstacleSpecifier == ObstacleSpecifier.WALL_HORIZONTAL_1) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/wall_horizontal_1_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+
         return _sprite;
     }
 
