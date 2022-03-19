@@ -16,9 +16,8 @@ import java.awt.*;
  *
  */
 public class Zombie extends Character implements Runnable {
-    boolean rush;
-    Direction rushDirection;
-    PlayerActor playerActor;
+    private boolean _rush;
+    private Direction _rushDirection;
 
     public Zombie(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level) {
         super(grid, keyboard, level);
@@ -27,7 +26,8 @@ public class Zombie extends Character implements Runnable {
         this.setSpeed(2); //Testing speed
         this.setStepsAllowed(1);
         this.getImage();
-        rush = false;
+        this._rush = false;
+        this.setCharacterType(CharacterType.ENEMY);
     }
 
     /**
@@ -74,32 +74,32 @@ public class Zombie extends Character implements Runnable {
      * @return
      */
     public boolean rush(Direction rushDirection) {
-        if(rush){
-            if(this.rushDirection == Direction.NORTH){
-                if(level.obstacleCheck(getPosition()[0], getPosition()[1] - this.getSpeed()) == false){
-                    moveCharacter(this.rushDirection);
+        if(_rush){
+            if(this._rushDirection == Direction.NORTH){
+                if(level.collisionCheck(this, getPosition()[0], getPosition()[1] - this.getSpeed()) == false){
+                    moveCharacter(this._rushDirection);
                     return true;
                 }
             }
-            else if(this.rushDirection == Direction.SOUTH){
-                if(level.obstacleCheck(getPosition()[0], getPosition()[1] + this.getSpeed()) == false){
-                    moveCharacter(this.rushDirection);
+            else if(this._rushDirection == Direction.SOUTH){
+                if(level.collisionCheck(this, getPosition()[0], getPosition()[1] + this.getSpeed()) == false){
+                    moveCharacter(this._rushDirection);
                     return true;
                 }
             }
-            else if(this.rushDirection == Direction.WEST){
-                if(level.obstacleCheck(getPosition()[0] - this.getSpeed(), getPosition()[1]) == false) {
-                    moveCharacter(this.rushDirection);
+            else if(this._rushDirection == Direction.WEST){
+                if(level.collisionCheck(this,getPosition()[0] - this.getSpeed(), getPosition()[1]) == false) {
+                    moveCharacter(this._rushDirection);
                     return true;
                 }
             }
-            else if(this.rushDirection == Direction.EAST){
-                if(level.obstacleCheck(getPosition()[0] + this.getSpeed(), getPosition()[1]) == false) {
-                    moveCharacter(this.rushDirection);
+            else if(this._rushDirection == Direction.EAST){
+                if(level.collisionCheck(this,getPosition()[0] + this.getSpeed(), getPosition()[1]) == false) {
+                    moveCharacter(this._rushDirection);
                     return true;
                 }
             }
-            rush = false;
+            _rush = false;
         }
         return false;
     }
@@ -113,26 +113,26 @@ public class Zombie extends Character implements Runnable {
         }
 
         // If the zombie is rushing forward, then we do not want to change direction
-        if (rush) {
+        if (_rush) {
             return;
         }
 
-        rush = true;
+        _rush = true;
 
         Random rand = new Random();
         int n = rand.nextInt(4);
 
         if(n == 0) {
-            rushDirection = Direction.NORTH;
+            _rushDirection = Direction.NORTH;
         }
         else if(n == 1) {
-            rushDirection = Direction.SOUTH;
+            _rushDirection = Direction.SOUTH;
         }
         else if(n == 2) {
-            rushDirection = Direction.WEST;
+            _rushDirection = Direction.WEST;
         }
         else if(n == 3) {
-            rushDirection = Direction.EAST;
+            _rushDirection = Direction.EAST;
         }
     }
     public void draw(Graphics2D g2) {
@@ -156,6 +156,6 @@ public class Zombie extends Character implements Runnable {
 
     @Override
     public void run() {
-        rush(rushDirection);
+        rush(_rushDirection);
     }
 }
