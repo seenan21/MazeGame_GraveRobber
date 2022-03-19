@@ -37,6 +37,7 @@ public class PlayerActor extends Character implements Runnable{
         this.setPosition(position[0], position[1]);
         this.setDefault();
         this.getImage();
+        this.setCharacterType(CharacterType.PLAYER);
     }
 
     /**

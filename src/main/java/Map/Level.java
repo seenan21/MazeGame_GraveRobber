@@ -1,4 +1,6 @@
 package Map;
+import Characters.Character;
+import Characters.CharacterType;
 import Characters.PlayerActor;
 import Characters.Zombie;
 import Clock.TickClock;
@@ -13,6 +15,9 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Contains all level data for a particular map.
+ */
 public class Level {
     private int[][] grave1;
     private int[][] grave2;
@@ -228,7 +233,7 @@ public class Level {
     }
 
     /**
-     *
+     * Updates the position of Characters and Items on the map level.
      */
     public void update(){
         Hero.update();
@@ -245,8 +250,8 @@ public class Level {
     }
 
     /**
-     *
-     * @param g2
+     * Draw Obstacles, Items, and Characters
+     * @param g2 - Graphics2D
      */
     public void draw(Graphics2D g2){
 
@@ -270,13 +275,13 @@ public class Level {
      * Creates a bounding box for an obstacle array to see if there will be any collisions.
      * @param obstacleArray - Array of obstacles on the map
      * @param characterBody - The bounding box of the character
-     * @return
+     * @return if collision was detected
      */
-    private boolean obstacleCheck(int[][] obstacleArray, Rectangle characterBody) {
+    private boolean collisionCheck(int[][] obstacleArray, Rectangle characterBody) {
         for (int i = 0; i < 24; i++) {
             for (int j = 0; j < 24; j++) {
                 if (obstacleArray[i][j] == 1) {
-                    Rectangle temp = new Rectangle(i*grid.getTileSize(),j*grid.getTileSize(),grid.getTileSize(),grid.getTileSize());
+                    Rectangle temp = new Rectangle(i * grid.getTileSize(),j * grid.getTileSize(), grid.getTileSize(), grid.getTileSize());
                     if (characterBody.intersects(temp)) {
                         return true;
                     }
@@ -287,43 +292,65 @@ public class Level {
     }
 
     /**
+     * Creates a bounding box for a character to see if there will be any collisions.
+     * @param position - Position of the character
+     * @param characterBody - The bounding box of the character
+     * @return if collision was detected
+     */
+    private boolean collisionCheck(int[] position, Rectangle characterBody) {
+
+        Rectangle temp = new Rectangle(position[Constants.X] ,position[Constants.Y] , grid.getTileSize(), grid.getTileSize());
+        if (characterBody.intersects(temp)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Checks if the character's next movement will collide with an obstacle.
      * @param characterX - Character's X position
      * @param characterY - Character's Y position
      * @return
      */
-    public boolean obstacleCheck(int characterX, int characterY){
-        Rectangle character = new Rectangle(characterX,characterY,grid.getTileSize(),grid.getTileSize());
+    public boolean collisionCheck(Character character, int characterX, int characterY){
+        Rectangle characterBody = new Rectangle(characterX,characterY,grid.getTileSize(),grid.getTileSize());
 
         // Prevents character from leaving the screen
         if (characterY > grid.getScreenHeight()-grid.getTileSize() || characterY < 0 || characterX < 0 || characterX > grid.getScreenWidth() - grid.getTileSize() ){
             return true;
         }
 
-        if (obstacleCheck(grave1, character)) {
+        if (collisionCheck(grave1, characterBody)) {
             return true;
-        } else if (obstacleCheck(grave2, character)) {
+        } else if (collisionCheck(grave2, characterBody)) {
             return true;
-        } else if (obstacleCheck(grave3Bottom, character)) {
+        } else if (collisionCheck(grave3Bottom, characterBody)) {
             return true;
-        } else if (obstacleCheck(grave3Top, character)) {
+        } else if (collisionCheck(grave3Top, characterBody)) {
             return true;
-        } else if (obstacleCheck(wallHorizontal1, character)) {
+        } else if (collisionCheck(wallHorizontal1, characterBody)) {
             return true;
-        } else if (obstacleCheck(wallHorizontal2, character)) {
+        } else if (collisionCheck(wallHorizontal2, characterBody)) {
             return true;
-        } else if (obstacleCheck(wallHorizontal3, character)) {
+        } else if (collisionCheck(wallHorizontal3, characterBody)) {
             return true;
-        } else if (obstacleCheck(wallHorizontal4, character)) {
+        } else if (collisionCheck(wallHorizontal4, characterBody)) {
             return true;
-        } else if (obstacleCheck(wallVertical1, character)) {
+        } else if (collisionCheck(wallVertical1, characterBody)) {
             return true;
-        } else if (obstacleCheck(wallVertical2, character)) {
+        } else if (collisionCheck(wallVertical2, characterBody)) {
             return true;
-        }  else if (obstacleCheck(wallVertical3, character)) {
+        }  else if (collisionCheck(wallVertical3, characterBody)) {
             return true;
-        } else {
-            return false;
+        }  else if (character.getCharacterType() == CharacterType.ENEMY) {
+            for (Zombie zombie: zombieList){
+                if (zombie != null && zombie != character) {
+                    if (collisionCheck(zombie.getPosition(), characterBody)) {
+                        return true;
+                    }
+                }
+            }
         }
+        return false;
     }
 }

@@ -31,8 +31,9 @@ public abstract class Character{
     private BufferedImage _spriteNorth0, _spriteSouth0, _spriteEast0, _spriteWest0, _spriteNorth1, _spriteSouth1, _spriteEast1, _spriteWest1, _spriteNorth2, _spriteSouth2, _spriteEast2, _spriteWest2;
     private Rectangle spriteBody;
     public int spriteCounter = 0;
-    Level level;
+    protected Level level;
     private boolean _walking = false;
+    private CharacterType _characterType = CharacterType.NONE;
 
     /**
      * Constructor for the character class.
@@ -53,6 +54,14 @@ public abstract class Character{
      * Finds the sprite image for the character.
      */
     public abstract void getImage();
+
+    public void setCharacterType(CharacterType _characterType) {
+        this._characterType = _characterType;
+    }
+
+    public CharacterType getCharacterType() {
+        return _characterType;
+    }
 
     /**
      * Changes the health of the player.
