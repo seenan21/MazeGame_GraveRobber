@@ -144,6 +144,7 @@ public class Grid extends JPanel implements Runnable{
     public void startThread() {
         screenThread = new Thread(this);
         screenThread.start(); // Calls this.run()
+        playMusic(0);
     }
 
     /**
@@ -212,8 +213,6 @@ public class Grid extends JPanel implements Runnable{
 
         }
         if (gameState == playState) {
-            // Setup Music
-            playMusic(0);
 
             // Background
             tilem.draw(g2);
