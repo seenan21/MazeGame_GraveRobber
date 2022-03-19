@@ -267,50 +267,63 @@ public class Level {
     }
 
     /**
-     *
-     * @param x
-     * @param y
+     * Creates a bounding box for an obstacle array to see if there will be any collisions.
+     * @param obstacleArray - Array of obstacles on the map
+     * @param characterBody - The bounding box of the character
      * @return
      */
-    public boolean obstacleCheck(int x, int y){
-        Rectangle character = new Rectangle(x,y,grid.getTileSize(),grid.getTileSize());
+    private boolean obstacleCheck(int[][] obstacleArray, Rectangle characterBody) {
+        for (int i = 0; i < 24; i++) {
+            for (int j = 0; j < 24; j++) {
+                if (obstacleArray[i][j] == 1) {
+                    Rectangle temp = new Rectangle(i*grid.getTileSize(),j*grid.getTileSize(),grid.getTileSize(),grid.getTileSize());
+                    if (characterBody.intersects(temp)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
-        if (y > grid.getScreenHeight()-grid.getTileSize() || y < 0 || x < 0 || x > grid.getScreenWidth() - grid.getTileSize() ){
+    /**
+     * Checks if the character's next movement will collide with an obstacle.
+     * @param characterX - Character's X position
+     * @param characterY - Character's Y position
+     * @return
+     */
+    public boolean obstacleCheck(int characterX, int characterY){
+        Rectangle character = new Rectangle(characterX,characterY,grid.getTileSize(),grid.getTileSize());
+
+        // Prevents character from leaving the screen
+        if (characterY > grid.getScreenHeight()-grid.getTileSize() || characterY < 0 || characterX < 0 || characterX > grid.getScreenWidth() - grid.getTileSize() ){
             return true;
         }
 
-        int wallx;
-        int wally;
-
-        if (x % grid.getTileSize() < grid.getTileSize()/2){
-            wallx = x - (x% grid.getTileSize());
+        if (obstacleCheck(grave1, character)) {
+            return true;
+        } else if (obstacleCheck(grave2, character)) {
+            return true;
+        } else if (obstacleCheck(grave3Bottom, character)) {
+            return true;
+        } else if (obstacleCheck(grave3Top, character)) {
+            return true;
+        } else if (obstacleCheck(wallHorizontal1, character)) {
+            return true;
+        } else if (obstacleCheck(wallHorizontal2, character)) {
+            return true;
+        } else if (obstacleCheck(wallHorizontal3, character)) {
+            return true;
+        } else if (obstacleCheck(wallHorizontal4, character)) {
+            return true;
+        } else if (obstacleCheck(wallVertical1, character)) {
+            return true;
+        } else if (obstacleCheck(wallVertical2, character)) {
+            return true;
+        }  else if (obstacleCheck(wallVertical3, character)) {
+            return true;
+        } else {
+            return false;
         }
-        else {
-            wallx = x - (x% grid.getTileSize()) + grid.getTileSize();
-        }
-        if (y % grid.getTileSize() < grid.getTileSize()/2){
-            wally = y - (y% grid.getTileSize());
-        }
-        else {
-            wally = y - (y% grid.getTileSize()) + grid.getTileSize();
-        }
-        Rectangle rectangle2 = new Rectangle(wallx,wally,grid.getTileSize(),grid.getTileSize());
-
-        boolean collision = (character.intersects(rectangle2)) &&
-                (grave1[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 ||
-                grave2[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 ||
-                grave3Top[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 ||
-                grave3Bottom[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 ||
-                wallHorizontal1[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 ||
-                wallHorizontal2[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 ||
-                wallHorizontal3[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 ||
-                wallHorizontal4[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 ||
-                wallVertical1[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 ||
-                wallVertical2[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 ||
-                wallVertical3[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1);
-
-        return  collision;
-
-//        return (character.intersects(rectangle2)) && (grave1[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 || wallHorizontal1[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1);
     }
 }
