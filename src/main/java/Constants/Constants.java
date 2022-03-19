@@ -21,8 +21,8 @@ public class Constants {
     // Obstacles
     public final static char GRAVE_1 = '0';
     public final static char GRAVE_2 = '1';
-    public final static char GRAVE_3 = '2';
-    public final static char GRAVE_4 = '3';
+    public final static char GRAVE_3_TOP = '2';
+    public final static char GRAVE_4_BOTTOM = '3';
     public final static char WALL_HORIZONTAL_1 = '4';
     public final static char WALL_HORIZONTAL_2 = '5';
     public final static char WALL_HORIZONTAL_3 = '6';

@@ -32,69 +32,43 @@ public class Obstacle {
      */
     public BufferedImage getSprite(char assetSpecifier) {
 
-        if (assetSpecifier == Constants.GRAVE_1) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/grave_1_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        String imagePath = "";
+
+        switch (assetSpecifier) {
+            case Constants.GRAVE_1:
+                imagePath = "/map/grave_1_128.png";
+                break;
+            case Constants.GRAVE_2:
+                imagePath = "/map/grave_2_128.png";
+                break;
+            case Constants.GRAVE_3_TOP:
+                imagePath = "/map/grave_3_top_128.png";
+                break;
+            case Constants.GRAVE_4_BOTTOM:
+                imagePath = "/map/grave_3_bottom_128.png";
+                break;
+            case Constants.WALL_HORIZONTAL_1:
+                imagePath = "/map/wall_horizontal_1_128.png";
+                break;
+            case Constants.WALL_HORIZONTAL_2:
+                imagePath = "/map/wall_horizontal_2_128.png";
+                break;
+            case Constants.WALL_HORIZONTAL_3:
+                imagePath = "/map/wall_horizontal_3_128.png";
+                break;
+            case Constants.WALL_HORIZONTAL_4:
+                imagePath = "/map/wall_horizontal_4_128.png";
+                break;
+            default:
+                return null;
         }
-        else if (assetSpecifier == Constants.GRAVE_2) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/grave_2_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+        try {
+            this._sprite = ImageIO.read(getClass().getResourceAsStream(imagePath));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else if (assetSpecifier == Constants.GRAVE_3) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/grave_3_top_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (assetSpecifier == Constants.GRAVE_4) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/grave_3_bottom_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (assetSpecifier == Constants.WALL_VERTICAL_1) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/wall_top_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (assetSpecifier == Constants.WALL_VERTICAL_2) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/wall_middle_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (assetSpecifier == Constants.WALL_VERTICAL_3) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/wall_bottom_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (assetSpecifier == Constants.WALL_VERTICAL_4) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/wall_vertical_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (assetSpecifier == Constants.WALL_HORIZONTAL_1) {
-            try {
-                this._sprite = ImageIO.read(getClass().getResourceAsStream("/map/wall_horizontal_1_128.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+
         return _sprite;
     }
 
