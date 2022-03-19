@@ -30,7 +30,6 @@ public class Constants {
     public final static char WALL_VERTICAL_1 = '8';
     public final static char WALL_VERTICAL_2 = '9';
     public final static char WALL_VERTICAL_3 = '-';
-    public final static char WALL_VERTICAL_4 = '+';
 
     // Items
     public final static char HEART_FOREGROUND = 'H';

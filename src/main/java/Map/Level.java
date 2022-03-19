@@ -26,6 +26,9 @@ public class Level {
     private int[][] wallHorizontal2;
     private int[][] wallHorizontal3;
     private int[][] wallHorizontal4;
+    private int[][] wallVertical1;
+    private int[][] wallVertical2;
+    private int[][] wallVertical3;
     private ArrayList<Zombie> zombieList;
     private PlayerActor Hero;
     private Grid grid;
@@ -53,6 +56,9 @@ public class Level {
         this.wallHorizontal2 = new int[24][24];
         this.wallHorizontal3 = new int[24][24];
         this.wallHorizontal4 = new int[24][24];
+        this.wallVertical1 = new int[24][24];
+        this.wallVertical2 = new int[24][24];
+        this.wallVertical3 = new int[24][24];
         this.itemDetection = new ItemDetection(this, grid);
 
         BufferedReader myReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path)));
@@ -88,6 +94,15 @@ public class Level {
                         break;
                     case Constants.WALL_HORIZONTAL_4:
                         wallHorizontal4[x][y] = 1;
+                        break;
+                    case Constants.WALL_VERTICAL_1:
+                        wallVertical1[x][y] = 1;
+                        break;
+                    case Constants.WALL_VERTICAL_2:
+                        wallVertical2[x][y] = 1;
+                        break;
+                    case Constants.WALL_VERTICAL_3:
+                        wallVertical3[x][y] = 1;
                         break;
                     case Constants.ZOMBIE_FOREGROUND:
                         zombieList.add(new Zombie(grid, keyboard, x * grid.getTileSize(), y * grid.getTileSize(), this));
@@ -132,6 +147,9 @@ public class Level {
         generateObstacle(Constants.WALL_HORIZONTAL_2);
         generateObstacle(Constants.WALL_HORIZONTAL_3);
         generateObstacle(Constants.WALL_HORIZONTAL_4);
+        generateObstacle(Constants.WALL_VERTICAL_1);
+        generateObstacle(Constants.WALL_VERTICAL_2);
+        generateObstacle(Constants.WALL_VERTICAL_3);
     }
 
     public PlayerActor getHero() {
@@ -184,6 +202,15 @@ public class Level {
                 break;
             case Constants.WALL_HORIZONTAL_4:
                 obstacleArray = wallHorizontal4;
+                break;
+            case Constants.WALL_VERTICAL_1:
+                obstacleArray = wallVertical1;
+                break;
+            case Constants.WALL_VERTICAL_2:
+                obstacleArray = wallVertical2;
+                break;
+            case Constants.WALL_VERTICAL_3:
+                obstacleArray = wallVertical3;
                 break;
             default:
                 return;
@@ -278,8 +305,10 @@ public class Level {
                 wallHorizontal1[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 ||
                 wallHorizontal2[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 ||
                 wallHorizontal3[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 ||
-                wallHorizontal4[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1
-                        );
+                wallHorizontal4[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 ||
+                wallVertical1[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 ||
+                wallVertical2[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1 ||
+                wallVertical3[wallx/grid.getTileSize()][wally/grid.getTileSize()] == 1);
 
         return  collision;
 

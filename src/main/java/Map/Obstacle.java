@@ -59,6 +59,15 @@ public class Obstacle {
             case Constants.WALL_HORIZONTAL_4:
                 imagePath = "/map/wall_horizontal_4_128.png";
                 break;
+            case Constants.WALL_VERTICAL_1:
+                imagePath = "/map/wall_top_32.jpg";
+                break;
+            case Constants.WALL_VERTICAL_2:
+                imagePath = "/map/wall_middle_32.jpg";
+                break;
+            case Constants.WALL_VERTICAL_3:
+                imagePath = "/map/wall_bottom_32.jpg";
+                break;
             default:
                 return null;
         }
