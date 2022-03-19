@@ -2,6 +2,7 @@ package Map;
 import Characters.PlayerActor;
 import Characters.Zombie;
 import Clock.TickClock;
+import Constants.Constants;
 import IO.Keyboard;
 import items.BonusTreasure;
 import items.Item;
@@ -51,50 +52,55 @@ public class Level {
             char[] chars = str.toCharArray();           //Turn line into char array for easy traversal
             int x = 0;
             while (x < str.length()){
-                if (chars[x] == '#'){
-                    graves[x][y] = 1;
+                switch (chars[x]) {
+                    case Constants.GRAVE_1:
+                        graves[x][y] = 1;
+                        break;
+                    case Constants.WALL_HORIZONTAL_1:
+                        wallHorizontal[x][y] = 1;
+                        break;
+                    case Constants.ZOMBIE_FOREGROUND:
+                        zombieList.add(new Zombie(grid, keyboard, x * grid.getTileSize(), y * grid.getTileSize(), this));
+                        break;
+                    case Constants.HEART_FOREGROUND:
+                        itemList.add(0, new Treasure(grid, x * grid.getTileSize(), y * grid.getTileSize()));
+                        break;
+                    case Constants.TRAP_FOREGROUND:
+                        itemList.add(0, new Trap(grid, x * grid.getTileSize(), y * grid.getTileSize()));
+                        break;
+                    case Constants.BONUS_FOREGROUND:
+                        itemList.add(0, new BonusTreasure(grid, x * grid.getTileSize(), y * grid.getTileSize()));
+                        break;
+                    case Constants.START_FOREGROUND:
+                        int[] position = new int[2];
+                        position[0] = x * grid.getTileSize();
+                        position[1] = y * grid.getTileSize();
+                        Hero = new PlayerActor(grid, keyboard, position, this);
+                        break;
+                    default:
+                        break;
                 }
-                else if (chars[x] == '='){
-                    wallHorizontal[x][y] = 1;
-                }
-                else if(chars[x] == 'Z'){
-                    zombieList.add(new Zombie(grid, keyboard, x*grid.getTileSize(), y*grid.getTileSize(), this));
-                }
-                else if(chars[x] == 'T'){
-                    itemList.add(0, new Treasure(grid, x*grid.getTileSize(), y*grid.getTileSize()));
-                }
-                else if(chars[x] == 'P'){
-                    itemList.add(0, new Trap(grid, x*grid.getTileSize(), y*grid.getTileSize()));
-                }
-                else if(chars[x] == 'B'){
-                    itemList.add(0, new BonusTreasure(grid, x*grid.getTileSize(), y*grid.getTileSize()));
-                }
-                else if (chars[x] == 'S'){
-                    int[] position = new int[2];
-                    position[0] = x* grid.getTileSize();
-                    position[1] = y* grid.getTileSize();
-                    Hero = new PlayerActor(grid,keyboard, position, this); //Should position be passed onto the hero here from the map? If so new paramter                }
-                }
+
                 x++;
             }
             y++;
             str = myReader.readLine();
         }
 
+        // Characters are put in this thread so that they can only move on clock ticks
         this.tickClock = new TickClock(Hero, zombieList);
         this.tickClockThread = new Thread(tickClock);
         this.tickClockThread.start();
 
         myReader.close();
 
-        gravesGenerate();
-        wallHorizontalGenerate();
+        generateObstacle(Constants.GRAVE_1);
+        generateObstacle(Constants.WALL_HORIZONTAL_1);
     }
 
     public PlayerActor getHero() {
         return Hero;
     }
-
 
     /**
      * Returns the map's item limit.
@@ -112,29 +118,24 @@ public class Level {
     }
 
     /**
-     *
+     * 
      */
-    public void gravesGenerate(){
-        for(int i = 0; i < graves.length; i++) {
-            for(int j = 0; j< graves.length; j++) {
-                if (graves[i][j] == 1){
-                    Obstacle obstacle = new Obstacle(i * grid.getTileSize(),j * grid.getTileSize(), grid);
-                    obstacle.setSprite(ObstacleSpecifier.GRAVE_1);
-                    obstacleList.add(obstacle);
-                }
-            }
-        }
-    }
+    public void generateObstacle(char assetSpecifier){
+        int obstacleArray[][] = null;
 
-    /**
-     *
-     */
-    public void wallHorizontalGenerate(){
-        for(int i = 0; i < wallHorizontal.length; i++) {
-            for(int j = 0; j< wallHorizontal.length; j++) {
-                if (wallHorizontal[i][j] == 1){
+
+        switch (assetSpecifier) {
+            case Constants.GRAVE_1:
+                obstacleArray = graves;
+                break;
+            case Constants.WALL_HORIZONTAL_1:
+                obstacleArray = wallHorizontal;
+        }
+        for(int i = 0; i < obstacleArray.length; i++) {
+            for(int j = 0; j< obstacleArray.length; j++) {
+                if (obstacleArray[i][j] == 1){
                     Obstacle obstacle = new Obstacle(i * grid.getTileSize(),j * grid.getTileSize(), grid);
-                    obstacle.setSprite(ObstacleSpecifier.WALL_HORIZONTAL_1);
+                    obstacle.setSprite(assetSpecifier);
                     obstacleList.add(obstacle);
                 }
             }
