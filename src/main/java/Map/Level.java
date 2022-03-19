@@ -255,12 +255,12 @@ public class Level {
                 obstacle.draw(g2);}
         }
 
-        for (Zombie zombie: zombieList){
-            if (zombie != null) {zombie.draw(g2);}
-        }
-
         for(Item item: itemList) {
             if (item != null) {item.draw(g2);}
+        }
+
+        for (Zombie zombie: zombieList){
+            if (zombie != null) {zombie.draw(g2);}
         }
 
         if (Hero != null) {Hero.draw(g2);}
