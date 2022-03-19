@@ -107,7 +107,7 @@ public class Zombie extends Character implements Runnable {
     public void update() {
 
         if (heroKill(level.getHero())){
-            _keyboard.changeGameState = 2;
+            //_keyboard.changeGameState = 2;
             _grid.gameState = 2;
 
         }

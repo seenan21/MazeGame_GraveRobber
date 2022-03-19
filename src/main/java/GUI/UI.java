@@ -6,6 +6,7 @@ import Characters.PlayerActor;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
+import items.ItemDetection;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -163,11 +164,18 @@ public class UI{
         y = gr.getScreenHeight() / 2 - (gr.getTileSize() * 3);
         g2.drawString(text, x, y);
 
+        g2.setColor(Color.GREEN);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
         // HOW YOU DIED
         if (playerActor.getHealth() <= 0){
             text = "TRAPS JUST KILLED YOU!";
-            g2.setColor(Color.GREEN);
-            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
+            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+            x = gr.getScreenWidth() / 2 - textLength / 2;
+            y += gr.getTileSize()*2;
+            g2.drawString(text, x, y);
+        }
+        else if (gr.win){
+            text = "CONGRATULATIONS!";
             textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             x = gr.getScreenWidth() / 2 - textLength / 2;
             y += gr.getTileSize()*2;
@@ -175,8 +183,6 @@ public class UI{
         }
         else {
             text = "ZOMBIES JUST KILLED YOU!";
-            g2.setColor(Color.GREEN);
-            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
             textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             x = gr.getScreenWidth() / 2 - textLength / 2;
             y += gr.getTileSize()*2;
