@@ -85,7 +85,7 @@ public class ItemDetection {
                         itemList.set(i, null);
                     }
                     else if ((itemList.get(i)).getPoints() == 999) {
-                        if (playerActor.regularHeartCollected == Constants.regReward){
+                        if (playerActor.regularHeartCollected >= Constants.regReward){
                             _grid.gameState = 2;
                             _grid.win = true;
                         }
