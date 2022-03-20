@@ -83,10 +83,8 @@ public class Skeleton extends Character implements Runnable {
         // Toggle back and forth between horizontal and vertical
         if(moveCounter > 2) {
             if (heroX > skeletonX) {
-                System.out.println("EAST");
                 direction = Direction.EAST;
             } else {
-                System.out.println("WEST");
                 direction = Direction.WEST;
             }
         } else {
