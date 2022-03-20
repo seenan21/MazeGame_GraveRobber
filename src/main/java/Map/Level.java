@@ -139,7 +139,7 @@ public class Level {
         }
 
         // Characters are put in this thread so that they can only move on clock ticks
-        this.tickClock = new TickClock(Hero, zombieList);
+        this.tickClock = new TickClock(Hero, zombieList, Boss);
         this.tickClockThread = new Thread(tickClock);
         this.tickClockThread.start();
 
