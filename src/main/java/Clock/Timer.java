@@ -6,6 +6,7 @@ package Clock;
 public class Timer implements Runnable{
 
     private double elapsedTime = 0;
+    private boolean startTimer = false;
 
     @Override
     public void run() {
@@ -15,8 +16,19 @@ public class Timer implements Runnable{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            elapsedTime = elapsedTime + 0.01;
+            if(startTimer) {
+                elapsedTime = elapsedTime + 0.01;
+            }
+
         }
+    }
+
+    /**
+     *
+     * @param startTimer - starts the timer count.
+     */
+    public void setStartTimer(boolean startTimer) {
+        this.startTimer = startTimer;
     }
 
     /**

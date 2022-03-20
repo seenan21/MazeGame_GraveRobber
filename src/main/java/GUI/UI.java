@@ -74,6 +74,7 @@ public class UI{
 
             try {
                 drawPlayingUI(g2);
+                timer.setStartTimer(true);
             }catch (IOException e){
                 e.printStackTrace();
             }
