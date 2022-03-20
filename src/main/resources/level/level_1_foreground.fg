@@ -9,13 +9,13 @@
 -           B  0 1 0 TT-
 9     0T      T0 H 0   9
 8 1   0000TT0000   0   8
-- H    T       T 1 0TT -
+- H    T     Z T 1 0TT -
 9    1 0  00 H 0 H 0   9
 8    H 0   0T000   0   8
 - 1    T   0   0 1 0 TT-
 9 H    00      0 H 0   9
 8    1 00    3 0   0   8
--    H T   0 BM0 1 0TT -
+-  Z H T   0 BM0 1 0TT -
 9  00000   00000 H 0   9
 8        0        TT   8
 -TT0TT0TT0TT0TT0TT00 TT-
