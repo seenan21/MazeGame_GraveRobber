@@ -242,16 +242,25 @@ public class Grid extends JPanel implements Runnable{
         }
     }
 
+    /**
+     * Plays music
+     */
     public void playMusic(int i) {
         sound.setFile(i);
         sound.play();
         sound.loop();
     }
 
+    /**
+     * Stops music
+     */
     public void stopMusic() {
         sound.stop();
     }
 
+    /**
+     * Plays a sound
+     */
     public void playSound(int i) {
         sound.setFile(i);
         sound.play();

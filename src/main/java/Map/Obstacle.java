@@ -7,7 +7,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-
+/**
+ * Characters cannot walk through obstacles on the map.
+ */
 public class Obstacle {
     private int posX;
     private int posY;
@@ -81,13 +83,19 @@ public class Obstacle {
         return _sprite;
     }
 
+    /**
+     *
+     * @return x position on map
+     */
     public int getPosX() {
         return posX;
     }
 
+    /**
+     *
+     * @return y position on map
+     */
     public int getPosY(){return posY;}
-
-    public void render(){} //Must implement this
 
     public void draw(Graphics2D g2) {
         g2.drawImage(_sprite,posX,posY, _grid.getTileSize(), _grid.getTileSize(), null);

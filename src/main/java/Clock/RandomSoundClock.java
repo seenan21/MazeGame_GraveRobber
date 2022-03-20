@@ -2,6 +2,9 @@ package Clock;
 
 import Map.Sound;
 
+/**
+ * The game will play a random sound.
+ */
 public class RandomSoundClock implements Runnable{
     Sound sound = new Sound();
 

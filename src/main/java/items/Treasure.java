@@ -1,11 +1,8 @@
 package items;
 
-import Characters.Direction;
-import Constants.Constants;
 import Map.Grid;
-
 import javax.imageio.ImageIO;
-import java.awt.*;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 

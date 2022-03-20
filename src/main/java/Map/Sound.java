@@ -4,6 +4,9 @@ import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * Holds all sound functions for the project.
+ */
 public class Sound {
     Clip clip;
     URL soundURL[] = new URL[20];
@@ -25,6 +28,9 @@ public class Sound {
         soundURL[13] = getClass().getResource("/sound/hurt.wav");
     }
 
+    /**
+     * Sets the sound file.
+     */
     public void setFile(int i) {
         try{
             AudioInputStream sound = AudioSystem.getAudioInputStream(soundURL[i]);
@@ -39,14 +45,23 @@ public class Sound {
         }
     }
 
+    /**
+     * Plays the sound file.
+     */
     public void play() {
         clip.start();
     }
 
+    /**
+     * Loops the sound file.
+     */
     public void loop() {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
+    /**
+     * Stops the sound file.
+     */
     public void stop() {
         clip.stop();
     }

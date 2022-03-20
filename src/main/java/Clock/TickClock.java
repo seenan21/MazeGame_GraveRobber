@@ -1,7 +1,6 @@
 package Clock;
 
-import Characters.Direction;
-import Characters.Mummy;
+import Characters.Skeleton;
 import Characters.PlayerActor;
 import Characters.Zombie;
 import Constants.Constants;
@@ -16,9 +15,9 @@ public class TickClock implements Runnable{
 
     private PlayerActor _playerActor;
     private ArrayList<Zombie> _zombieList;
-    private Mummy _boss;
+    private Skeleton _boss;
 
-    public TickClock(PlayerActor playerActor, ArrayList<Zombie> zombieList, Mummy boss) {
+    public TickClock(PlayerActor playerActor, ArrayList<Zombie> zombieList, Skeleton boss) {
         this._playerActor = playerActor;
         this._zombieList = zombieList;
         this._boss = boss;
