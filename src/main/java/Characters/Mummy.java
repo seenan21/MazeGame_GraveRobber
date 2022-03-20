@@ -4,7 +4,6 @@ import IO.Keyboard;
 import Map.Grid;
 import Map.Level;
 
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -99,8 +98,6 @@ public class Mummy extends Character implements Runnable {
 
         return direction;
     }
-
-
 
     public void update() {
         if (heroKill(level.getHero())){
