@@ -17,6 +17,7 @@ public class Mummy extends Character implements Runnable {
     Position position;
     Boolean sleep;
     private int moveCounter = 0;
+    private int i = 0;
 
     public Mummy(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level) {
         super(grid, keyboard, level);
@@ -50,6 +51,25 @@ public class Mummy extends Character implements Runnable {
         }
     }
 
+    /**
+     *
+     * @param hero
+     * @return
+     */
+    public boolean heroKill(PlayerActor hero){
+        int[] position = new int[2];
+        position = hero.getPosition();
+
+        Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],_grid.getTileSize()-10,_grid.getTileSize()-10);
+        Rectangle h = new Rectangle(position[0], position[1], _grid.getTileSize()-10, _grid.getTileSize()-10);
+        if (i == 0 && z.intersects(h)) {
+            _grid.playSound(6);
+            i++;
+        }
+        return z.intersects(h);
+
+    }
+
     public Direction followPlayer(Character hero) {
         int heroX = hero.getPosition()[Constants.X];
         int heroY = hero.getPosition()[Constants.Y];
@@ -77,63 +97,16 @@ public class Mummy extends Character implements Runnable {
             moveCounter = 0;
         }
 
-        System.out.println(moveCounter);
         return direction;
     }
 
-//    private Direction bestMove(Character Hero){
-//        int[] heroPosition = Hero.getPosition();
-//        Position targetPosition = new Position(heroPosition[Constants.X], heroPosition[Constants.Y]);
-//        Position skeletonPosition = this.position;
-//
-//        Position[] positions = new Position[]{
-//                new Position(skeletonPosition.x + this.getSpeed(), skeletonPosition.y),
-//                new Position(skeletonPosition.x - this.getSpeed(), skeletonPosition.y),
-//                new Position(skeletonPosition.x, skeletonPosition.y + this.getSpeed()),
-//                new Position(skeletonPosition.x, skeletonPosition.y - this.getSpeed()),
-//        };
-//
-//        int min = 9999;
-//        Position bestPosition = positions[0];
-//        for(Position position: positions){
-//            int num = (int)Math.sqrt((targetPosition.y - position.y) * (targetPosition.y - position.y) + (targetPosition.x - position.x) * (targetPosition.x - position.x));
-////            if(level.collisionCheck(this, position.x,position.y)){
-////                continue;
-////            }
-//            if (num < min) {
-//                min = num;
-//                bestPosition = position;
-//            }
-//        }
-//
-//        Direction direction = Direction.NORTH;
-//
-//        if(moveToggle) {
-//            if (bestPosition == positions[0]) {
-//                direction = Direction.EAST;
-//            } else if (bestPosition == positions[1]) {
-//                direction = Direction.WEST;
-//            }
-//        } else {
-//            if (bestPosition == positions[2]) {
-//                direction = Direction.SOUTH;
-//            } else if (bestPosition == positions[3]) {
-//                direction = Direction.NORTH;
-//            }
-//        }
-//
-//        moveToggle = !moveToggle;
-//        System.out.println(direction);
-//
-//        return direction;
-//
-//    }
+
 
     public void update() {
-//        setNextMovement(bestMove(level.getHero()));
-//        Position move = bestMove(level.getHero());
-//        this.position = move;
-//        this.setPosition(move.x,move.y);
+        if (heroKill(level.getHero())){
+            _grid.gameState = 2;
+
+        }
     }
 
     public void draw(Graphics2D g2) {
