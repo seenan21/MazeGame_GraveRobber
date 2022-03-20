@@ -16,7 +16,7 @@ public class Constants {
 
     // Time
     // Adjust these speeds to manipulate tick movement
-    public final static int TICK = 256; // milliseconds
+    public final static int TICK = 384; // milliseconds
     public final static int WALK_TIME = TICK/32; // milliseconds
 
     // Asset Specifier //
