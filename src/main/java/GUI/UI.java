@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Objects;
 
+/**
+ * Contains all UI functions for the project.
+ */
 public class UI{
 
     private Grid _grid;

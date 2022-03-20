@@ -10,24 +10,24 @@ import java.io.IOException;
 import java.awt.*;
 import java.lang.*;
 
-public class Mummy extends Character implements Runnable {
+/**
+ * The skeleton enemy will follow the main character.
+ */
+public class Skeleton extends Character implements Runnable {
 
     PlayerActor target;
-    Position position;
     Boolean sleep;
     private int moveCounter = 0;
     private int i = 0;
 
-    public Mummy(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level) {
+    public Skeleton(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level) {
         super(grid, keyboard, level);
         this.setPosition(positionX, positionY);
         this.setStartState(positionX, positionY);
         this.setSpeed(1); //Testing speed
         target = level.getHero();
-        position = new Position(positionX, positionY);
         sleep = true;
         getImage();
-
     }
 
     @Override
@@ -51,13 +51,13 @@ public class Mummy extends Character implements Runnable {
     }
 
     /**
-     *
-     * @param hero
-     * @return
+     * Kills the player when on the same tile.
+     * @param playerActor - main character
+     * @return if the player has died
      */
-    public boolean heroKill(PlayerActor hero){
+    public boolean heroKill(PlayerActor playerActor){
         int[] position = new int[2];
-        position = hero.getPosition();
+        position = playerActor.getPosition();
 
         Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],_grid.getTileSize()-10,_grid.getTileSize()-10);
         Rectangle h = new Rectangle(position[0], position[1], _grid.getTileSize()-10, _grid.getTileSize()-10);
@@ -66,16 +66,21 @@ public class Mummy extends Character implements Runnable {
             i++;
         }
         return z.intersects(h);
-
     }
 
-    public Direction followPlayer(Character hero) {
-        int heroX = hero.getPosition()[Constants.X];
-        int heroY = hero.getPosition()[Constants.Y];
+    /**
+     * Tells the enemy which way to move to find the player
+     * @param playerActor - Main Characer
+     * @return the direction the enemy should move
+     */
+    public Direction followPlayer(PlayerActor playerActor) {
+        int heroX = playerActor.getPosition()[Constants.X];
+        int heroY = playerActor.getPosition()[Constants.Y];
         int skeletonX = this.getPosition()[Constants.X];
         int skeletonY = this.getPosition()[Constants.Y];
         Direction direction;
 
+        // Toggle back and forth between horizontal and vertical
         if(moveCounter > 2) {
             if (heroX > skeletonX) {
                 System.out.println("EAST");

@@ -30,7 +30,7 @@ public class Level {
     private int[][] wallVertical3;
     private ArrayList<Zombie> zombieList;
     private PlayerActor Hero;
-    private Mummy Boss;
+    private Skeleton Boss;
     private Grid grid;
     private Keyboard keyboard;
     private ItemDetection itemDetection;
@@ -120,7 +120,7 @@ public class Level {
                         itemList.add(0, new BonusTreasure(grid, x * grid.getTileSize(), y * grid.getTileSize()));
                         break;
                     case Constants.MUMMY:
-                        Boss = new Mummy(grid, keyboard,x*grid.getTileSize(), y * grid.getTileSize(), this );
+                        Boss = new Skeleton(grid, keyboard,x*grid.getTileSize(), y * grid.getTileSize(), this );
                         break;
                     case Constants.START_FOREGROUND:
                         int[] position = new int[2];

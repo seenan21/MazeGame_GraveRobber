@@ -1,5 +1,8 @@
 package Constants;
 
+/**
+ * Contains all constants for the project.
+ */
 public class Constants {
     // Position
     public final static int X = 0;

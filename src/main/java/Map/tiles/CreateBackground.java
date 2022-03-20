@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/**]
+ * Creates the background grid using background tiles.
+ */
 public class CreateBackground {
 
     private Grid _grid;
@@ -18,8 +21,8 @@ public class CreateBackground {
     private String _pathMap1 = "/level/level_1_background.bg";
 
     /**
-     *
-     * @param grid
+     * Creates the background grid using background tiles.
+     * @param grid - Grid of the map
      */
     public CreateBackground(Grid grid){
         this._grid = grid;
@@ -31,7 +34,7 @@ public class CreateBackground {
     }
 
     /**
-     *
+     * Loads the background tiles.
      */
     public void getTileImage(){
         try{
@@ -96,8 +99,8 @@ public class CreateBackground {
     }
 
     /**
-     *
-     * @param mapFilePath
+     * Loads a new map.
+     * @param mapFilePath - file path to map background file
      */
     public void loadMap(String mapFilePath){
         try {
@@ -127,10 +130,6 @@ public class CreateBackground {
         }
     }
 
-    /**
-     *
-     * @param g2
-     */
     public void draw(Graphics2D g2){
         int col = 0;
         int row = 0;

@@ -6,6 +6,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * If the play steps on a trap they will receive damage.
+ */
 public class Trap extends Item{
 
     public Trap(Grid grid, int positionX, int positionY) {

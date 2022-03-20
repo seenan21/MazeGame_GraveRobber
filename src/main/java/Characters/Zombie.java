@@ -13,7 +13,7 @@ import java.util.Random;
 import java.awt.*;
 
 /**
- *
+ * The zombie enemy runs in straight lines.
  */
 public class Zombie extends Character implements Runnable {
     private boolean _rush;
@@ -32,7 +32,7 @@ public class Zombie extends Character implements Runnable {
     }
 
     /**
-     *
+     * Returns the sprite image for the zombie
      */
     public void getImage(){
         try{
@@ -54,13 +54,13 @@ public class Zombie extends Character implements Runnable {
     }
 
     /**
-     *
-     * @param hero
-     * @return
+     * Kills the player when on the same tile.
+     * @param playerActor - main character
+     * @return if the player has died
      */
-    public boolean heroKill(PlayerActor hero){
+    public boolean heroKill(PlayerActor playerActor){
         int[] position = new int[2];
-        position = hero.getPosition();
+        position = playerActor.getPosition();
 
         Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],_grid.getTileSize()-10,_grid.getTileSize()-10);
         Rectangle h = new Rectangle(position[0], position[1], _grid.getTileSize()-10, _grid.getTileSize()-10);
@@ -69,13 +69,12 @@ public class Zombie extends Character implements Runnable {
             i++;
         }
         return z.intersects(h);
-
     }
 
     /**
-     *
-     * @param rushDirection
-     * @return
+     * The zombie rushes in a single direction
+     * @param rushDirection - direction the zombie is running
+     * @return the direction the zombie is running
      */
     public boolean rush(Direction rushDirection) {
         if(_rush){
