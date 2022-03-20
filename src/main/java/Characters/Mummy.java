@@ -50,42 +50,49 @@ public class Mummy extends Character {
     }
 
     private Position bestMove(Character Hero){
-        int[] t = Hero.getPosition();
-        Position target = new Position(t[0], t[1]);
-        Position p0 = this.position;
-
+        int[] heroPosition = Hero.getPosition();
+        Position targetPosition = new Position(heroPosition[Constants.X], heroPosition[Constants.Y]);
+        Position skeletonPosition = this.position;
 
         Position[] positions = new Position[]{
-                new Position(p0.x + this.getSpeed(), p0.y),
-                new Position(p0.x - this.getSpeed(), p0.y),
-                new Position(p0.x, p0.y + this.getSpeed()),
-                new Position(p0.x, p0.y - this.getSpeed()),
+                new Position(skeletonPosition.x + this.getSpeed(), skeletonPosition.y),
+                new Position(skeletonPosition.x - this.getSpeed(), skeletonPosition.y),
+                new Position(skeletonPosition.x, skeletonPosition.y + this.getSpeed()),
+                new Position(skeletonPosition.x, skeletonPosition.y - this.getSpeed()),
         };
 
-
         int min = 9999;
-        Position bestP = positions[0];
-        for(Position p: positions){
-            int num = (int)Math.sqrt((target.y - p.y) * (target.y - p.y) + (target.x - p.x) * (target.x - p.x));
-            if(level.collisionCheck(this, p.x,p.y)){
+        Position bestPosition = positions[0];
+        for(Position position: positions){
+            int num = (int)Math.sqrt((targetPosition.y - position.y) * (targetPosition.y - position.y) + (targetPosition.x - position.x) * (targetPosition.x - position.x));
+            if(level.collisionCheck(this, position.x,position.y)){
                 continue;
             }
             if (num < min) {
                 min = num;
-                bestP = p;
+                bestPosition = position;
             }
         }
-        //System.out.println(bestP.x);
-        return bestP;
+
+        if (bestPosition.x < skeletonPosition.x) {
+            setDirectionFacing(Direction.WEST);
+        } else if ((bestPosition.x > skeletonPosition.x)) {
+            setDirectionFacing(Direction.EAST);
+        } else if ((bestPosition.y < skeletonPosition.y)) {
+            setDirectionFacing(Direction.NORTH);
+        } else if ((bestPosition.y > skeletonPosition.y)) {
+            setDirectionFacing(Direction.SOUTH);
+        }
+
+
+        return bestPosition;
 
     }
 
     public void update() {
-
         Position move = bestMove(level.getHero());
         this.position = move;
         this.setPosition(move.x,move.y);
-
     }
 
     public void draw(Graphics2D g2) {
