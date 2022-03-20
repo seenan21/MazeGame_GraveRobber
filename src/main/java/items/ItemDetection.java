@@ -70,23 +70,29 @@ public class ItemDetection {
                 if(playerBodyGrid.intersects(itemBodyGrid) && itemList.get(i).isAvailable()) {
                     if ((itemList.get(i)).getPoints() == -1) {
                         if (!clock.isHurting()) {
-                            _grid.playSound(13);
-                            System.out.println("Trap triggered.");
-                            playerActor.addToHealth((itemList.get(i)).getPoints());
-                            clock.setIsHurting(true);
+                            if (_grid.gameState == _grid.playState) {
+                                _grid.playSound(13);
+                                System.out.println("Trap triggered.");
+                                playerActor.addToHealth((itemList.get(i)).getPoints());
+                                clock.setIsHurting(true);
+                            }
                         }
                     }
                     else if ((itemList.get(i)).getPoints() == 1) {
-                        _grid.playSound(1);
-                        System.out.println("Heart collected.");
-                        playerActor.addToHealth((itemList.get(i)).getPoints());
-                        itemList.set(i, null);
+                        if (_grid.gameState == _grid.playState) {
+                            _grid.playSound(1);
+                            System.out.println("Heart collected.");
+                            playerActor.addToHealth((itemList.get(i)).getPoints());
+                            itemList.set(i, null);
+                        }
                     }
                     else if ((itemList.get(i)).getPoints() == 3) {
-                        _grid.playSound(2);
-                        System.out.println("BIG Heart collected.");
-                        playerActor.addToHealth((itemList.get(i)).getPoints());
-                        itemList.set(i, null);
+                        if (_grid.gameState == _grid.playState) {
+                            _grid.playSound(2);
+                            System.out.println("BIG Heart collected.");
+                            playerActor.addToHealth((itemList.get(i)).getPoints());
+                            itemList.set(i, null);
+                        }
                     }
                     else if ((itemList.get(i)).getPoints() == 999) {
                         if (playerActor.regularHeartCollected >= Constants.regReward){

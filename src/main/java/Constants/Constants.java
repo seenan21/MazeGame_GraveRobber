@@ -9,7 +9,7 @@ public class Constants {
     public final static int GRASS = 0;
 
     // Total regular reward number
-    public final static int regReward = 14;
+    public final static int regReward = 20;
 
     // Time
     // Adjust these speeds to manipulate tick movement

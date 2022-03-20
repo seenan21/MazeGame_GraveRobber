@@ -116,6 +116,7 @@ public class UI{
             g2.drawString(">", x- _grid.getTileSize()*2, y);
         }
         if (_keyboard.changeGameState == 1){
+            _grid.playSound(3);
             _grid.gameState = 1;
         }
 
