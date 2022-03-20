@@ -17,14 +17,16 @@ public class Mummy extends Character {
 
     PlayerActor target;
     Position position;
+    Boolean sleep;
 
     public Mummy(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level) {
         super(grid, keyboard, level);
         this.setPosition(positionX, positionY);
         this.setStartState(positionX, positionY);
-        this.setSpeed(5); //Testing speed
+        this.setSpeed(1); //Testing speed
         target = level.getHero();
         position = new Position(positionX, positionY);
+        sleep = true;
 
     }
 

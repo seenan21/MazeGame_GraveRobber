@@ -45,5 +45,8 @@ public class Constants {
     public final static char START_FOREGROUND = 'S';
     public final static char EXIT_FOREGROUND = 'X';
 
+    // Mummy
+    public final static char MUMMY = 'M';
+
 
 }

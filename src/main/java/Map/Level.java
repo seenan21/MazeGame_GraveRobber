@@ -1,8 +1,6 @@
 package Map;
+import Characters.*;
 import Characters.Character;
-import Characters.CharacterType;
-import Characters.PlayerActor;
-import Characters.Zombie;
 import Clock.TickClock;
 import Constants.Constants;
 import IO.Keyboard;
@@ -32,6 +30,7 @@ public class Level {
     private int[][] wallVertical3;
     private ArrayList<Zombie> zombieList;
     private PlayerActor Hero;
+    private Mummy Boss;
     private Grid grid;
     private Keyboard keyboard;
     private ItemDetection itemDetection;
@@ -119,6 +118,9 @@ public class Level {
                         break;
                     case Constants.BONUS_FOREGROUND:
                         itemList.add(0, new BonusTreasure(grid, x * grid.getTileSize(), y * grid.getTileSize()));
+                        break;
+                    case Constants.MUMMY:
+                        Boss = new Mummy(grid, keyboard,x*grid.getTileSize(), y * grid.getTileSize(), this );
                         break;
                     case Constants.START_FOREGROUND:
                         int[] position = new int[2];
@@ -237,6 +239,7 @@ public class Level {
      */
     public void update(){
         Hero.update();
+        Boss.update();
         itemDetection.onItem(Hero);
         for (int i = 0; i < itemList.size(); i++) {
             if(itemList.get(i) != null) {
@@ -254,6 +257,7 @@ public class Level {
      * @param g2 - Graphics2D
      */
     public void draw(Graphics2D g2){
+        Boss.draw(g2);
 
         for (Obstacle obstacle : obstacleList){
             if (obstacle != null) {
