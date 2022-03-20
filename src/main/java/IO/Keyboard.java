@@ -1,5 +1,7 @@
 package IO;
 
+import Map.Sound;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -13,7 +15,14 @@ public class Keyboard implements KeyListener {
     public boolean leftKeyPressed;
     public boolean rightKeyPressed;
     public boolean choosingTitleMenu = true;
-    public boolean choosingEndMenu = true;
+
+    Sound sound = new Sound();
+
+    public void playSound(int i) {
+        sound.setFile(i);
+        sound.play();
+    }
+
     /**
      * changeGameState:
      * 0: in the title page.
@@ -40,6 +49,7 @@ public class Keyboard implements KeyListener {
 
         if (userPressed == KeyEvent.VK_W) {
             if (changeGameState == 0) {
+                playSound(3);
                 choosingTitleMenu = true;
             }
             if (changeGameState == 1) {
@@ -51,6 +61,7 @@ public class Keyboard implements KeyListener {
         }
         if (userPressed == KeyEvent.VK_S) {
             if (changeGameState == 0) {
+                playSound(3);
                 choosingTitleMenu = false;
             }
             if (changeGameState == 1) {
@@ -80,6 +91,7 @@ public class Keyboard implements KeyListener {
             if (changeGameState == 0) {
                 if (choosingTitleMenu) {
                     changeGameState = 1;
+                    playSound(4);
                 } else {
                     System.exit(0);
                 }

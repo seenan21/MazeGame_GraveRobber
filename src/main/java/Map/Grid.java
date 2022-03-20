@@ -1,4 +1,5 @@
 package Map;
+import Clock.RandomSoundClock;
 import Constants.Constants;
 import GUI.UI;
 import IO.Keyboard;
@@ -29,6 +30,10 @@ public class Grid extends JPanel implements Runnable{
     private String path = "/level/level_1_foreground.fg";
     private Level level = new Level(this, keyboard, path);
     private UI ui = new UI(this, keyboard, level.getHero());
+    Sound sound = new Sound();
+    private RandomSoundClock soundClock;
+    private Thread soundThread;
+    private int i = 0;
 
     public int gameState;
     public final int titleState = 0;
@@ -49,6 +54,9 @@ public class Grid extends JPanel implements Runnable{
         this.addKeyListener(keyboard);
         this.setFocusable(true);
         this.setDefault();
+        soundClock = new RandomSoundClock();
+        soundThread = new Thread(soundClock);
+        soundThread.start();
     }
 
     /**
@@ -143,6 +151,7 @@ public class Grid extends JPanel implements Runnable{
     public void startThread() {
         screenThread = new Thread(this);
         screenThread.start(); // Calls this.run()
+        playMusic(0);
     }
 
     /**
@@ -211,6 +220,7 @@ public class Grid extends JPanel implements Runnable{
 
         }
         if (gameState == playState) {
+
             // Background
             tilem.draw(g2);
 
@@ -223,8 +233,27 @@ public class Grid extends JPanel implements Runnable{
         }
         if (gameState == endState) {
             keyboard.changeGameState = 2;
+            if (i == 0) {
+                playSound(5);
+                i++;
+            }
             ui.draw(g2);
             g2.dispose();
         }
+    }
+
+    public void playMusic(int i) {
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+
+    public void stopMusic() {
+        sound.stop();
+    }
+
+    public void playSound(int i) {
+        sound.setFile(i);
+        sound.play();
     }
 }
