@@ -1,6 +1,4 @@
 package Characters;
-
-import Clock.TickClock;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
@@ -8,8 +6,8 @@ import Map.Level;
 
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.*;
 import java.awt.*;
 import java.lang.*;
 
@@ -27,6 +25,7 @@ public class Mummy extends Character {
         target = level.getHero();
         position = new Position(positionX, positionY);
         sleep = true;
+        getImage();
 
     }
 
@@ -89,16 +88,25 @@ public class Mummy extends Character {
 
     }
 
-    public void render(Graphics g)
-    {
-        int[] position = this.getPosition();
-        g.drawImage(getSprite(Direction.SOUTH), position[0], position[1], null);
-    }
-
-
     public void draw(Graphics2D g2) {
-        g2.setColor(Color.WHITE);
-        g2.fillRect(this.getPosition()[0],this.getPosition()[1], _grid.getTileSize(), _grid.getTileSize());
+        BufferedImage sprite = null;
+
+        if (getDirectionFacing() == Direction.NORTH) {
+            sprite = getSprite(Direction.NORTH);
+        }
+        else if (getDirectionFacing() == Direction.SOUTH) {
+            sprite = getSprite(Direction.SOUTH);
+        }
+        else if (getDirectionFacing() == Direction.EAST) {
+            sprite = getSprite(Direction.EAST);
+        }
+        else if (getDirectionFacing() == Direction.WEST) {
+            sprite = getSprite(Direction.WEST);
+        }
+        else {
+            sprite = getSprite(Direction.SOUTH);
+        }
+        g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
     }
 
 

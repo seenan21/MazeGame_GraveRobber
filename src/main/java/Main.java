@@ -1,14 +1,8 @@
-import GUI.PopUpWindow;
 import Map.Grid;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 
 public class Main {
     public static void main(String[] args) throws IOException {
