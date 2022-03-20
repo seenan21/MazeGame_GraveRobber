@@ -1,5 +1,7 @@
 package Clock;
 
+import Characters.Direction;
+import Characters.Mummy;
 import Characters.PlayerActor;
 import Characters.Zombie;
 import Constants.Constants;
@@ -14,10 +16,12 @@ public class TickClock implements Runnable{
 
     private PlayerActor _playerActor;
     private ArrayList<Zombie> _zombieList;
+    private Mummy _boss;
 
-    public TickClock(PlayerActor playerActor, ArrayList<Zombie> zombieList) {
+    public TickClock(PlayerActor playerActor, ArrayList<Zombie> zombieList, Mummy boss) {
         this._playerActor = playerActor;
         this._zombieList = zombieList;
+        this._boss = boss;
     }
 
     /**
@@ -40,6 +44,10 @@ public class TickClock implements Runnable{
                 for (int i = 0; i < _zombieList.size(); i++) {
                     Thread tempThread = new Thread(_zombieList.get(i));
                     tempThread.start(); // Calls this.run()
+                }
+
+                {
+                    _boss.moveCharacter(_boss.followPlayer(_playerActor));
                 }
 
             } catch (InterruptedException e) {

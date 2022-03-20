@@ -1,23 +1,22 @@
 package Characters;
-
-import Clock.TickClock;
 import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
 import Map.Level;
 
-
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.*;
 import java.awt.*;
 import java.lang.*;
 
-public class Mummy extends Character {
+public class Mummy extends Character implements Runnable {
 
     PlayerActor target;
     Position position;
     Boolean sleep;
+    private int moveCounter = 0;
+    private int i = 0;
 
     public Mummy(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level) {
         super(grid, keyboard, level);
@@ -27,6 +26,7 @@ public class Mummy extends Character {
         target = level.getHero();
         position = new Position(positionX, positionY);
         sleep = true;
+        getImage();
 
     }
 
@@ -50,60 +50,84 @@ public class Mummy extends Character {
         }
     }
 
-    private Position bestMove(Character Hero){
-        int[] t = Hero.getPosition();
-        Position target = new Position(t[0], t[1]);
-        Position p0 = this.position;
+    /**
+     *
+     * @param hero
+     * @return
+     */
+    public boolean heroKill(PlayerActor hero){
+        int[] position = new int[2];
+        position = hero.getPosition();
 
+        Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],_grid.getTileSize()-10,_grid.getTileSize()-10);
+        Rectangle h = new Rectangle(position[0], position[1], _grid.getTileSize()-10, _grid.getTileSize()-10);
+        if (i == 0 && z.intersects(h)) {
+            _grid.playSound(6);
+            i++;
+        }
+        return z.intersects(h);
 
-        Position[] positions = new Position[]{
-                new Position(p0.x + this.getSpeed(), p0.y),
-                new Position(p0.x - this.getSpeed(), p0.y),
-                new Position(p0.x, p0.y + this.getSpeed()),
-                new Position(p0.x, p0.y - this.getSpeed()),
-        };
+    }
 
+    public Direction followPlayer(Character hero) {
+        int heroX = hero.getPosition()[Constants.X];
+        int heroY = hero.getPosition()[Constants.Y];
+        int skeletonX = this.getPosition()[Constants.X];
+        int skeletonY = this.getPosition()[Constants.Y];
+        Direction direction;
 
-        int min = 9999;
-        Position bestP = positions[0];
-        for(Position p: positions){
-            int num = (int)Math.sqrt((target.y - p.y) * (target.y - p.y) + (target.x - p.x) * (target.x - p.x));
-            if(level.collisionCheck(this, p.x,p.y)){
-                continue;
+        if(moveCounter > 2) {
+            if (heroX > skeletonX) {
+                System.out.println("EAST");
+                direction = Direction.EAST;
+            } else {
+                System.out.println("WEST");
+                direction = Direction.WEST;
             }
-            if (num < min) {
-                min = num;
-                bestP = p;
+        } else {
+            if (heroY > skeletonY) {
+                direction = Direction.SOUTH;
+            } else {
+                direction = Direction.NORTH;
             }
         }
-        //System.out.println(bestP.x);
-        return bestP;
+        moveCounter++;
+        if(moveCounter > 4) {
+            moveCounter = 0;
+        }
 
+        return direction;
     }
 
     public void update() {
+        if (heroKill(level.getHero())){
+            _grid.gameState = 2;
 
-        Position move = bestMove(level.getHero());
-        this.position = move;
-        this.setPosition(move.x,move.y);
-
+        }
     }
-
-    public void render(Graphics g)
-    {
-        int[] position = this.getPosition();
-        g.drawImage(getSprite(Direction.SOUTH), position[0], position[1], null);
-    }
-
 
     public void draw(Graphics2D g2) {
-        g2.setColor(Color.WHITE);
-        g2.fillRect(this.getPosition()[0],this.getPosition()[1], _grid.getTileSize(), _grid.getTileSize());
+        BufferedImage sprite = null;
+
+        if (getDirectionFacing() == Direction.NORTH) {
+            sprite = getSprite(Direction.NORTH);
+        }
+        else if (getDirectionFacing() == Direction.SOUTH) {
+            sprite = getSprite(Direction.SOUTH);
+        }
+        else if (getDirectionFacing() == Direction.EAST) {
+            sprite = getSprite(Direction.EAST);
+        }
+        else if (getDirectionFacing() == Direction.WEST) {
+            sprite = getSprite(Direction.WEST);
+        }
+        g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
     }
 
-
-
-
+    @Override
+    public void run() {
+        moveCharacter(followPlayer(level.getHero()));
+    }
 }
 
 
