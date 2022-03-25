@@ -5,7 +5,6 @@ import Clock.TrapClock;
 import Constants.Constants;
 import GUI.GameState;
 import GUI.GameStateType;
-import Map.Grid;
 import Map.Level;
 import Map.Sound;
 
@@ -17,12 +16,11 @@ import java.util.ArrayList;
  */
 public class ItemDetection {
 
-//    Grid _grid;
     Level _level;
     private TrapClock clock;
     private Thread clockThread;
     private GameState _gameState;
-
+    private Sound sound = new Sound();
 
     /**
      * Constructor for ItemDetection
@@ -73,7 +71,7 @@ public class ItemDetection {
                     if ((itemList.get(i)).getPoints() == -1) {
                         if (!clock.isHurting()) {
                             if (_gameState.getGameState() == GameStateType.PLAY) {
-//                                _grid.playSound(13);
+                                sound.playSound(13);
                                 System.out.println("Trap triggered.");
                                 playerActor.addToHealth((itemList.get(i)).getPoints());
                                 clock.setIsHurting(true);
@@ -82,7 +80,7 @@ public class ItemDetection {
                     }
                     else if ((itemList.get(i)).getPoints() == 1) {
                         if (_gameState.getGameState() == GameStateType.PLAY) {
-//                            _grid.playSound(1);
+                            sound.playSound(1);
                             System.out.println("Heart collected.");
                             playerActor.addToHealth((itemList.get(i)).getPoints());
                             itemList.set(i, null);
@@ -90,7 +88,7 @@ public class ItemDetection {
                     }
                     else if ((itemList.get(i)).getPoints() == 3) {
                         if (_gameState.getGameState() == GameStateType.PLAY) {
-//                            _grid.playSound(2);
+                            sound.playSound(2);
                             System.out.println("BIG Heart collected.");
                             playerActor.addToHealth((itemList.get(i)).getPoints());
                             itemList.set(i, null);

@@ -22,7 +22,7 @@ public class Grid extends JPanel implements Runnable{
     private String path = "/level/level_1_foreground.fg";
     private Level level;
     private UI ui;
-    Sound sound = new Sound();
+    private Sound sound = new Sound();
     private RandomSoundClock soundClock;
     private Thread soundThread;
     private int i = 0;
@@ -51,7 +51,7 @@ public class Grid extends JPanel implements Runnable{
     public void startThread() {
         screenThread = new Thread(this);
         screenThread.start(); // Calls this.run()
-        playMusic(0);
+        sound.playMusic(0);
     }
 
     /**
@@ -134,35 +134,11 @@ public class Grid extends JPanel implements Runnable{
         if (gameState.getGameState() == GameStateType.END) {
             gameState.setGameState(GameStateType.END);
             if (i == 0) {
-                playSound(5);
+                sound.playSound(5);
                 i++;
             }
             ui.draw(g2);
             g2.dispose();
         }
-    }
-
-    /**
-     * Plays music
-     */
-    public void playMusic(int i) {
-        sound.setFile(i);
-        sound.play();
-        sound.loop();
-    }
-
-    /**
-     * Stops music
-     */
-    public void stopMusic() {
-        sound.stop();
-    }
-
-    /**
-     * Plays a sound
-     */
-    public void playSound(int i) {
-        sound.setFile(i);
-        sound.play();
     }
 }

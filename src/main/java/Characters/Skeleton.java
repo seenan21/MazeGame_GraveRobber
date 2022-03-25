@@ -3,6 +3,7 @@ import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
 import Map.Level;
+import Map.Sound;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -17,6 +18,7 @@ public class Skeleton extends Character implements Runnable {
 
     PlayerActor target;
     Boolean sleep;
+    private Sound sound = new Sound();
     private int moveCounter = 0;
     private int i = 0;
 
@@ -62,7 +64,7 @@ public class Skeleton extends Character implements Runnable {
         Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],Constants.TILE_SIZE-10,Constants.TILE_SIZE-10);
         Rectangle h = new Rectangle(position[0], position[1], Constants.TILE_SIZE-10, Constants.TILE_SIZE-10);
         if (i == 0 && z.intersects(h)) {
-//            _grid.playSound(6);
+            sound.playSound(6);
             i++;
         }
         return z.intersects(h);

@@ -17,17 +17,11 @@ public class Keyboard implements KeyListener {
     public boolean leftKeyPressed;
     public boolean rightKeyPressed;
     private GameState gameState;
-
-    Sound sound = new Sound();
+    private Sound sound = new Sound();
 
     public Keyboard(GameState gameState) {
         super();
         this.gameState = gameState;
-    }
-
-    public void playSound(int i) {
-        sound.setFile(i);
-        sound.play();
     }
 
     /**
@@ -45,14 +39,10 @@ public class Keyboard implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int userPressed = e.getKeyCode(); // Returns number of pressed key
 
-        System.out.println(gameState.getGameState());
-        System.out.println("C");
-
         if (userPressed == KeyEvent.VK_W) {
             if (gameState.getGameState() == GameStateType.TITLE) {
-                playSound(3);
+                sound.playSound(3);
                 gameState.setTitleMenuChosen(true);
-                System.out.println("A");
             }
             if (gameState.getGameState() == GameStateType.PLAY) {
                 upKeyPressed = true;
@@ -63,7 +53,7 @@ public class Keyboard implements KeyListener {
         }
         if (userPressed == KeyEvent.VK_S) {
             if (gameState.getGameState() == GameStateType.TITLE) {
-                playSound(3);
+                sound.playSound(3);
                 gameState.setTitleMenuChosen(false);
                 System.out.println("B");
             }
@@ -94,7 +84,7 @@ public class Keyboard implements KeyListener {
             if (gameState.getGameState() == GameStateType.TITLE) {
                 if (gameState.isTitleMenuChosen()) {
                     gameState.setGameState(GameStateType.PLAY);
-                    playSound(4);
+                    sound.playSound(4);
                 } else {
                     System.exit(0);
                 }
