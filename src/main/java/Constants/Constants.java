@@ -8,6 +8,9 @@ public class Constants {
     public final static int X = 0;
     public final static int Y = 1;
 
+    // Tile Specifications
+    public final static int TILE_SIZE = 32;
+
     // Map Squares
     public final static int GRASS = 0;
 

@@ -31,7 +31,7 @@ public abstract class Item {
         this.setPosition(positionX,positionY);
         this.setName(name);
         this._grid = grid;
-        this._itemBody = new Rectangle(0,0,_grid.getTileSize()/2,_grid.getTileSize()/2);
+        this._itemBody = new Rectangle(0,0,Constants.TILE_SIZE/2,Constants.TILE_SIZE/2);
     }
 
     /**
@@ -109,7 +109,7 @@ public abstract class Item {
     }
 
     public void draw(Graphics2D g2) {
-        g2.drawImage(getImage(),getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
+        g2.drawImage(getImage(),getPosition()[Constants.X],getPosition()[Constants.Y], Constants.TILE_SIZE, Constants.TILE_SIZE, null);
     }
 
     public abstract void update();

@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class Grid extends JPanel implements Runnable{
 
-    private final int TILE_SIZE = 32; // Size of an individual tile in pixels
+    private final int TILE_SIZE = Constants.TILE_SIZE; // Size of an individual tile in pixels
     private final int TILE_SIZE_BACKGROUND = 128;
     private final int HORIZONTAL_TILES = 24; // Total tiles horizontally on map
     private final int VERTICAL_TILES = 24; // Total tiles vertically on map
@@ -110,15 +110,6 @@ public class Grid extends JPanel implements Runnable{
      */
     public int getScreenHeight() {
         return _screenHeight;
-    }
-
-    /**
-     * Returns the number of maps tile size.
-     *
-     * @return
-     */
-    public int getTileSize() {
-        return TILE_SIZE;
     }
 
     /**

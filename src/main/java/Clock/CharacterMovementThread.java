@@ -16,7 +16,7 @@ public class CharacterMovementThread implements Runnable{
     private Direction _direction;
     private Level _level;
 
-    public CharacterMovementThread(Grid grid, Level level, Character character, Direction direction) {
+    public CharacterMovementThread(Level level, Character character, Direction direction) {
         this._character = character;
         this._direction = direction;
         this._level = level;

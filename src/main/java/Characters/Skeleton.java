@@ -20,8 +20,8 @@ public class Skeleton extends Character implements Runnable {
     private int moveCounter = 0;
     private int i = 0;
 
-    public Skeleton(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level) {
-        super(grid, keyboard, level);
+    public Skeleton(Keyboard keyboard, int positionX, int positionY, Level level) {
+        super(keyboard, level);
         this.setPosition(positionX, positionY);
         this.setStartState(positionX, positionY);
         this.setSpeed(1); //Testing speed
@@ -59,10 +59,10 @@ public class Skeleton extends Character implements Runnable {
         int[] position = new int[2];
         position = playerActor.getPosition();
 
-        Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],_grid.getTileSize()-10,_grid.getTileSize()-10);
-        Rectangle h = new Rectangle(position[0], position[1], _grid.getTileSize()-10, _grid.getTileSize()-10);
+        Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],Constants.TILE_SIZE-10,Constants.TILE_SIZE-10);
+        Rectangle h = new Rectangle(position[0], position[1], Constants.TILE_SIZE-10, Constants.TILE_SIZE-10);
         if (i == 0 && z.intersects(h)) {
-            _grid.playSound(6);
+//            _grid.playSound(6);
             i++;
         }
         return z.intersects(h);
@@ -104,7 +104,7 @@ public class Skeleton extends Character implements Runnable {
 
     public void update() {
         if (heroKill(level.getHero())){
-            _grid.gameState = 2;
+//            _grid.gameState = 2;
 
         }
     }
@@ -124,7 +124,7 @@ public class Skeleton extends Character implements Runnable {
         else if (getDirectionFacing() == Direction.WEST) {
             sprite = getSprite(Direction.WEST);
         }
-        g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
+        g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], Constants.TILE_SIZE, Constants.TILE_SIZE, null);
     }
 
     @Override

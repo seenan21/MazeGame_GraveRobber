@@ -41,7 +41,7 @@ public class Level {
     private Thread tickClockThread;
 
     //May need to refactor in the future in order to make it safer for User
-    protected Level(Grid grid, Keyboard keyboard, String path) throws IOException {
+    public Level(Grid grid, Keyboard keyboard, String path) throws IOException {
         this.grid = grid;
         this.keyboard = keyboard;
 
@@ -105,28 +105,28 @@ public class Level {
                         wallVertical3[x][y] = 1;
                         break;
                     case Constants.ZOMBIE_FOREGROUND:
-                        zombieList.add(new Zombie(grid, keyboard, x * grid.getTileSize(), y * grid.getTileSize(), this));
+                        zombieList.add(new Zombie(keyboard, x * Constants.TILE_SIZE, y * Constants.TILE_SIZE, this));
                         break;
                     case Constants.HEART_FOREGROUND:
-                        itemList.add(0, new Treasure(grid, x * grid.getTileSize(), y * grid.getTileSize()));
+                        itemList.add(0, new Treasure(grid, x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
                         break;
                     case Constants.TRAP_FOREGROUND:
-                        itemList.add(0, new Trap(grid, x * grid.getTileSize(), y * grid.getTileSize()));
+                        itemList.add(0, new Trap(grid, x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
                         break;
                     case Constants.EXIT_FOREGROUND:
-                        itemList.add(0, new ExitCell(grid, x*grid.getTileSize(), y * grid.getTileSize()));
+                        itemList.add(0, new ExitCell(grid, x* Constants.TILE_SIZE, y * Constants.TILE_SIZE));
                         break;
                     case Constants.BONUS_FOREGROUND:
-                        itemList.add(0, new BonusTreasure(grid, x * grid.getTileSize(), y * grid.getTileSize()));
+                        itemList.add(0, new BonusTreasure(grid, x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
                         break;
                     case Constants.MUMMY:
-                        Boss = new Skeleton(grid, keyboard,x*grid.getTileSize(), y * grid.getTileSize(), this );
+                        Boss = new Skeleton(keyboard,x*Constants.TILE_SIZE, y * Constants.TILE_SIZE, this );
                         break;
                     case Constants.START_FOREGROUND:
                         int[] position = new int[2];
-                        position[0] = x * grid.getTileSize();
-                        position[1] = y * grid.getTileSize();
-                        Hero = new PlayerActor(grid, keyboard, position, this);
+                        position[0] = x * Constants.TILE_SIZE;
+                        position[1] = y * Constants.TILE_SIZE;
+                        Hero = new PlayerActor(keyboard, position, this);
                         break;
                     default:
                         break;
@@ -226,7 +226,7 @@ public class Level {
         for(int i = 0; i < obstacleArray.length; i++) {
             for(int j = 0; j< obstacleArray.length; j++) {
                 if (obstacleArray[i][j] == 1){
-                    Obstacle obstacle = new Obstacle(i * grid.getTileSize(),j * grid.getTileSize(), grid);
+                    Obstacle obstacle = new Obstacle(i * Constants.TILE_SIZE,j * Constants.TILE_SIZE, grid);
                     obstacle.setSprite(assetSpecifier);
                     obstacleList.add(obstacle);
                 }
@@ -285,7 +285,7 @@ public class Level {
         for (int i = 0; i < 24; i++) {
             for (int j = 0; j < 24; j++) {
                 if (obstacleArray[i][j] == 1) {
-                    Rectangle temp = new Rectangle(i * grid.getTileSize(),j * grid.getTileSize(), grid.getTileSize(), grid.getTileSize());
+                    Rectangle temp = new Rectangle(i * Constants.TILE_SIZE,j * Constants.TILE_SIZE, Constants.TILE_SIZE, Constants.TILE_SIZE);
                     if (characterBody.intersects(temp)) {
                         return true;
                     }
@@ -303,7 +303,7 @@ public class Level {
      */
     private boolean collisionCheck(int[] position, Rectangle characterBody) {
 
-        Rectangle temp = new Rectangle(position[Constants.X] ,position[Constants.Y] , grid.getTileSize(), grid.getTileSize());
+        Rectangle temp = new Rectangle(position[Constants.X] ,position[Constants.Y] , Constants.TILE_SIZE, Constants.TILE_SIZE);
         if (characterBody.intersects(temp)) {
             return true;
         }
@@ -317,10 +317,10 @@ public class Level {
      * @return
      */
     public boolean collisionCheck(Character character, int characterX, int characterY){
-        Rectangle characterBody = new Rectangle(characterX,characterY,grid.getTileSize(),grid.getTileSize());
+        Rectangle characterBody = new Rectangle(characterX,characterY,Constants.TILE_SIZE,Constants.TILE_SIZE);
 
         // Prevents character from leaving the screen
-        if (characterY > grid.getScreenHeight()-grid.getTileSize() || characterY < 0 || characterX < 0 || characterX > grid.getScreenWidth() - grid.getTileSize() ){
+        if (characterY > grid.getScreenHeight()-Constants.TILE_SIZE || characterY < 0 || characterX < 0 || characterX > grid.getScreenWidth() - Constants.TILE_SIZE ){
             return true;
         }
 

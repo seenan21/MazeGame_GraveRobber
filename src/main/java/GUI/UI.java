@@ -2,6 +2,7 @@ package GUI;
 
 import Characters.PlayerActor;
 import Clock.Timer;
+import Constants.Constants;
 import IO.Keyboard;
 import Map.Grid;
 
@@ -95,7 +96,7 @@ public class UI{
         int x, y, textLength;
         textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         x = _grid.getScreenWidth() / 2 - textLength / 2;
-        y = _grid.getScreenHeight() / 2 - (_grid.getTileSize() * 3);
+        y = _grid.getScreenHeight() / 2 - (Constants.TILE_SIZE * 3);
 
         // Shadow
         g2.setColor(Color.BLACK);
@@ -105,19 +106,19 @@ public class UI{
         g2.drawString(text, x, y);
 
         // Image
-        x = _grid.getScreenWidth()/2 - _grid.getTileSize()*4;
-        y += _grid.getTileSize()*2;
-        g2.drawImage(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprite/grave_robber_hero/hero_down_1.png"))),x , y, _grid.getTileSize()*6, _grid.getTileSize()*3, null);
+        x = _grid.getScreenWidth()/2 - Constants.TILE_SIZE*4;
+        y += Constants.TILE_SIZE*2;
+        g2.drawImage(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprite/grave_robber_hero/hero_down_1.png"))),x , y, Constants.TILE_SIZE*6, Constants.TILE_SIZE*3, null);
 
         // Menu
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 40F));
 
         text = "START";
-        x = _grid.getScreenWidth() / 2 - _grid.getTileSize()*2;
-        y += _grid.getTileSize()*5;
+        x = _grid.getScreenWidth() / 2 - Constants.TILE_SIZE*2;
+        y += Constants.TILE_SIZE*5;
         g2.drawString(text, x, y);
         if (_keyboard.choosingTitleMenu){
-            g2.drawString(">", x- _grid.getTileSize()*2, y);
+            g2.drawString(">", x- Constants.TILE_SIZE*2, y);
         }
         if (_keyboard.changeGameState == 1){
             _grid.playSound(3);
@@ -125,11 +126,11 @@ public class UI{
         }
 
         text = "QUIT";
-        x = _grid.getScreenWidth() / 2 - _grid.getTileSize()*2;
-        y += _grid.getTileSize();
+        x = _grid.getScreenWidth() / 2 - Constants.TILE_SIZE*2;
+        y += Constants.TILE_SIZE;
         g2.drawString(text, x, y);
         if (!_keyboard.choosingTitleMenu){
-            g2.drawString(">", x- _grid.getTileSize()*2, y);
+            g2.drawString(">", x- Constants.TILE_SIZE*2, y);
         }
         if (_keyboard.changeGameState == 2){
             _grid.gameState = 2;
@@ -148,7 +149,7 @@ public class UI{
             // timer
 //            time += (double) 1 / 60;
             time = timer.getElapsedTime();
-            g2.drawString("Time: " + decimalFormat.format(time), _grid.getTileSize() * 19, 25);
+            g2.drawString("Time: " + decimalFormat.format(time), Constants.TILE_SIZE * 19, 25);
         }
         else {
             _keyboard.changeGameState = 2;
@@ -160,7 +161,7 @@ public class UI{
 
         int x, y, textLength;
         timeFinal = time;
-        y = _grid.getScreenHeight() / 2 - (_grid.getTileSize() * 3);
+        y = _grid.getScreenHeight() / 2 - (Constants.TILE_SIZE * 3);
         String text;
 
         g2.setColor(Color.BLACK);
@@ -173,7 +174,7 @@ public class UI{
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F));
             textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             x = _grid.getScreenWidth() / 2 - textLength / 2;
-            y = _grid.getScreenHeight() / 2 - (_grid.getTileSize() * 3);
+            y = _grid.getScreenHeight() / 2 - (Constants.TILE_SIZE * 3);
             g2.drawString(text, x, y);
 
             text = "TRAPS JUST KILLED YOU!";
@@ -181,7 +182,7 @@ public class UI{
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
             textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             x = _grid.getScreenWidth() / 2 - textLength / 2;
-            y += _grid.getTileSize()*2;
+            y += Constants.TILE_SIZE*2;
             g2.drawString(text, x, y);
         }
         else if (_grid.win){
@@ -190,7 +191,7 @@ public class UI{
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
             textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             x = _grid.getScreenWidth() / 2 - textLength / 2;
-            y = _grid.getScreenHeight() / 2 - (_grid.getTileSize() * 3);
+            y = _grid.getScreenHeight() / 2 - (Constants.TILE_SIZE * 3);
             g2.drawString(text, x, y);
 
             text = "PLAYER'S FINAL HEALTH: " + playerActor.getHealth();
@@ -198,7 +199,7 @@ public class UI{
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 28F));
             textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             x = _grid.getScreenWidth() / 2 - textLength / 2;
-            y += _grid.getTileSize();
+            y += Constants.TILE_SIZE;
             g2.drawString(text, x, y);
 
         }
@@ -208,7 +209,7 @@ public class UI{
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F));
             textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             x = _grid.getScreenWidth() / 2 - textLength / 2;
-            y = _grid.getScreenHeight() / 2 - (_grid.getTileSize() * 3);
+            y = _grid.getScreenHeight() / 2 - (Constants.TILE_SIZE * 3);
             g2.drawString(text, x, y);
 
             text = "ZOMBIES JUST KILLED YOU!";
@@ -216,7 +217,7 @@ public class UI{
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
             textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
             x = _grid.getScreenWidth() / 2 - textLength / 2;
-            y += _grid.getTileSize()*2;
+            y += Constants.TILE_SIZE*2;
             g2.drawString(text, x, y);
         }
 
@@ -226,27 +227,27 @@ public class UI{
         text = "TIME PLAYED: " + decimalFormat.format(timeFinal) + " SECONDS";
         textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         x = _grid.getScreenWidth() / 2 - textLength / 2;
-        y += _grid.getTileSize()*5;
+        y += Constants.TILE_SIZE*5;
         g2.drawString(text, x, y);
 
         // Display SCORE
         text = "HEART(REWARD) COLLECTED: " + playerActor.regularHeartCollected;
         textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         x = _grid.getScreenWidth() / 2 - textLength / 2;
-        y += _grid.getTileSize();
+        y += Constants.TILE_SIZE;
         g2.drawString(text, x, y);
 
         text = "BIG HEART(BONUS REWARD) COLLECTED: " + playerActor.bigHeartCollected;
         textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         x = _grid.getScreenWidth() / 2 - textLength / 2;
-        y += _grid.getTileSize();
+        y += Constants.TILE_SIZE;
         g2.drawString(text, x, y);
 
         // BUTTON: Quit
         text = "PRESS ENTER TO QUIT";
         textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         x = _grid.getScreenWidth() / 2 - textLength / 2;
-        y += _grid.getTileSize()*3;
+        y += Constants.TILE_SIZE*3;
         g2.drawString(text, x, y);
     }
 

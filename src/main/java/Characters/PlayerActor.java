@@ -27,12 +27,11 @@ public class PlayerActor extends Character implements Runnable{
 
     /**
      * Constructor for the character class.
-     *  @param grid - Grid which is used for game map
      * @param keyboard - Listener for keyboard
      * @param position
      */
-    public PlayerActor(Grid grid, Keyboard keyboard, int[] position, Level level) {
-        super(grid, keyboard, level);
+    public PlayerActor(Keyboard keyboard, int[] position, Level level) {
+        super(keyboard, level);
         this.setStartState(position[0], position[1]);
         this.setPosition(position[0], position[1]);
         this.setDefault();
@@ -151,7 +150,7 @@ public class PlayerActor extends Character implements Runnable{
         } else {
             sprite = getSprite(Direction.SOUTH);
         }
-        g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
+        g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], Constants.TILE_SIZE, Constants.TILE_SIZE, null);
     }
 
     @Override

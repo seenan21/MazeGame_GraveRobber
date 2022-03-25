@@ -16,7 +16,6 @@ import java.awt.*;
  */
 public abstract class Character{
 
-    Grid _grid;
     Keyboard _keyboard;
 
     private int health;
@@ -42,12 +41,11 @@ public abstract class Character{
      * //     * @param directionFacing - Direction the character is facing
      * //     * @param map - Map the character is being added to
      */
-    public Character(Grid grid, Keyboard keyboard, Level level) {
+    public Character(Keyboard keyboard, Level level) {
         this._keyboard = keyboard;
-        this._grid = grid;
         this.level = level;
         setStepsAllowed(1);
-        spriteBody = new Rectangle(0,0, _grid.getTileSize(),_grid.getTileSize());
+        spriteBody = new Rectangle(0,0, Constants.TILE_SIZE, Constants.TILE_SIZE);
     }
 
     /**
@@ -140,7 +138,7 @@ public abstract class Character{
      *
      */
     public void setStepsAllowed(int _stepsAllowed) {
-        this._stepsAllowed = (_grid.getTileSize()-1)*_stepsAllowed;
+        this._stepsAllowed = (Constants.TILE_SIZE-1)*_stepsAllowed;
     }
 
     /**
@@ -367,7 +365,7 @@ public abstract class Character{
             setWalking(true);
 
             // Walking thread
-            CharacterMovementThread characterMovementThread = new CharacterMovementThread(_grid, level, this, direction);
+            CharacterMovementThread characterMovementThread = new CharacterMovementThread(level, this, direction);
             Thread clockThread = new Thread(characterMovementThread);
             clockThread.start(); // Calls this.run()
         }

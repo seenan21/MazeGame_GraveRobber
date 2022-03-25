@@ -98,7 +98,7 @@ public class Obstacle {
     public int getPosY(){return posY;}
 
     public void draw(Graphics2D g2) {
-        g2.drawImage(_sprite,posX,posY, _grid.getTileSize(), _grid.getTileSize(), null);
+        g2.drawImage(_sprite,posX,posY, Constants.TILE_SIZE, Constants.TILE_SIZE, null);
     }
 
 }
