@@ -1,5 +1,6 @@
 package Map.tiles;
 
+import Constants.Constants;
 import Map.Grid;
 
 import javax.imageio.ImageIO;
@@ -27,7 +28,7 @@ public class CreateBackground {
     public CreateBackground(Grid grid){
         this._grid = grid;
         _tile = new BackgroundTile[_typesOfTiles];
-        _tileMap = new int[grid.getVerticalTiles()][grid.getHorizontalTiles()];
+        _tileMap = new int[Constants.VERTICAL_TILES][Constants.HORIZONTAL_TILES];
 
         getTileImage();
         loadMap(_pathMap1);
@@ -110,16 +111,16 @@ public class CreateBackground {
             int col = 0;
             int row = 0;
 
-            while(col < _grid.getVerticalTilesBackground() && row < _grid.getHorizontalTilesBackground()){
+            while(col < Constants.VERTICAL_TILES_BACKGROUND && row < Constants.HORIZONTAL_TILES_BACKGROUND){
                 String line = mapB.readLine();
 
-                while(col < _grid.getVerticalTilesBackground()){
+                while(col < Constants.VERTICAL_TILES_BACKGROUND){
                     String theMap[] = line.split(" ");
                     int i = Integer.parseInt(theMap[col]);
                     _tileMap[col][row] = i;
                     col++;
                 }
-                if(col == _grid.getVerticalTilesBackground()){
+                if(col == Constants.VERTICAL_TILES_BACKGROUND){
                     col = 0;
                     row++;
                 }
@@ -136,14 +137,14 @@ public class CreateBackground {
         int x = 0;
         int y = 0;
 
-        while(col < _grid.getVerticalTilesBackground() && row < _grid.getHorizontalTilesBackground()){
+        while(col < Constants.VERTICAL_TILES_BACKGROUND && row < Constants.HORIZONTAL_TILES_BACKGROUND){
 
             int tilesNum = _tileMap[col][row];
-            g2.drawImage(_tile[tilesNum].image, x * _grid.getTileSizeBackground(), y * _grid.getTileSizeBackground(), _grid.getTileSizeBackground(), _grid.getTileSizeBackground(), null);
+            g2.drawImage(_tile[tilesNum].image, x * Constants.TILE_SIZE_BACKGROUND, y * Constants.TILE_SIZE_BACKGROUND, Constants.TILE_SIZE_BACKGROUND, Constants.TILE_SIZE_BACKGROUND, null);
             col++;
             x++;
 
-            if (col == _grid.getVerticalTilesBackground()){
+            if (col == Constants.VERTICAL_TILES_BACKGROUND){
                 col = 0;
                 x = 0;
                 row++;

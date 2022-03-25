@@ -108,16 +108,16 @@ public class Level {
                         zombieList.add(new Zombie(keyboard, x * Constants.TILE_SIZE, y * Constants.TILE_SIZE, this));
                         break;
                     case Constants.HEART_FOREGROUND:
-                        itemList.add(0, new Treasure(grid, x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
+                        itemList.add(0, new Treasure(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
                         break;
                     case Constants.TRAP_FOREGROUND:
-                        itemList.add(0, new Trap(grid, x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
+                        itemList.add(0, new Trap(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
                         break;
                     case Constants.EXIT_FOREGROUND:
-                        itemList.add(0, new ExitCell(grid, x* Constants.TILE_SIZE, y * Constants.TILE_SIZE));
+                        itemList.add(0, new ExitCell(x* Constants.TILE_SIZE, y * Constants.TILE_SIZE));
                         break;
                     case Constants.BONUS_FOREGROUND:
-                        itemList.add(0, new BonusTreasure(grid, x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
+                        itemList.add(0, new BonusTreasure(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
                         break;
                     case Constants.MUMMY:
                         Boss = new Skeleton(keyboard,x*Constants.TILE_SIZE, y * Constants.TILE_SIZE, this );
@@ -226,7 +226,7 @@ public class Level {
         for(int i = 0; i < obstacleArray.length; i++) {
             for(int j = 0; j< obstacleArray.length; j++) {
                 if (obstacleArray[i][j] == 1){
-                    Obstacle obstacle = new Obstacle(i * Constants.TILE_SIZE,j * Constants.TILE_SIZE, grid);
+                    Obstacle obstacle = new Obstacle(i * Constants.TILE_SIZE,j * Constants.TILE_SIZE);
                     obstacle.setSprite(assetSpecifier);
                     obstacleList.add(obstacle);
                 }
@@ -320,7 +320,7 @@ public class Level {
         Rectangle characterBody = new Rectangle(characterX,characterY,Constants.TILE_SIZE,Constants.TILE_SIZE);
 
         // Prevents character from leaving the screen
-        if (characterY > grid.getScreenHeight()-Constants.TILE_SIZE || characterY < 0 || characterX < 0 || characterX > grid.getScreenWidth() - Constants.TILE_SIZE ){
+        if (characterY > Constants.SCREEN_HEIGHT-Constants.TILE_SIZE || characterY < 0 || characterX < 0 || characterX > Constants.SCREEN_WIDTH - Constants.TILE_SIZE ){
             return true;
         }
 

@@ -2,7 +2,6 @@ package items;
 
 import Characters.Direction;
 import Constants.Constants;
-import Map.Grid;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,7 +11,6 @@ import java.awt.image.BufferedImage;
  */
 public abstract class Item {
 
-    protected Grid _grid;
     private String _name;
     private int[] _position = new int[2];
     private int _points;
@@ -27,10 +25,9 @@ public abstract class Item {
      * @param positionX - X coordinate of item location
      * @param positionY - Y coordinate of item location
      */
-    public Item(Grid grid, String name, int positionX, int positionY){
+    public Item(String name, int positionX, int positionY){
         this.setPosition(positionX,positionY);
         this.setName(name);
-        this._grid = grid;
         this._itemBody = new Rectangle(0,0,Constants.TILE_SIZE/2,Constants.TILE_SIZE/2);
     }
 

@@ -9,8 +9,8 @@ import java.awt.image.BufferedImage;
  */
 public class ExitCell extends Item{
 
-    public ExitCell(Grid grid, int positionX, int positionY) {
-        super(grid, "Exit", positionX, positionY);
+    public ExitCell(int positionX, int positionY) {
+        super( "Exit", positionX, positionY);
         setPoints(999);
     }
 

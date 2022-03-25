@@ -8,8 +8,16 @@ public class Constants {
     public final static int X = 0;
     public final static int Y = 1;
 
-    // Tile Specifications
+    // Screen Specifications
     public final static int TILE_SIZE = 32;
+    public final static int HORIZONTAL_TILES = 24;
+    public final static int VERTICAL_TILES = 24;
+    public final static int HORIZONTAL_TILES_BACKGROUND = 6;
+    public final static int VERTICAL_TILES_BACKGROUND = 6;
+    public final static int TILE_SIZE_BACKGROUND = 128;
+    public final static int FRAMES_PER_SECOND = 60;
+    public final static int SCREEN_WIDTH = Constants.TILE_SIZE * Constants.HORIZONTAL_TILES;
+    public final static int SCREEN_HEIGHT = Constants.TILE_SIZE * Constants.VERTICAL_TILES;
 
     // Map Squares
     public final static int GRASS = 0;

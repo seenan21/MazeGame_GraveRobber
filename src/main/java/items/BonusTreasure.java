@@ -23,8 +23,8 @@ public class BonusTreasure extends Item{
      * @param positionX - X coordinate of item location
      * @param positionY - Y coordinate of item location
      */
-    public BonusTreasure(Grid grid, int positionX, int positionY) {
-        super(grid,"Reward", positionX, positionY);
+    public BonusTreasure(int positionX, int positionY) {
+        super("Reward", positionX, positionY);
         setPoints(3);
         getImage();
 
