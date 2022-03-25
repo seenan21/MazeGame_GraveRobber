@@ -1,5 +1,7 @@
 package IO;
 
+import GUI.GameState;
+import GUI.GameStateType;
 import Map.Sound;
 
 import java.awt.event.KeyEvent;
@@ -14,23 +16,19 @@ public class Keyboard implements KeyListener {
     public boolean downKeyPressed;
     public boolean leftKeyPressed;
     public boolean rightKeyPressed;
-    public boolean choosingTitleMenu = true;
+    private GameState gameState;
 
     Sound sound = new Sound();
+
+    public Keyboard(GameState gameState) {
+        super();
+        this.gameState = gameState;
+    }
 
     public void playSound(int i) {
         sound.setFile(i);
         sound.play();
     }
-
-    /**
-     * changeGameState:
-     * 0: in the title page.
-     * 1: playing state.
-     * 2: end state.
-     */
-    public int changeGameState = 0; // 0: in the title page. 1: playing state. 2:
-
 
     /**
      * Unused, but required by KeyListener
@@ -47,12 +45,16 @@ public class Keyboard implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int userPressed = e.getKeyCode(); // Returns number of pressed key
 
+        System.out.println(gameState.getGameState());
+        System.out.println("C");
+
         if (userPressed == KeyEvent.VK_W) {
-            if (changeGameState == 0) {
+            if (gameState.getGameState() == GameStateType.TITLE) {
                 playSound(3);
-                choosingTitleMenu = true;
+                gameState.setTitleMenuChosen(true);
+                System.out.println("A");
             }
-            if (changeGameState == 1) {
+            if (gameState.getGameState() == GameStateType.PLAY) {
                 upKeyPressed = true;
                 downKeyPressed = false;
                 leftKeyPressed = false;
@@ -60,11 +62,12 @@ public class Keyboard implements KeyListener {
             }
         }
         if (userPressed == KeyEvent.VK_S) {
-            if (changeGameState == 0) {
+            if (gameState.getGameState() == GameStateType.TITLE) {
                 playSound(3);
-                choosingTitleMenu = false;
+                gameState.setTitleMenuChosen(false);
+                System.out.println("B");
             }
-            if (changeGameState == 1) {
+            if (gameState.getGameState() == GameStateType.PLAY) {
                 upKeyPressed = false;
                 downKeyPressed = true;
                 leftKeyPressed = false;
@@ -72,7 +75,7 @@ public class Keyboard implements KeyListener {
             }
         }
         if (userPressed == KeyEvent.VK_A) {
-            if (changeGameState == 1) {
+            if (gameState.getGameState() == GameStateType.PLAY) {
                 upKeyPressed = false;
                 downKeyPressed = false;
                 leftKeyPressed = true;
@@ -80,7 +83,7 @@ public class Keyboard implements KeyListener {
             }
         }
         if (userPressed == KeyEvent.VK_D) {
-            if (changeGameState == 1) {
+            if (gameState.getGameState() == GameStateType.PLAY) {
                 upKeyPressed = false;
                 downKeyPressed = false;
                 leftKeyPressed = false;
@@ -88,15 +91,15 @@ public class Keyboard implements KeyListener {
             }
         }
         if (userPressed == KeyEvent.VK_ENTER) {
-            if (changeGameState == 0) {
-                if (choosingTitleMenu) {
-                    changeGameState = 1;
+            if (gameState.getGameState() == GameStateType.TITLE) {
+                if (gameState.isTitleMenuChosen()) {
+                    gameState.setGameState(GameStateType.PLAY);
                     playSound(4);
                 } else {
                     System.exit(0);
                 }
             }
-            if (changeGameState == 2) {
+            if (gameState.getGameState() == GameStateType.END) {
                 System.exit(0);
             }
         }
@@ -108,5 +111,4 @@ public class Keyboard implements KeyListener {
         leftKeyPressed = false;
         rightKeyPressed = false;
     }
-
 }

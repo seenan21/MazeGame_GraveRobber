@@ -1,6 +1,8 @@
 package Map;
 import Clock.RandomSoundClock;
 import Constants.Constants;
+import GUI.GameState;
+import GUI.GameStateType;
 import GUI.UI;
 import IO.Keyboard;
 import Map.tiles.CreateBackground;
@@ -14,22 +16,16 @@ import java.io.IOException;
  */
 public class Grid extends JPanel implements Runnable{
 
-    private Keyboard keyboard = new Keyboard();
+    private GameState gameState = new GameState(GameStateType.TITLE);
+    private Keyboard keyboard = new Keyboard(gameState);;
     private Thread screenThread;
     private String path = "/level/level_1_foreground.fg";
-    private Level level = new Level(this, keyboard, path);
-    private UI ui = new UI(this, keyboard, level.getHero());
+    private Level level;
+    private UI ui;
     Sound sound = new Sound();
     private RandomSoundClock soundClock;
     private Thread soundThread;
     private int i = 0;
-
-    public int gameState;
-    public final int titleState = 0;
-    public final int playState = 1;
-    public final int endState = 2;
-
-    public boolean win = false;
 
     CreateBackground tilem = new CreateBackground(this);
 
@@ -45,6 +41,8 @@ public class Grid extends JPanel implements Runnable{
         soundClock = new RandomSoundClock();
         soundThread = new Thread(soundClock);
         soundThread.start();
+        level = new Level(gameState, keyboard, path);
+        ui = new UI(gameState, level.getHero());
     }
 
     /**
@@ -115,13 +113,13 @@ public class Grid extends JPanel implements Runnable{
 
         Graphics2D g2 = (Graphics2D)g;
 
-        if (gameState == titleState) {
+        if (gameState.getGameState() == GameStateType.TITLE) {
             // Title Page
             ui.draw(g2);
             g2.dispose();
 
         }
-        if (gameState == playState) {
+        if (gameState.getGameState() == GameStateType.PLAY) {
 
             // Background
             tilem.draw(g2);
@@ -133,8 +131,8 @@ public class Grid extends JPanel implements Runnable{
             ui.draw(g2);
             g2.dispose(); // Saves memory
         }
-        if (gameState == endState) {
-            keyboard.changeGameState = 2;
+        if (gameState.getGameState() == GameStateType.END) {
+            gameState.setGameState(GameStateType.END);
             if (i == 0) {
                 playSound(5);
                 i++;

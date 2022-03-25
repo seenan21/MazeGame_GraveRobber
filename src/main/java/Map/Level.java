@@ -3,6 +3,7 @@ import Characters.*;
 import Characters.Character;
 import Clock.TickClock;
 import Constants.Constants;
+import GUI.GameState;
 import IO.Keyboard;
 import items.*;
 
@@ -31,7 +32,6 @@ public class Level {
     private ArrayList<Zombie> zombieList;
     private PlayerActor Hero;
     private Skeleton Boss;
-    private Grid grid;
     private Keyboard keyboard;
     private ItemDetection itemDetection;
     private ArrayList<Obstacle> obstacleList;
@@ -39,10 +39,11 @@ public class Level {
     private final int ITEM_LIMIT = 5;
     private TickClock tickClock;
     private Thread tickClockThread;
+    private GameState _gameState;
 
     //May need to refactor in the future in order to make it safer for User
-    public Level(Grid grid, Keyboard keyboard, String path) throws IOException {
-        this.grid = grid;
+    public Level(GameState gameState, Keyboard keyboard, String path) throws IOException {
+        this._gameState = gameState;
         this.keyboard = keyboard;
 
         this.zombieList = new ArrayList<Zombie>();
@@ -59,7 +60,7 @@ public class Level {
         this.wallVertical1 = new int[24][24];
         this.wallVertical2 = new int[24][24];
         this.wallVertical3 = new int[24][24];
-        this.itemDetection = new ItemDetection(this, grid);
+        this.itemDetection = new ItemDetection(this, _gameState);
 
         BufferedReader myReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path)));
         int y = 0;

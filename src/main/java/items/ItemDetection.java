@@ -3,6 +3,8 @@ package items;
 import Characters.PlayerActor;
 import Clock.TrapClock;
 import Constants.Constants;
+import GUI.GameState;
+import GUI.GameStateType;
 import Map.Grid;
 import Map.Level;
 import Map.Sound;
@@ -15,20 +17,20 @@ import java.util.ArrayList;
  */
 public class ItemDetection {
 
-    Grid _grid;
+//    Grid _grid;
     Level _level;
     private TrapClock clock;
     private Thread clockThread;
+    private GameState _gameState;
 
 
     /**
      * Constructor for ItemDetection
-     * @param grid
      */
-    public ItemDetection(Level level, Grid grid) {
-        this._grid = grid;
-        this._level = level;
+    public ItemDetection(Level level, GameState gameState) {
 
+        this._level = level;
+        this._gameState = gameState;
         clock = new TrapClock();
         clockThread = new Thread(clock);
         clockThread.start();
@@ -70,8 +72,8 @@ public class ItemDetection {
                 if(playerBodyGrid.intersects(itemBodyGrid) && itemList.get(i).isAvailable()) {
                     if ((itemList.get(i)).getPoints() == -1) {
                         if (!clock.isHurting()) {
-                            if (_grid.gameState == _grid.playState) {
-                                _grid.playSound(13);
+                            if (_gameState.getGameState() == GameStateType.PLAY) {
+//                                _grid.playSound(13);
                                 System.out.println("Trap triggered.");
                                 playerActor.addToHealth((itemList.get(i)).getPoints());
                                 clock.setIsHurting(true);
@@ -79,16 +81,16 @@ public class ItemDetection {
                         }
                     }
                     else if ((itemList.get(i)).getPoints() == 1) {
-                        if (_grid.gameState == _grid.playState) {
-                            _grid.playSound(1);
+                        if (_gameState.getGameState() == GameStateType.PLAY) {
+//                            _grid.playSound(1);
                             System.out.println("Heart collected.");
                             playerActor.addToHealth((itemList.get(i)).getPoints());
                             itemList.set(i, null);
                         }
                     }
                     else if ((itemList.get(i)).getPoints() == 3) {
-                        if (_grid.gameState == _grid.playState) {
-                            _grid.playSound(2);
+                        if (_gameState.getGameState() == GameStateType.PLAY) {
+//                            _grid.playSound(2);
                             System.out.println("BIG Heart collected.");
                             playerActor.addToHealth((itemList.get(i)).getPoints());
                             itemList.set(i, null);
@@ -96,8 +98,8 @@ public class ItemDetection {
                     }
                     else if ((itemList.get(i)).getPoints() == 999) {
                         if (playerActor.regularHeartCollected >= Constants.regReward){
-                            _grid.gameState = 2;
-                            _grid.win = true;
+                            _gameState.setGameState(GameStateType.END);
+                            _gameState.setWin(true);
                         }
                         else {
                             System.out.println("You need to collect all the regular reward to win.");
