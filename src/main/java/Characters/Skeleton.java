@@ -2,8 +2,6 @@ package Characters;
 import Constants.Constants;
 import GUI.GameState;
 import GUI.GameStateType;
-import IO.Keyboard;
-import Map.Grid;
 import Map.Level;
 import Map.Sound;
 
@@ -16,7 +14,7 @@ import java.lang.*;
 /**
  * The skeleton enemy will follow the main character.
  */
-public class Skeleton extends Character implements Runnable {
+public class Skeleton extends Character {
 
     PlayerActor target;
     Boolean sleep;
@@ -133,9 +131,31 @@ public class Skeleton extends Character implements Runnable {
         g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], Constants.TILE_SIZE, Constants.TILE_SIZE, null);
     }
 
-    @Override
-    public void run() {
-        moveCharacter(followPlayer(level.getHero()));
+    /**
+     * Checks for collision when moving the character.
+     * @param direction - direction the character should move.
+     */
+    public void safeMoveCharacter(Direction direction) {
+        if(direction == Direction.NORTH){
+            if(level.collisionCheck(this, getPosition()[0], getPosition()[1] - this.getSpeed()) == false){
+                moveCharacter(direction);
+            }
+        }
+        else if(direction == Direction.SOUTH){
+            if(level.collisionCheck(this, getPosition()[0], getPosition()[1] + this.getSpeed()) == false){
+                moveCharacter(direction);
+            }
+        }
+        else if(direction == Direction.WEST){
+            if(level.collisionCheck(this,getPosition()[0] - this.getSpeed(), getPosition()[1]) == false) {
+                moveCharacter(direction);
+            }
+        }
+        else if(direction == Direction.EAST){
+            if(level.collisionCheck(this,getPosition()[0] + this.getSpeed(), getPosition()[1]) == false) {
+                moveCharacter(direction);
+            }
+        }
     }
 }
 

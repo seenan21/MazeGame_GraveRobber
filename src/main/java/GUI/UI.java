@@ -3,8 +3,7 @@ package GUI;
 import Characters.PlayerActor;
 import Clock.Timer;
 import Constants.Constants;
-import IO.Keyboard;
-import Map.Grid;
+import Map.Sound;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -24,6 +23,7 @@ public class UI{
     private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
     private Timer timer;
     private GameState _gameState;
+    private Sound sound = new Sound();
 
     /**
      * Constructor for UI.
@@ -115,9 +115,7 @@ public class UI{
             g2.drawString(">", x- Constants.TILE_SIZE*2, y);
         }
         if (_gameState.getGameState() == GameStateType.PLAY){
-//            _grid.playSound(3);
-//
-//            _grid.gameState = 1;
+            sound.playSound(3);
         }
 
         text = "QUIT";
@@ -127,11 +125,6 @@ public class UI{
         if (!_gameState.isTitleMenuChosen()){
             g2.drawString(">", x- Constants.TILE_SIZE*2, y);
         }
-//        if (_keyboard.changeGameState == 2){
-//            _grid.gameState = 2;
-//        }
-
-
     }
 
     public void drawPlayingUI(Graphics2D g2) throws IOException{
@@ -142,7 +135,6 @@ public class UI{
             g2.drawString("Health: " + playerActor.getHealth(), 10, 25);
 
             // timer
-//            time += (double) 1 / 60;
             time = timer.getElapsedTime();
             g2.drawString("Time: " + decimalFormat.format(time), Constants.TILE_SIZE * 19, 25);
         }

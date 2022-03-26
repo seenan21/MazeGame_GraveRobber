@@ -26,8 +26,7 @@ public class Grid extends JPanel implements Runnable{
     private RandomSoundClock soundClock;
     private Thread soundThread;
     private int i = 0;
-
-    CreateBackground tilem = new CreateBackground(this);
+    private CreateBackground backgroundMap;
 
     /**
      * Creates the game screen and sets up a keyboard listener.
@@ -43,6 +42,7 @@ public class Grid extends JPanel implements Runnable{
         soundThread.start();
         level = new Level(gameState, keyboard, path);
         ui = new UI(gameState, level.getHero());
+        backgroundMap = new CreateBackground();
     }
 
     /**
@@ -122,7 +122,7 @@ public class Grid extends JPanel implements Runnable{
         if (gameState.getGameState() == GameStateType.PLAY) {
 
             // Background
-            tilem.draw(g2);
+            backgroundMap.draw(g2);
 
             // Walls and characters
             level.draw(g2);

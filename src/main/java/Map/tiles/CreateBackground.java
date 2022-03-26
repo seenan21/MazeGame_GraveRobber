@@ -15,7 +15,6 @@ import java.io.InputStreamReader;
  */
 public class CreateBackground {
 
-    private Grid _grid;
     private BackgroundTile[] _tile;
     private int _typesOfTiles = 14;
     private int _tileMap[][];
@@ -23,10 +22,8 @@ public class CreateBackground {
 
     /**
      * Creates the background grid using background tiles.
-     * @param grid - Grid of the map
      */
-    public CreateBackground(Grid grid){
-        this._grid = grid;
+    public CreateBackground(){
         _tile = new BackgroundTile[_typesOfTiles];
         _tileMap = new int[Constants.VERTICAL_TILES][Constants.HORIZONTAL_TILES];
 

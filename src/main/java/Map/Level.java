@@ -8,8 +8,6 @@ import IO.Keyboard;
 import items.*;
 
 import java.awt.Rectangle;
-
-
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -30,8 +28,8 @@ public class Level {
     private int[][] wallVertical2;
     private int[][] wallVertical3;
     private ArrayList<Zombie> zombieList;
-    private PlayerActor Hero;
-    private Skeleton Boss;
+    private PlayerActor hero;
+    private Skeleton skeleton;
     private Keyboard keyboard;
     private ItemDetection itemDetection;
     private ArrayList<Obstacle> obstacleList;
@@ -120,13 +118,13 @@ public class Level {
                         itemList.add(0, new BonusTreasure(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
                         break;
                     case Constants.MUMMY:
-                        Boss = new Skeleton(_gameState,x * Constants.TILE_SIZE, y * Constants.TILE_SIZE, this );
+                        skeleton = new Skeleton(_gameState,x * Constants.TILE_SIZE, y * Constants.TILE_SIZE, this );
                         break;
                     case Constants.START_FOREGROUND:
                         int[] position = new int[2];
                         position[0] = x * Constants.TILE_SIZE;
                         position[1] = y * Constants.TILE_SIZE;
-                        Hero = new PlayerActor(keyboard, position, this);
+                        hero = new PlayerActor(keyboard, position, this);
                         break;
                     default:
                         break;
@@ -140,7 +138,7 @@ public class Level {
         myReader.close();
 
         // Characters are put in this thread so that they can only move on clock ticks
-        this.tickClock = new TickClock(Hero, zombieList, Boss);
+        this.tickClock = new TickClock(hero, zombieList, skeleton);
         this.tickClockThread = new Thread(tickClock);
         this.tickClockThread.start();
 
@@ -161,7 +159,7 @@ public class Level {
     }
 
     public PlayerActor getHero() {
-        return Hero;
+        return hero;
     }
 
     /**
@@ -240,9 +238,9 @@ public class Level {
      * Updates the position of Characters and Items on the map level.
      */
     public void update(){
-        Hero.update();
-        Boss.update();
-        itemDetection.onItem(Hero);
+        hero.update();
+        skeleton.update();
+        itemDetection.onItem(hero);
         for (int i = 0; i < itemList.size(); i++) {
             if(itemList.get(i) != null) {
                 itemList.get(i).update();
@@ -259,7 +257,7 @@ public class Level {
      * @param g2 - Graphics2D
      */
     public void draw(Graphics2D g2){
-        Boss.draw(g2);
+        skeleton.draw(g2);
 
         for (Obstacle obstacle : obstacleList){
             if (obstacle != null) {
@@ -274,7 +272,8 @@ public class Level {
             if (zombie != null) {zombie.draw(g2);}
         }
 
-        if (Hero != null) {Hero.draw(g2);}
+        if (hero != null) {
+            hero.draw(g2);}
     }
 
     /**
@@ -354,6 +353,12 @@ public class Level {
                     if (collisionCheck(zombie.getPosition(), characterBody)) {
                         return true;
                     }
+                }
+            }
+        } else if (character.getCharacterType() == CharacterType.ENEMY) {
+            if (skeleton != null) {
+                if (collisionCheck(skeleton.getPosition(), characterBody)) {
+                    return true;
                 }
             }
         }
