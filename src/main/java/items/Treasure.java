@@ -1,5 +1,6 @@
 package items;
 
+import Constants.Constants;
 import Map.Grid;
 import javax.imageio.ImageIO;
 
@@ -17,9 +18,9 @@ public class Treasure extends Item{
      * @param positionX - X coordinate of item location
      * @param positionY - Y coordinate of item location
      */
-    public Treasure(Grid grid, int positionX, int positionY) {
-        super(grid,"Reward", positionX, positionY);
-        setPoints(1);
+    public Treasure(int positionX, int positionY) {
+        super("Reward", positionX, positionY);
+        setPoints(Constants.HEART_POINTS);
         getImage();
     }
 

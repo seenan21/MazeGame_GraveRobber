@@ -1,8 +1,9 @@
 package Characters;
 import Constants.Constants;
-import IO.Keyboard;
-import Map.Grid;
+import GUI.GameState;
+import GUI.GameStateType;
 import Map.Level;
+import Map.Sound;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -13,15 +14,17 @@ import java.lang.*;
 /**
  * The skeleton enemy will follow the main character.
  */
-public class Skeleton extends Character implements Runnable {
+public class Skeleton extends Character {
 
     PlayerActor target;
     Boolean sleep;
+    private Sound sound = new Sound();
     private int moveCounter = 0;
-    private int i = 0;
+    private GameState _gameState;
 
-    public Skeleton(Grid grid, Keyboard keyboard, int positionX, int positionY, Level level) {
-        super(grid, keyboard, level);
+    public Skeleton(GameState gameState, int positionX, int positionY, Level level) {
+        super(level);
+        this._gameState = gameState;
         this.setPosition(positionX, positionY);
         this.setStartState(positionX, positionY);
         this.setSpeed(1); //Testing speed
@@ -59,10 +62,12 @@ public class Skeleton extends Character implements Runnable {
         int[] position = new int[2];
         position = playerActor.getPosition();
 
-        Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],_grid.getTileSize()-10,_grid.getTileSize()-10);
-        Rectangle h = new Rectangle(position[0], position[1], _grid.getTileSize()-10, _grid.getTileSize()-10);
+        Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],Constants.TILE_SIZE-10,Constants.TILE_SIZE-10);
+        Rectangle h = new Rectangle(position[0], position[1], Constants.TILE_SIZE-10, Constants.TILE_SIZE-10);
+
+        int i = 0;
         if (i == 0 && z.intersects(h)) {
-            _grid.playSound(6);
+            sound.playSound(6);
             i++;
         }
         return z.intersects(h);
@@ -104,8 +109,7 @@ public class Skeleton extends Character implements Runnable {
 
     public void update() {
         if (heroKill(level.getHero())){
-            _grid.gameState = 2;
-
+        _gameState.setGameState(GameStateType.END);
         }
     }
 
@@ -124,12 +128,34 @@ public class Skeleton extends Character implements Runnable {
         else if (getDirectionFacing() == Direction.WEST) {
             sprite = getSprite(Direction.WEST);
         }
-        g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
+        g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], Constants.TILE_SIZE, Constants.TILE_SIZE, null);
     }
 
-    @Override
-    public void run() {
-        moveCharacter(followPlayer(level.getHero()));
+    /**
+     * Checks for collision when moving the character.
+     * @param direction - direction the character should move.
+     */
+    public void safeMoveCharacter(Direction direction) {
+        if(direction == Direction.NORTH){
+            if(level.collisionCheck(this, getPosition()[0], getPosition()[1] - this.getSpeed()) == false){
+                moveCharacter(direction);
+            }
+        }
+        else if(direction == Direction.SOUTH){
+            if(level.collisionCheck(this, getPosition()[0], getPosition()[1] + this.getSpeed()) == false){
+                moveCharacter(direction);
+            }
+        }
+        else if(direction == Direction.WEST){
+            if(level.collisionCheck(this,getPosition()[0] - this.getSpeed(), getPosition()[1]) == false) {
+                moveCharacter(direction);
+            }
+        }
+        else if(direction == Direction.EAST){
+            if(level.collisionCheck(this,getPosition()[0] + this.getSpeed(), getPosition()[1]) == false) {
+                moveCharacter(direction);
+            }
+        }
     }
 }
 

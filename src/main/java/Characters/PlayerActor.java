@@ -1,10 +1,7 @@
 package Characters;
 
-import Clock.TickClock;
 import Constants.Constants;
 import IO.Keyboard;
-import Map.Grid;
-import items.ItemDetection;
 import Map.Level;
 
 import javax.imageio.ImageIO;
@@ -20,19 +17,19 @@ import java.io.IOException;
  */
 public class PlayerActor extends Character implements Runnable{
 
-    private boolean _hasBossReward;
+    Keyboard _keyboard;
     public int _health = 3;
     public int regularHeartCollected = 0;
     public int bigHeartCollected = 0;
 
     /**
      * Constructor for the character class.
-     *  @param grid - Grid which is used for game map
      * @param keyboard - Listener for keyboard
      * @param position
      */
-    public PlayerActor(Grid grid, Keyboard keyboard, int[] position, Level level) {
-        super(grid, keyboard, level);
+    public PlayerActor(Keyboard keyboard, int[] position, Level level) {
+        super(level);
+        this._keyboard = keyboard;
         this.setStartState(position[0], position[1]);
         this.setPosition(position[0], position[1]);
         this.setDefault();
@@ -41,28 +38,11 @@ public class PlayerActor extends Character implements Runnable{
     }
 
     /**
-     * Changes the status of final boss award for the player
-     *
-     * @param hasBossReward - Player has achieved the final boss award
-     */
-    public void setHasBossReward(boolean hasBossReward) {
-        this._hasBossReward = hasBossReward;
-    }
-
-    /**
-     * @return if the player has the final boss's reward
-     */
-    public boolean getHasBossReward() {
-        return this._hasBossReward;
-    }
-
-    /**
      * Default values for player
      */
     public void setDefault() {
         this.setHealth(100);
         this.setSpeed(2);
-        this.setHasBossReward(false);
         this.setPosition(getStartState()[Constants.X],getStartState()[Constants.Y]);
         this.setDirectionFacing(Direction.SOUTH);
     }
@@ -151,7 +131,7 @@ public class PlayerActor extends Character implements Runnable{
         } else {
             sprite = getSprite(Direction.SOUTH);
         }
-        g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], _grid.getTileSize(), _grid.getTileSize(), null);
+        g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], Constants.TILE_SIZE, Constants.TILE_SIZE, null);
     }
 
     @Override

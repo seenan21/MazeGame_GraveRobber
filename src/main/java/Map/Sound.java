@@ -65,4 +65,18 @@ public class Sound {
     public void stop() {
         clip.stop();
     }
+
+    public void playSound(int i) {
+        this.setFile(i);
+        this.play();
+    }
+
+    /**
+     * Plays music
+     */
+    public void playMusic(int i) {
+        this.setFile(i);
+        this.play();
+        this.loop();
+    }
 }

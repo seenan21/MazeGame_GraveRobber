@@ -46,7 +46,7 @@ public class TickClock implements Runnable{
                 }
 
                 {
-                    _boss.moveCharacter(_boss.followPlayer(_playerActor));
+                    _boss.safeMoveCharacter(_boss.followPlayer(_playerActor));
                 }
 
             } catch (InterruptedException e) {
