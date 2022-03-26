@@ -1,7 +1,7 @@
 package items;
 
 import Clock.BonusTreasureClock;
-import Map.Grid;
+import Constants.Constants;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -25,7 +25,7 @@ public class BonusTreasure extends Item{
      */
     public BonusTreasure(int positionX, int positionY) {
         super("Reward", positionX, positionY);
-        setPoints(3);
+        setPoints(Constants.HEART_BONUS_POINTS);
         getImage();
 
         clock = new BonusTreasureClock();

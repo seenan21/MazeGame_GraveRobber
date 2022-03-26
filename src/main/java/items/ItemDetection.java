@@ -5,7 +5,6 @@ import Clock.TrapClock;
 import Constants.Constants;
 import GUI.GameState;
 import GUI.GameStateType;
-import Map.Level;
 import Map.Sound;
 
 import java.awt.*;
@@ -16,18 +15,17 @@ import java.util.ArrayList;
  */
 public class ItemDetection {
 
-    Level _level;
     private TrapClock clock;
     private Thread clockThread;
     private GameState _gameState;
     private Sound sound = new Sound();
+    private ArrayList<Item> _itemList;
 
     /**
      * Constructor for ItemDetection
      */
-    public ItemDetection(Level level, GameState gameState) {
-
-        this._level = level;
+    public ItemDetection(ArrayList<Item>  itemList, GameState gameState) {
+        _itemList = itemList;
         this._gameState = gameState;
         clock = new TrapClock();
         clockThread = new Thread(clock);
@@ -42,18 +40,16 @@ public class ItemDetection {
     public void onItem(PlayerActor playerActor) {
         // Cycle though Items on Grid
 
-        ArrayList<Item>  itemList = _level.getItemList();
-
         int i=0;
-        while (i < itemList.size()) {
-            if(itemList.get(i) != null) {
+        while (i < _itemList.size()) {
+            if(_itemList.get(i) != null) {
 
                 // Get current position of the Item
                 int[] positionItem = new int[2];
-                positionItem = itemList.get(i).getPosition();
+                positionItem = _itemList.get(i).getPosition();
 
                 // Find where the player is on the Grid
-                Rectangle itemBodyGrid = (itemList.get(i)).getItemBody();
+                Rectangle itemBodyGrid = (_itemList.get(i)).getItemBody();
                 itemBodyGrid.x = positionItem[Constants.X];
                 itemBodyGrid.y = positionItem[Constants.Y];
 
@@ -67,35 +63,35 @@ public class ItemDetection {
                 playerBodyGrid.y = positionPlayer[Constants.Y];
 
                 // Remove item from map and award points to player
-                if(playerBodyGrid.intersects(itemBodyGrid) && itemList.get(i).isAvailable()) {
-                    if ((itemList.get(i)).getPoints() == -1) {
+                if(playerBodyGrid.intersects(itemBodyGrid) && _itemList.get(i).isAvailable()) {
+                    if ((_itemList.get(i)).getPoints() == -1) {
                         if (!clock.isHurting()) {
                             if (_gameState.getGameState() == GameStateType.PLAY) {
                                 sound.playSound(13);
                                 System.out.println("Trap triggered.");
-                                playerActor.addToHealth((itemList.get(i)).getPoints());
+                                playerActor.addToHealth((_itemList.get(i)).getPoints());
                                 clock.setIsHurting(true);
                             }
                         }
                     }
-                    else if ((itemList.get(i)).getPoints() == 1) {
+                    else if ((_itemList.get(i)).getPoints() == Constants.HEART_POINTS) {
                         if (_gameState.getGameState() == GameStateType.PLAY) {
                             sound.playSound(1);
                             System.out.println("Heart collected.");
-                            playerActor.addToHealth((itemList.get(i)).getPoints());
-                            itemList.set(i, null);
+                            playerActor.addToHealth((_itemList.get(i)).getPoints());
+                            _itemList.set(i, null);
                         }
                     }
-                    else if ((itemList.get(i)).getPoints() == 3) {
+                    else if ((_itemList.get(i)).getPoints() == Constants.HEART_BONUS_POINTS) {
                         if (_gameState.getGameState() == GameStateType.PLAY) {
                             sound.playSound(2);
                             System.out.println("BIG Heart collected.");
-                            playerActor.addToHealth((itemList.get(i)).getPoints());
-                            itemList.set(i, null);
+                            playerActor.addToHealth((_itemList.get(i)).getPoints());
+                            _itemList.set(i, null);
                         }
                     }
-                    else if ((itemList.get(i)).getPoints() == 999) {
-                        if (playerActor.regularHeartCollected >= Constants.regReward){
+                    else if ((_itemList.get(i)).getPoints() == Constants.EXIT_CELL) {
+                        if (playerActor.regularHeartCollected >= Constants.REGULAR_REWARD){
                             _gameState.setGameState(GameStateType.END);
                             _gameState.setWin(true);
                         }
@@ -108,6 +104,5 @@ public class ItemDetection {
             }
             i++;
         }
-
     }
 }

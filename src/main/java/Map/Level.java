@@ -60,7 +60,6 @@ public class Level {
         this.wallVertical1 = new int[24][24];
         this.wallVertical2 = new int[24][24];
         this.wallVertical3 = new int[24][24];
-        this.itemDetection = new ItemDetection(this, _gameState);
 
         BufferedReader myReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path)));
         int y = 0;
@@ -138,13 +137,15 @@ public class Level {
             y++;
             str = myReader.readLine();
         }
+        myReader.close();
 
         // Characters are put in this thread so that they can only move on clock ticks
         this.tickClock = new TickClock(Hero, zombieList, Boss);
         this.tickClockThread = new Thread(tickClock);
         this.tickClockThread.start();
 
-        myReader.close();
+        // Initiate itemDetection with all items on map
+        this.itemDetection = new ItemDetection(this.getItemList(), _gameState);
 
         generateObstacle(Constants.GRAVE_1);
         generateObstacle(Constants.GRAVE_2);

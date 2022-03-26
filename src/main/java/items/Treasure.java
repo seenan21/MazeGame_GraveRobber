@@ -1,5 +1,6 @@
 package items;
 
+import Constants.Constants;
 import Map.Grid;
 import javax.imageio.ImageIO;
 
@@ -19,7 +20,7 @@ public class Treasure extends Item{
      */
     public Treasure(int positionX, int positionY) {
         super("Reward", positionX, positionY);
-        setPoints(1);
+        setPoints(Constants.HEART_POINTS);
         getImage();
     }
 
