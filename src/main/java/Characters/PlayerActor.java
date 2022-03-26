@@ -1,10 +1,7 @@
 package Characters;
 
-import Clock.TickClock;
 import Constants.Constants;
 import IO.Keyboard;
-import Map.Grid;
-import items.ItemDetection;
 import Map.Level;
 
 import javax.imageio.ImageIO;
@@ -20,7 +17,7 @@ import java.io.IOException;
  */
 public class PlayerActor extends Character implements Runnable{
 
-    private boolean _hasBossReward;
+    Keyboard _keyboard;
     public int _health = 3;
     public int regularHeartCollected = 0;
     public int bigHeartCollected = 0;
@@ -31,7 +28,8 @@ public class PlayerActor extends Character implements Runnable{
      * @param position
      */
     public PlayerActor(Keyboard keyboard, int[] position, Level level) {
-        super(keyboard, level);
+        super(level);
+        this._keyboard = keyboard;
         this.setStartState(position[0], position[1]);
         this.setPosition(position[0], position[1]);
         this.setDefault();
@@ -40,28 +38,11 @@ public class PlayerActor extends Character implements Runnable{
     }
 
     /**
-     * Changes the status of final boss award for the player
-     *
-     * @param hasBossReward - Player has achieved the final boss award
-     */
-    public void setHasBossReward(boolean hasBossReward) {
-        this._hasBossReward = hasBossReward;
-    }
-
-    /**
-     * @return if the player has the final boss's reward
-     */
-    public boolean getHasBossReward() {
-        return this._hasBossReward;
-    }
-
-    /**
      * Default values for player
      */
     public void setDefault() {
         this.setHealth(100);
         this.setSpeed(2);
-        this.setHasBossReward(false);
         this.setPosition(getStartState()[Constants.X],getStartState()[Constants.Y]);
         this.setDirectionFacing(Direction.SOUTH);
     }

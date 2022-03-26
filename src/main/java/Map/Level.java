@@ -105,7 +105,7 @@ public class Level {
                         wallVertical3[x][y] = 1;
                         break;
                     case Constants.ZOMBIE_FOREGROUND:
-                        zombieList.add(new Zombie(keyboard, x * Constants.TILE_SIZE, y * Constants.TILE_SIZE, this));
+                        zombieList.add(new Zombie( _gameState,x * Constants.TILE_SIZE, y * Constants.TILE_SIZE, this));
                         break;
                     case Constants.HEART_FOREGROUND:
                         itemList.add(0, new Treasure(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
@@ -114,13 +114,13 @@ public class Level {
                         itemList.add(0, new Trap(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
                         break;
                     case Constants.EXIT_FOREGROUND:
-                        itemList.add(0, new ExitCell(x* Constants.TILE_SIZE, y * Constants.TILE_SIZE));
+                        itemList.add(0, new ExitCell(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
                         break;
                     case Constants.BONUS_FOREGROUND:
                         itemList.add(0, new BonusTreasure(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
                         break;
                     case Constants.MUMMY:
-                        Boss = new Skeleton(keyboard,x*Constants.TILE_SIZE, y * Constants.TILE_SIZE, this );
+                        Boss = new Skeleton(_gameState,x * Constants.TILE_SIZE, y * Constants.TILE_SIZE, this );
                         break;
                     case Constants.START_FOREGROUND:
                         int[] position = new int[2];

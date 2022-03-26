@@ -3,7 +3,6 @@ package Characters;
 import Clock.CharacterMovementThread;
 import Constants.Constants;
 import IO.Keyboard;
-import Map.Grid;
 import Map.Level;
 import items.Item;
 
@@ -15,9 +14,6 @@ import java.awt.*;
  * Contains methods that are applicable to all npc and human players.
  */
 public abstract class Character{
-
-    Keyboard _keyboard;
-
     private int health;
     private ArrayList<Item> bag = new ArrayList<>();
     private int[] position = new int[2];
@@ -41,8 +37,7 @@ public abstract class Character{
      * //     * @param directionFacing - Direction the character is facing
      * //     * @param map - Map the character is being added to
      */
-    public Character(Keyboard keyboard, Level level) {
-        this._keyboard = keyboard;
+    public Character(Level level) {
         this.level = level;
         setStepsAllowed(1);
         spriteBody = new Rectangle(0,0, Constants.TILE_SIZE, Constants.TILE_SIZE);

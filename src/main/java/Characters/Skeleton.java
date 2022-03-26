@@ -1,5 +1,7 @@
 package Characters;
 import Constants.Constants;
+import GUI.GameState;
+import GUI.GameStateType;
 import IO.Keyboard;
 import Map.Grid;
 import Map.Level;
@@ -20,10 +22,11 @@ public class Skeleton extends Character implements Runnable {
     Boolean sleep;
     private Sound sound = new Sound();
     private int moveCounter = 0;
-    private int i = 0;
+    private GameState _gameState;
 
-    public Skeleton(Keyboard keyboard, int positionX, int positionY, Level level) {
-        super(keyboard, level);
+    public Skeleton(GameState gameState, int positionX, int positionY, Level level) {
+        super(level);
+        this._gameState = gameState;
         this.setPosition(positionX, positionY);
         this.setStartState(positionX, positionY);
         this.setSpeed(1); //Testing speed
@@ -63,6 +66,8 @@ public class Skeleton extends Character implements Runnable {
 
         Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],Constants.TILE_SIZE-10,Constants.TILE_SIZE-10);
         Rectangle h = new Rectangle(position[0], position[1], Constants.TILE_SIZE-10, Constants.TILE_SIZE-10);
+
+        int i = 0;
         if (i == 0 && z.intersects(h)) {
             sound.playSound(6);
             i++;
@@ -106,8 +111,7 @@ public class Skeleton extends Character implements Runnable {
 
     public void update() {
         if (heroKill(level.getHero())){
-//            _grid.gameState = 2;
-
+        _gameState.setGameState(GameStateType.END);
         }
     }
 

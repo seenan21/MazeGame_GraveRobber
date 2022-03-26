@@ -1,6 +1,8 @@
 package Characters;
 
 import Constants.Constants;
+import GUI.GameState;
+import GUI.GameStateType;
 import IO.Keyboard;
 import Map.Grid;
 import Map.Level;
@@ -21,9 +23,11 @@ public class Zombie extends Character implements Runnable {
     private Direction _rushDirection;
     private int i = 0;
     private Sound sound = new Sound();
+    private GameState _gameState;
 
-    public Zombie(Keyboard keyboard, int positionX, int positionY, Level level) {
-        super(keyboard, level);
+    public Zombie(GameState gameState, int positionX, int positionY, Level level) {
+        super(level);
+        this._gameState = gameState;
         this.setPosition(positionX, positionY);
         this.setStartState(positionX, positionY);
         this.setSpeed(2); //Testing speed
@@ -112,8 +116,7 @@ public class Zombie extends Character implements Runnable {
     public void update() {
 
         if (heroKill(level.getHero())){
-//            _grid.gameState = 2;
-
+            _gameState.setGameState(GameStateType.END);
         }
 
         // If the zombie is rushing forward, then we do not want to change direction
