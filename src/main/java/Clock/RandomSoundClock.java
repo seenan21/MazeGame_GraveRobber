@@ -8,11 +8,6 @@ import Map.Sound;
 public class RandomSoundClock implements Runnable{
     Sound sound = new Sound();
 
-    public void playSound(int i) {
-        sound.setFile(i);
-        sound.play();
-    }
-
     @Override
     public void run() {
         int lowerbound = 7;
@@ -25,7 +20,7 @@ public class RandomSoundClock implements Runnable{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            playSound(random_int);
+            sound.playSound(random_int);
         }
     }
 }

@@ -14,12 +14,10 @@ public class Obstacle {
     private int posX;
     private int posY;
     protected BufferedImage _sprite;
-    Grid _grid;
 
-    public Obstacle(int posX, int posY, Grid grid){
+    public Obstacle(int posX, int posY){
         this.posX = posX;
         this.posY = posY;
-        _grid = grid;
 
     }
 
@@ -98,7 +96,7 @@ public class Obstacle {
     public int getPosY(){return posY;}
 
     public void draw(Graphics2D g2) {
-        g2.drawImage(_sprite,posX,posY, _grid.getTileSize(), _grid.getTileSize(), null);
+        g2.drawImage(_sprite,posX,posY, Constants.TILE_SIZE, Constants.TILE_SIZE, null);
     }
 
 }

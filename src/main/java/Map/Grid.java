@@ -1,6 +1,8 @@
 package Map;
 import Clock.RandomSoundClock;
 import Constants.Constants;
+import GUI.GameState;
+import GUI.GameStateType;
 import GUI.UI;
 import IO.Keyboard;
 import Map.tiles.CreateBackground;
@@ -14,135 +16,33 @@ import java.io.IOException;
  */
 public class Grid extends JPanel implements Runnable{
 
-    private final int TILE_SIZE = 32; // Size of an individual tile in pixels
-    private final int TILE_SIZE_BACKGROUND = 128;
-    private final int HORIZONTAL_TILES = 24; // Total tiles horizontally on map
-    private final int VERTICAL_TILES = 24; // Total tiles vertically on map
-    private final int HORIZONTAL_TILES_BACKGROUND = 6;
-    private final int VERTICAL_TILES_BACKGROUND = 6;
-    private final double FRAMES_PER_SECOND = 60;
-    private final int _screenWidth = TILE_SIZE * HORIZONTAL_TILES;
-    private final int _screenHeight = TILE_SIZE * VERTICAL_TILES;
-    private int[] _startTile = new int[2]; // Starting tile for player when the game begins
-    private int[] _endTile = new int[2]; // Ending tile for player when all treasures have been collected
-    private Keyboard keyboard = new Keyboard();
+    private GameState gameState = new GameState(GameStateType.TITLE);
+    private Keyboard keyboard = new Keyboard(gameState);;
     private Thread screenThread;
     private String path = "/level/level_1_foreground.fg";
-    private Level level = new Level(this, keyboard, path);
-    private UI ui = new UI(this, keyboard, level.getHero());
-    Sound sound = new Sound();
+    private Level level;
+    private UI ui;
+    private Sound sound = new Sound();
     private RandomSoundClock soundClock;
     private Thread soundThread;
     private int i = 0;
-
-    public int gameState;
-    public final int titleState = 0;
-    public final int playState = 1;
-    public final int endState = 2;
-
-    public boolean win = false;
-
-    CreateBackground tilem = new CreateBackground(this);
+    private CreateBackground backgroundMap;
 
     /**
      * Creates the game screen and sets up a keyboard listener.
      */
     public Grid() throws IOException {
-        this.setPreferredSize(new Dimension(_screenWidth, _screenHeight));
+        this.setPreferredSize(new Dimension(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true); // Improves rendering
         this.addKeyListener(keyboard);
         this.setFocusable(true);
-        this.setDefault();
         soundClock = new RandomSoundClock();
         soundThread = new Thread(soundClock);
         soundThread.start();
-    }
-
-    /**
-     * Returns the map's width.
-     */
-    public int getScreenWidth() {
-        return _screenWidth;
-    }
-
-    /**
-     * Returns the number of horizontal tiles on the map.
-     *
-     * @return
-     */
-    public int getHorizontalTiles(){return HORIZONTAL_TILES;}
-
-    /**
-     * Returns the number of vertical tiles on the map.
-     *
-     * @return
-     */
-    public int getVerticalTiles() { return VERTICAL_TILES;    }
-
-    /**
-     *
-     * @return the number of vertical tiles for background art.
-     */
-    public int getVerticalTilesBackground() {
-        return VERTICAL_TILES_BACKGROUND;
-    }
-
-    /**
-     *
-     * @return the number of horizontal tiles for background art.
-     */
-    public int getHorizontalTilesBackground() {
-        return HORIZONTAL_TILES_BACKGROUND;
-    }
-
-    /**
-     * Returns the number of maps tile size for background art.
-     *
-     * @return
-     */
-    public int getTileSizeBackground() {
-        return TILE_SIZE_BACKGROUND;
-    }
-
-    /**
-     * Returns the map's height.
-     */
-    public int getScreenHeight() {
-        return _screenHeight;
-    }
-
-    /**
-     * Returns the number of maps tile size.
-     *
-     * @return
-     */
-    public int getTileSize() {
-        return TILE_SIZE;
-    }
-
-    /**
-     * Returns the player's starting tile.
-     */
-    public int[] getStartTile() {
-        return _startTile;
-    }
-
-    /**
-     * Returns the player's ending tile.
-     */
-    public int[] getEndTile() {
-        return _endTile;
-    }
-
-    /**
-     * Sets the map's default values.
-     */
-    public void setDefault() {
-        this._startTile[Constants.X] = 0;
-        this._startTile[Constants.Y] = 0;
-        this._endTile[Constants.X] = 0;
-        this._endTile[Constants.Y] = 0;
+        level = new Level(gameState, keyboard, path);
+        ui = new UI(gameState, level.getHero());
+        backgroundMap = new CreateBackground();
     }
 
     /**
@@ -151,7 +51,7 @@ public class Grid extends JPanel implements Runnable{
     public void startThread() {
         screenThread = new Thread(this);
         screenThread.start(); // Calls this.run()
-        playMusic(0);
+        sound.playMusic(0);
     }
 
     /**
@@ -169,7 +69,7 @@ public class Grid extends JPanel implements Runnable{
     public void run() {
         while(screenThread != null) {
 
-            double tick = 1000000000/FRAMES_PER_SECOND;
+            double tick = 1000000000/Constants.FRAMES_PER_SECOND;
             double nextTick = System.nanoTime() + tick;
 
             while(screenThread != null) {
@@ -213,16 +113,16 @@ public class Grid extends JPanel implements Runnable{
 
         Graphics2D g2 = (Graphics2D)g;
 
-        if (gameState == titleState) {
+        if (gameState.getGameState() == GameStateType.TITLE) {
             // Title Page
             ui.draw(g2);
             g2.dispose();
 
         }
-        if (gameState == playState) {
+        if (gameState.getGameState() == GameStateType.PLAY) {
 
             // Background
-            tilem.draw(g2);
+            backgroundMap.draw(g2);
 
             // Walls and characters
             level.draw(g2);
@@ -231,38 +131,14 @@ public class Grid extends JPanel implements Runnable{
             ui.draw(g2);
             g2.dispose(); // Saves memory
         }
-        if (gameState == endState) {
-            keyboard.changeGameState = 2;
+        if (gameState.getGameState() == GameStateType.END) {
+            gameState.setGameState(GameStateType.END);
             if (i == 0) {
-                playSound(5);
+                sound.playSound(5);
                 i++;
             }
             ui.draw(g2);
             g2.dispose();
         }
-    }
-
-    /**
-     * Plays music
-     */
-    public void playMusic(int i) {
-        sound.setFile(i);
-        sound.play();
-        sound.loop();
-    }
-
-    /**
-     * Stops music
-     */
-    public void stopMusic() {
-        sound.stop();
-    }
-
-    /**
-     * Plays a sound
-     */
-    public void playSound(int i) {
-        sound.setFile(i);
-        sound.play();
     }
 }

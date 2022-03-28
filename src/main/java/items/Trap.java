@@ -11,8 +11,8 @@ import java.io.IOException;
  */
 public class Trap extends Item{
 
-    public Trap(Grid grid, int positionX, int positionY) {
-        super(grid,"Trap", positionX, positionY);
+    public Trap(int positionX, int positionY) {
+        super("Trap", positionX, positionY);
         setPoints(-1);
         getImage();
     }

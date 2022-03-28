@@ -1,6 +1,6 @@
 package items;
 
-import Map.Grid;
+import Constants.Constants;
 
 import java.awt.image.BufferedImage;
 
@@ -9,9 +9,9 @@ import java.awt.image.BufferedImage;
  */
 public class ExitCell extends Item{
 
-    public ExitCell(Grid grid, int positionX, int positionY) {
-        super(grid, "Exit", positionX, positionY);
-        setPoints(999);
+    public ExitCell(int positionX, int positionY) {
+        super( "Exit", positionX, positionY);
+        setPoints(Constants.EXIT_CELL);
     }
 
     @Override

@@ -3,12 +3,11 @@ import Characters.*;
 import Characters.Character;
 import Clock.TickClock;
 import Constants.Constants;
+import GUI.GameState;
 import IO.Keyboard;
 import items.*;
 
 import java.awt.Rectangle;
-
-
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -29,9 +28,8 @@ public class Level {
     private int[][] wallVertical2;
     private int[][] wallVertical3;
     private ArrayList<Zombie> zombieList;
-    private PlayerActor Hero;
-    private Skeleton Boss;
-    private Grid grid;
+    private PlayerActor hero;
+    private Skeleton skeleton;
     private Keyboard keyboard;
     private ItemDetection itemDetection;
     private ArrayList<Obstacle> obstacleList;
@@ -39,10 +37,11 @@ public class Level {
     private final int ITEM_LIMIT = 5;
     private TickClock tickClock;
     private Thread tickClockThread;
+    private GameState _gameState;
 
     //May need to refactor in the future in order to make it safer for User
-    protected Level(Grid grid, Keyboard keyboard, String path) throws IOException {
-        this.grid = grid;
+    public Level(GameState gameState, Keyboard keyboard, String path) throws IOException {
+        this._gameState = gameState;
         this.keyboard = keyboard;
 
         this.zombieList = new ArrayList<Zombie>();
@@ -59,7 +58,6 @@ public class Level {
         this.wallVertical1 = new int[24][24];
         this.wallVertical2 = new int[24][24];
         this.wallVertical3 = new int[24][24];
-        this.itemDetection = new ItemDetection(this, grid);
 
         BufferedReader myReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path)));
         int y = 0;
@@ -105,28 +103,28 @@ public class Level {
                         wallVertical3[x][y] = 1;
                         break;
                     case Constants.ZOMBIE_FOREGROUND:
-                        zombieList.add(new Zombie(grid, keyboard, x * grid.getTileSize(), y * grid.getTileSize(), this));
+                        zombieList.add(new Zombie( _gameState,x * Constants.TILE_SIZE, y * Constants.TILE_SIZE, this));
                         break;
                     case Constants.HEART_FOREGROUND:
-                        itemList.add(0, new Treasure(grid, x * grid.getTileSize(), y * grid.getTileSize()));
+                        itemList.add(0, new Treasure(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
                         break;
                     case Constants.TRAP_FOREGROUND:
-                        itemList.add(0, new Trap(grid, x * grid.getTileSize(), y * grid.getTileSize()));
+                        itemList.add(0, new Trap(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
                         break;
                     case Constants.EXIT_FOREGROUND:
-                        itemList.add(0, new ExitCell(grid, x*grid.getTileSize(), y * grid.getTileSize()));
+                        itemList.add(0, new ExitCell(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
                         break;
                     case Constants.BONUS_FOREGROUND:
-                        itemList.add(0, new BonusTreasure(grid, x * grid.getTileSize(), y * grid.getTileSize()));
+                        itemList.add(0, new BonusTreasure(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE));
                         break;
                     case Constants.MUMMY:
-                        Boss = new Skeleton(grid, keyboard,x*grid.getTileSize(), y * grid.getTileSize(), this );
+                        skeleton = new Skeleton(_gameState,x * Constants.TILE_SIZE, y * Constants.TILE_SIZE, this );
                         break;
                     case Constants.START_FOREGROUND:
                         int[] position = new int[2];
-                        position[0] = x * grid.getTileSize();
-                        position[1] = y * grid.getTileSize();
-                        Hero = new PlayerActor(grid, keyboard, position, this);
+                        position[0] = x * Constants.TILE_SIZE;
+                        position[1] = y * Constants.TILE_SIZE;
+                        hero = new PlayerActor(keyboard, position, this);
                         break;
                     default:
                         break;
@@ -137,13 +135,15 @@ public class Level {
             y++;
             str = myReader.readLine();
         }
+        myReader.close();
 
         // Characters are put in this thread so that they can only move on clock ticks
-        this.tickClock = new TickClock(Hero, zombieList, Boss);
+        this.tickClock = new TickClock(hero, zombieList, skeleton);
         this.tickClockThread = new Thread(tickClock);
         this.tickClockThread.start();
 
-        myReader.close();
+        // Initiate itemDetection with all items on map
+        this.itemDetection = new ItemDetection(this.getItemList(), _gameState);
 
         generateObstacle(Constants.GRAVE_1);
         generateObstacle(Constants.GRAVE_2);
@@ -159,7 +159,7 @@ public class Level {
     }
 
     public PlayerActor getHero() {
-        return Hero;
+        return hero;
     }
 
     /**
@@ -226,7 +226,7 @@ public class Level {
         for(int i = 0; i < obstacleArray.length; i++) {
             for(int j = 0; j< obstacleArray.length; j++) {
                 if (obstacleArray[i][j] == 1){
-                    Obstacle obstacle = new Obstacle(i * grid.getTileSize(),j * grid.getTileSize(), grid);
+                    Obstacle obstacle = new Obstacle(i * Constants.TILE_SIZE,j * Constants.TILE_SIZE);
                     obstacle.setSprite(assetSpecifier);
                     obstacleList.add(obstacle);
                 }
@@ -238,9 +238,9 @@ public class Level {
      * Updates the position of Characters and Items on the map level.
      */
     public void update(){
-        Hero.update();
-        Boss.update();
-        itemDetection.onItem(Hero);
+        hero.update();
+        skeleton.update();
+        itemDetection.onItem(hero);
         for (int i = 0; i < itemList.size(); i++) {
             if(itemList.get(i) != null) {
                 itemList.get(i).update();
@@ -257,7 +257,7 @@ public class Level {
      * @param g2 - Graphics2D
      */
     public void draw(Graphics2D g2){
-        Boss.draw(g2);
+        skeleton.draw(g2);
 
         for (Obstacle obstacle : obstacleList){
             if (obstacle != null) {
@@ -272,7 +272,8 @@ public class Level {
             if (zombie != null) {zombie.draw(g2);}
         }
 
-        if (Hero != null) {Hero.draw(g2);}
+        if (hero != null) {
+            hero.draw(g2);}
     }
 
     /**
@@ -285,7 +286,7 @@ public class Level {
         for (int i = 0; i < 24; i++) {
             for (int j = 0; j < 24; j++) {
                 if (obstacleArray[i][j] == 1) {
-                    Rectangle temp = new Rectangle(i * grid.getTileSize(),j * grid.getTileSize(), grid.getTileSize(), grid.getTileSize());
+                    Rectangle temp = new Rectangle(i * Constants.TILE_SIZE,j * Constants.TILE_SIZE, Constants.TILE_SIZE, Constants.TILE_SIZE);
                     if (characterBody.intersects(temp)) {
                         return true;
                     }
@@ -303,7 +304,7 @@ public class Level {
      */
     private boolean collisionCheck(int[] position, Rectangle characterBody) {
 
-        Rectangle temp = new Rectangle(position[Constants.X] ,position[Constants.Y] , grid.getTileSize(), grid.getTileSize());
+        Rectangle temp = new Rectangle(position[Constants.X] ,position[Constants.Y] , Constants.TILE_SIZE, Constants.TILE_SIZE);
         if (characterBody.intersects(temp)) {
             return true;
         }
@@ -317,10 +318,10 @@ public class Level {
      * @return
      */
     public boolean collisionCheck(Character character, int characterX, int characterY){
-        Rectangle characterBody = new Rectangle(characterX,characterY,grid.getTileSize(),grid.getTileSize());
+        Rectangle characterBody = new Rectangle(characterX,characterY,Constants.TILE_SIZE,Constants.TILE_SIZE);
 
         // Prevents character from leaving the screen
-        if (characterY > grid.getScreenHeight()-grid.getTileSize() || characterY < 0 || characterX < 0 || characterX > grid.getScreenWidth() - grid.getTileSize() ){
+        if (characterY > Constants.SCREEN_HEIGHT-Constants.TILE_SIZE || characterY < 0 || characterX < 0 || characterX > Constants.SCREEN_WIDTH - Constants.TILE_SIZE ){
             return true;
         }
 
@@ -352,6 +353,12 @@ public class Level {
                     if (collisionCheck(zombie.getPosition(), characterBody)) {
                         return true;
                     }
+                }
+            }
+        } else if (character.getCharacterType() == CharacterType.ENEMY) {
+            if (skeleton != null) {
+                if (collisionCheck(skeleton.getPosition(), characterBody)) {
+                    return true;
                 }
             }
         }
