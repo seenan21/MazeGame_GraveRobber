@@ -138,6 +138,11 @@ public class UI{
 
     }
 
+    /**
+     * Drawing playing UI. Include time, health.
+     * @param g2
+     * @throws IOException
+     */
     public void drawPlayingUI(Graphics2D g2) throws IOException{
         if (playerActor.getHealth() > 0) {
             g2.setFont(statusFont);
@@ -156,6 +161,11 @@ public class UI{
         }
     }
 
+    /**
+     * Drawing End Page.
+     * @param g2
+     * @throws IOException
+     */
     public void drawEndPage(Graphics2D g2) throws IOException{
 
         int x, y, textLength;
