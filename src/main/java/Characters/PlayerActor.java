@@ -18,7 +18,6 @@ import java.io.IOException;
 public class PlayerActor extends Character implements Runnable{
 
     Keyboard _keyboard;
-    public int _health = 3;
     public int regularHeartCollected = 0;
     public int bigHeartCollected = 0;
 
@@ -41,7 +40,7 @@ public class PlayerActor extends Character implements Runnable{
      * Default values for player
      */
     public void setDefault() {
-        this.setHealth(100);
+        this.setHealth(3);
         this.setSpeed(2);
         this.setPosition(getStartState()[Constants.X],getStartState()[Constants.Y]);
         this.setDirectionFacing(Direction.SOUTH);
@@ -93,22 +92,17 @@ public class PlayerActor extends Character implements Runnable{
      * @param addedPoints - Points to be added to the player's health
      */
     public void addToHealth(int addedPoints) {
-        this._health = this._health + addedPoints;
+        setHealth(getHealth() + addedPoints);
         if (addedPoints >= 0){
-            if (addedPoints == 1){
+            if (addedPoints == Constants.HEART_POINTS){
                 regularHeartCollected++;
             }
-            else{
+            else if (addedPoints == Constants.HEART_BONUS_POINTS){
                 bigHeartCollected++;
+            } else {
+                throw new IllegalArgumentException("Unknown Item");
             }
         }
-    }
-
-    /**
-     * Returns the player's current health.
-     */
-    public int getHealth() {
-        return _health;
     }
 
     /**
