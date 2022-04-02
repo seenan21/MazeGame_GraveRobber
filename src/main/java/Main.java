@@ -23,6 +23,5 @@ public class Main {
 
         // Listen for changes in the thread
         mainGrid.startThread();
-
     }
 }

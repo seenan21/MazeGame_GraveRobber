@@ -65,8 +65,7 @@ public abstract class Character{
         if (health >= 0 && health <= 100) {
             this.health = health;
         } else {
-            System.out.println("ERROR: Health must be between 0 and 100");
-            System.exit(-1);
+            throw new IllegalArgumentException("Health must be between 0 and 100");
         }
     }
 
@@ -133,6 +132,10 @@ public abstract class Character{
      *
      */
     public void setStepsAllowed(int _stepsAllowed) {
+        if (_stepsAllowed <= 0) {
+            throw  new IllegalArgumentException("Steps must be greater than 0");
+        }
+
         this._stepsAllowed = (Constants.TILE_SIZE-1)*_stepsAllowed;
     }
 
