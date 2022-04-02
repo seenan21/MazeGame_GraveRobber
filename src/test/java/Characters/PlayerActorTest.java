@@ -45,7 +45,9 @@ public class PlayerActorTest{
     public void testSetHealth() throws IOException {
         playerActor.setHealth(100);
         assertEquals(100,playerActor.getHealth());
-        System.out.println(playerActor.getHealth());
+
+        playerActor.setHealth(0);
+        assertEquals(0,playerActor.getHealth());
     }
 
     @Test(expected = IllegalArgumentException.class)
