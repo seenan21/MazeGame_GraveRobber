@@ -24,16 +24,24 @@ public class BonusTreasureClock implements Runnable{
 
     /**
      *
-     * @return is the reward should be visable.
+     * @return is the reward should be visible
      */
     public boolean isVisible() {
         return isVisible;
     }
 
-    @Override
+    /**
+     *
+     * @return max time a bonus can be invisible
+     */
+    public int getMax() {
+        return max;
+    }
+
     /**
      * Loops turning the reward visible and invisible randomly
      */
+    @Override
     public void run() {
         while(true) {
 

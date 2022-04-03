@@ -29,20 +29,20 @@ public class PlayerActorTest{
         playerActor = new PlayerActor(keyboard, position, level);
     }
 
-    @Test
     /**
      * Test the assignment of Character Type
      */
-    public void testSetCharacterType() throws IOException {
+    @Test
+    public void testSetCharacterType() {
         playerActor.setCharacterType(CharacterType.PLAYER);
         assertEquals(CharacterType.PLAYER,playerActor.getCharacterType());
     }
 
-    @Test
     /**
      * Test the assignment of Player Health
      */
-    public void testSetHealth() throws IOException {
+    @Test
+    public void testSetHealth() {
         playerActor.setHealth(100);
         assertEquals(100,playerActor.getHealth());
 
@@ -50,66 +50,66 @@ public class PlayerActorTest{
         assertEquals(0,playerActor.getHealth());
     }
 
-    @Test(expected = IllegalArgumentException.class)
     /**
      * Test the assignment of Player Health out of bounds
      */
-    public void testSetHealthExecption() throws IOException {
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetHealthExecption() {
         playerActor.setHealth(200);
-        playerActor.getHealth();
+        assertNotEquals(200,playerActor.getHealth());
     }
 
-    @Test
     /**
      * Test the assignment of Player Speed
      */
+    @Test
     public void testSetSpeed() {
         playerActor.setSpeed(2);
         assertEquals(2,playerActor.getSpeed());
     }
 
-    @Test
     /**
      * Test the assignment of Player Walking
      */
+    @Test
     public void testSetWalking() {
         playerActor.setWalking(true);
-        assertEquals(true,playerActor.isWalking());
+        assertTrue(playerActor.isWalking());
         playerActor.setWalking(false);
-        assertEquals(false,playerActor.isWalking());
+        assertFalse(playerActor.isWalking());
     }
 
-    @Test
     /**
      * Test the assignment of Player Steps Allowed
      */
+    @Test
     public void testSetStepsAllowed() {
         playerActor.setStepsAllowed(1);
-        assertEquals(1 * Constants.TILE_SIZE-1,playerActor.getStepsAllowed());
+        assertEquals(Constants.TILE_SIZE-1,playerActor.getStepsAllowed());
     }
 
-    @Test(expected = IllegalArgumentException.class)
     /**
      * Test the assignment of Player Steps Allowed when -1
      */
+    @Test(expected = IllegalArgumentException.class)
     public void testSetStepsAllowedException() {
         playerActor.setStepsAllowed(-1);
     }
 
-    @Test
     /**
      * Test the assignment of Player Position
      */
+    @Test
     public void testSetPosition() {
         playerActor.setPosition(3,5);
         assertEquals(3, playerActor.getPosition()[Constants.X]);
         assertEquals(5, playerActor.getPosition()[Constants.Y]);
     }
 
-    @Test
     /**
      * Test the assignment of Player Start State
      */
+    @Test
     public void testSetStartState() {
         position[Constants.X] = 6;
         position[Constants.Y] = 8;
@@ -118,28 +118,28 @@ public class PlayerActorTest{
         assertEquals(8, playerActorTest.getPosition()[Constants.Y]);
     }
 
-    @Test
     /**
      * Test the assignment of Player Direction Facing
      */
+    @Test
     public void testSetDirectionFacing() {
         playerActor.setDirectionFacing(Direction.NORTH);
         assertEquals(Direction.NORTH, playerActor.getDirectionFacing());
     }
 
-    @Test
     /**
      * Test the assignment of Player Next Movement
      */
+    @Test
     public void testSetNextMovement() {
         playerActor.setNextMovement(Direction.NORTH);
         assertEquals(Direction.NORTH, playerActor.getNextMovement());
     }
 
-    @Test
     /**
      * Test the movement of a Player
      */
+    @Test
     public void testMoveCharacter() {
         playerActor.setPosition(0,0);
         playerActor.setSpeed(1);
@@ -173,10 +173,10 @@ public class PlayerActorTest{
         assertEquals(0,playerActor.getPosition()[Constants.Y]);
     }
 
-    @Test
     /**
      * Test the adding of health to a player
      */
+    @Test
     public void testAddToHealth() {
         for (int i = 0; i < 10; i++) {
             playerActor.addToHealth(Constants.HEART_POINTS);
