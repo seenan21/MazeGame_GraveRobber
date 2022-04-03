@@ -165,4 +165,12 @@ public class Zombie extends Character implements Runnable {
     public void run() {
         rush(_rushDirection);
     }
+
+    public Direction get_rushDirection(){
+        return _rushDirection;
+    }
+    public void set_rushDirection(Direction d){
+        this._rushDirection = d;
+    }
+
 }
