@@ -8,6 +8,7 @@ import Map.Level;
 import junit.framework.TestCase;
 
 import java.io.IOException;
+import org.junit.Test;
 
 public class SkeletonTest extends TestCase {
     // Dependencies
@@ -34,7 +35,7 @@ public class SkeletonTest extends TestCase {
     @Test
     public void testheroKill() {
         skeleton = new Skeleton(gameState,0,0,level);
-        assertTrue(zombie.heroKill(playerActor));
+        assertTrue(skeleton.heroKill(playerActor));
 
     }
 
@@ -45,7 +46,7 @@ public class SkeletonTest extends TestCase {
     public void testNOTheroKill() {
         skeleton = new Skeleton(gameState,0,0,level);
         playerActor.setPosition(3*Constants.TILE_SIZE,3*Constants.TILE_SIZE);
-        assertTrue(!zombie.heroKill(playerActor));
+        assertTrue(!skeleton.heroKill(playerActor));
 
     }
     /**

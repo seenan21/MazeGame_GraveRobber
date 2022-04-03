@@ -6,9 +6,10 @@ import GUI.GameState;
 import GUI.GameStateType;
 import IO.Keyboard;
 import Map.Level;
-import junit.framework.TestCase;
+
 
 import java.io.IOException;
+import org.junit.Test;
 
 public class ZombieTest {
     // Dependencies
@@ -106,7 +107,7 @@ public class ZombieTest {
         assertEquals(1,zombie.getPosition()[Constants.Y]);
 
         // Test 4
-        skeleton.moveWest();
+        zombie.moveWest();
 
         assertEquals(0,zombie.getPosition()[Constants.X]);
         assertEquals(1,zombie.getPosition()[Constants.Y]);
