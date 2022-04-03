@@ -44,7 +44,6 @@ public class BonusTreasureClockTest {
             } else {
                 Thread.sleep(1000);
             }
-
         }
         assertTrue(bonusTreasureClock.isVisible());
     }
