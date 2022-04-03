@@ -1,5 +1,5 @@
 # CMPT 276 Group 15
-##Grave Robber Overview
+## Grave Robber Overview
 
 Grave Robber is a 2 dimensional top down computer game where the main character is a grave robber who runs away from skeletons and zombies in a graveyard while digging for treasure found in the graves. 
 There are all kinds of treasures and traps in Grave Robber that the player will encounter. 
