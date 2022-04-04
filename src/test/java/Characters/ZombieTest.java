@@ -59,8 +59,8 @@ public class ZombieTest {
     @Test
     public void testSetPosition() {
         zombie.setPosition(3,5);
-        assertEquals(3, playerActor.getPosition()[Constants.X]);
-        assertEquals(5, playerActor.getPosition()[Constants.Y]);
+        assertEquals(3, zombie.getPosition()[Constants.X]);
+        assertEquals(5, zombie.getPosition()[Constants.Y]);
     }
 
     /**
@@ -82,13 +82,7 @@ public class ZombieTest {
      */
     @Test
     public void testMoveCharacter() throws IOException {
-        // Dependencies
-        GameState gameState = new GameState(GameStateType.PLAY);
-        Keyboard keyboard = new Keyboard(gameState);
-        String path = "/level/level_1_foreground.fg";
-        Level level = new Level(gameState, keyboard, path);
-        // Creating Zombie
-        Zombie zombie= new Zombie(gameState,0,0,level);
+        zombie.setPosition(0,0);
 
         // Test 1
         assertEquals(0,zombie.getPosition()[Constants.X]);
