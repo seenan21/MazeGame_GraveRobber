@@ -22,6 +22,6 @@ public class TrapTest {
     public void getImage() {
 
 
-        assertEquals("/item/trap_128.png", trap._image);
+        assertEquals(trap.getImage(), trap._image);
     }
 }
