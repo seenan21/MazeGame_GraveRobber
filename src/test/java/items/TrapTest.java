@@ -1,7 +1,8 @@
 package items;
 
+import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
 
 import java.io.IOException;
 
@@ -30,9 +31,10 @@ public class TrapTest {
         trap.getImage();
     }
 
-//    @Test
-//    public void testUpdate(){
-//        trap.update();
-//        assertTrue(trap._available);
-//    }
+    @Test
+    public void testUpdate(){
+        trap.update();
+        boolean trapAvailable = trap._available;
+        Assert.assertTrue(trapAvailable);
+    }
 }
