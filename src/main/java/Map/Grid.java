@@ -10,13 +10,14 @@ import Map.tiles.CreateBackground;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * The grid represents the layout of the map. Maps are quadrilaterals made of tiles.
  */
 public class Grid extends JPanel implements Runnable{
 
-    private GameState gameState = new GameState(GameStateType.TITLE);
+    public GameState gameState = new GameState(GameStateType.TITLE);
     private Keyboard keyboard = new Keyboard(gameState);;
     private Thread screenThread;
     private String path = "/level/level_1_foreground.fg";
@@ -27,6 +28,7 @@ public class Grid extends JPanel implements Runnable{
     private Thread soundThread;
     private int i = 0;
     private CreateBackground backgroundMap;
+    private boolean stop = false;
 
     /**
      * Creates the game screen and sets up a keyboard listener.
@@ -54,6 +56,10 @@ public class Grid extends JPanel implements Runnable{
         sound.playMusic(0);
     }
 
+    public void stop() {
+        stop = true;
+    }
+
     /**
      * @return current level on grid.
      */
@@ -73,6 +79,12 @@ public class Grid extends JPanel implements Runnable{
             double nextTick = System.nanoTime() + tick;
 
             while(screenThread != null) {
+
+                if (stop) {
+                    sound.stop();
+                    soundClock.stop();
+                    return;
+                }
 
                 update();
                 repaint(); // Calls this.paintComponent
