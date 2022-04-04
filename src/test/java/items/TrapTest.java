@@ -1,25 +1,19 @@
 package items;
 
-import Clock.Timer;
 import org.junit.Test;
 
-import java.awt.image.BufferedImage;
+import javax.swing.text.Position;
 
 import static org.junit.Assert.*;
 
 public class TrapTest {
     Trap trap;
-
+    int positionX;
+    int positionY;
+    public TrapTest(){trap = new Trap(positionX,positionY);}
 
     @Test
     public void getImage() {
-
-        assertEquals(true,"/item/trap_128.png",trap.getImage());
-    }
-
-
-
-    @Test
-    public void update() {
+        assertEquals(trap.getImage(),"/item/trap_128.png");
     }
 }

@@ -4,11 +4,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class TreasureTest {
+public class BonusTreasureTest {
 
     @Test
     public void getImage() {
     }
-
-
 }
