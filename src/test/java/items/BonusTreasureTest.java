@@ -17,7 +17,7 @@ public class BonusTreasureTest {
 
 
     @Test
-    public void getImage() {
+    public void getImageTest() {
         assertEquals(bonusTreasure._image,bonusTreasure.getImage());
     }
 }
