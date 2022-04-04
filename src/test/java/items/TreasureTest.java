@@ -1,5 +1,6 @@
 package items;
 
+import Constants.Constants;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -12,15 +13,16 @@ public class TreasureTest {
     Treasure treasure;
     int positionX;
     int positionY;
-    public TreasureTest(){treasure = new Treasure(positionX, positionY);
+    public TreasureTest(){
+        treasure = new Treasure(positionX, positionY);
     }
 
     /**
      * Test that the point is 1
      */
     @Test
-    public void testTrapPoint(){
-        assertEquals(1, treasure.getPoints());
+    public void testTreasurePoint(){
+        assertEquals(Constants.HEART_POINTS, treasure.getPoints());
     }
 
     /**
