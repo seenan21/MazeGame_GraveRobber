@@ -54,11 +54,6 @@ public class BonusTreasureClock implements Runnable{
             if(random_int == timer) {
                 timer = 0;
                 isVisible = !isVisible;
-                if(isVisible) {
-                    System.out.println("Bonus reward is visible.");
-                } else {
-                    System.out.println("Bonus reward disappears.");
-                }
             }
             else {
                 try {

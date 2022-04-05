@@ -64,7 +64,7 @@ public class Level {
         String str = myReader.readLine();
         while (str != null  ) {
             //One line of map
-            System.out.println(str);
+//            System.out.println(str);
             char[] chars = str.toCharArray();           //Turn line into char array for easy traversal
             int x = 0;
             while (x < str.length()){
