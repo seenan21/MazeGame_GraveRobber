@@ -1,5 +1,6 @@
 package items;
 
+import Constants.Constants;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -10,9 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TrapTest {
     Trap trap;
+    int positionX, positionY;
 
     public TrapTest(){
-        trap = new Trap(0, 0);
+        trap = new Trap(positionX, positionY);
     }
 
     /**
@@ -31,6 +33,9 @@ public class TrapTest {
         trap.getImage();
     }
 
+    /**
+     * Test that the update() is working
+     */
     @Test
     public void testUpdate(){
         trap.update();
