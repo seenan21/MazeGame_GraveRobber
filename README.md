@@ -10,7 +10,7 @@ After the player gathers all the red hearts they may exit through the top right 
 ### Maven Test
 To run all the unit tests perform one of the two options. 
 1. If this is your first time, use the command `mvn clean install`
-2. Otherwise use: `mvn test`
+2. Otherwise, use: `mvn test`
 
 ### Running the Game
 The main class can be found in `/src/main/java/Main.java`. 

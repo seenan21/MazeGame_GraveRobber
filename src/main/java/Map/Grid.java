@@ -82,7 +82,7 @@ public class Grid extends JPanel implements Runnable{
 
                 if (stop) {
                     sound.stop();
-                    soundClock.stop();
+//                    soundClock.stop();
                     return;
                 }
 
