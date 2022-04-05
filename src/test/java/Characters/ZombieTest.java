@@ -83,6 +83,7 @@ public class ZombieTest {
     @Test
     public void testMoveCharacter() throws IOException {
         zombie.setPosition(0,0);
+        zombie.setSpeed(1);
 
         // Test 1
         assertEquals(0,zombie.getPosition()[Constants.X]);
