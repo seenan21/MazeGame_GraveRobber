@@ -31,6 +31,9 @@ public class TrapTest {
         trap.getImage();
     }
 
+    /**
+     * Test that the trap's update() is working
+     */
     @Test
     public void testUpdate(){
         trap.update();
