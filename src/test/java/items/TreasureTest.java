@@ -1,23 +1,46 @@
 package items;
 
-import junit.framework.TestCase;
+import Constants.Constants;
+import org.junit.Assert;
 import org.junit.Test;
 
-public class TreasureTest extends TestCase {
+import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-    @Test
-    public void testSetPosition() {
+public class TreasureTest {
+
+
+    Treasure treasure;
+    int positionX;
+    int positionY;
+    public TreasureTest(){
+        treasure = new Treasure(positionX, positionY);
     }
 
+    /**
+     * Test that the point is 1
+     */
     @Test
-    public void testTestSetName() {
+    public void testTreasurePoint(){
+        assertEquals(Constants.HEART, treasure.getPoints());
     }
 
+    /**
+     * Test that getImage() is working
+     */
     @Test
-    public void testSetPoints() {
+    public void testGetImage() {
+        treasure.getImage();
     }
 
+    /**
+     * Test that the update() is working
+     */
     @Test
-    public void testSetAvailable() {
+    public void testUpdate(){
+        treasure.update();
+        boolean trapAvailable = treasure._available;
+        Assert.assertTrue(trapAvailable);
     }
+
 }
