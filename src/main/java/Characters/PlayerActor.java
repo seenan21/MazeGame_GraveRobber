@@ -94,10 +94,10 @@ public class PlayerActor extends Character implements Runnable{
     public void addToHealth(int addedPoints) {
         setHealth(getHealth() + addedPoints);
         if (addedPoints >= 0){
-            if (addedPoints == Constants.HEART_POINTS){
+            if (addedPoints == Constants.HEART){
                 regularHeartCollected++;
             }
-            else if (addedPoints == Constants.HEART_BONUS_POINTS){
+            else if (addedPoints == Constants.HEART_BONUS){
                 bigHeartCollected++;
             } else {
                 throw new IllegalArgumentException("Unknown Item");

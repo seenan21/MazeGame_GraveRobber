@@ -19,13 +19,15 @@ public class Constants {
     public final static int SCREEN_WIDTH = Constants.TILE_SIZE * Constants.HORIZONTAL_TILES;
     public final static int SCREEN_HEIGHT = Constants.TILE_SIZE * Constants.VERTICAL_TILES;
 
+
     // Map Squares
     public final static int GRASS = 0;
 
     // Item points value
-    public final static int HEART_POINTS = 1;
-    public final static int HEART_BONUS_POINTS = 3;
+    public final static int HEART = 1;
+    public final static int HEART_BONUS = 3;
     public final static int EXIT_CELL = 3;
+    public final static int TRAP = -1;
 
     // Total regular reward number
     public final static int REGULAR_REWARD = 20;

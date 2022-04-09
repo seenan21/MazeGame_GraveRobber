@@ -1,8 +1,6 @@
 package items;
 
-import Clock.BonusTreasureClock;
 import Constants.Constants;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -21,7 +19,7 @@ public class BonusTreasureTest {
      */
     @Test
     public void testBonusTreasurePoint(){
-        assertEquals(Constants.HEART_BONUS_POINTS, bonusTreasure.getPoints());
+        assertEquals(Constants.HEART_BONUS, bonusTreasure.getPoints());
     }
 
     /**
