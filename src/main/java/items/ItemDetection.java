@@ -68,7 +68,6 @@ public class ItemDetection {
                         if (!clock.isHurting()) {
                             if (_gameState.getGameState() == GameStateType.PLAY) {
                                 sound.playSound(13);
-                                System.out.println("Trap triggered.");
                                 playerActor.addToHealth((_itemList.get(i)).getPoints());
                                 clock.setIsHurting(true);
                             }
@@ -77,7 +76,6 @@ public class ItemDetection {
                     else if ((_itemList.get(i)).getPoints() == Constants.HEART_POINTS) {
                         if (_gameState.getGameState() == GameStateType.PLAY) {
                             sound.playSound(1);
-                            System.out.println("Heart collected.");
                             playerActor.addToHealth((_itemList.get(i)).getPoints());
                             _itemList.set(i, null);
                         }
@@ -85,7 +83,6 @@ public class ItemDetection {
                     else if ((_itemList.get(i)).getPoints() == Constants.HEART_BONUS_POINTS) {
                         if (_gameState.getGameState() == GameStateType.PLAY) {
                             sound.playSound(2);
-                            System.out.println("BIG Heart collected.");
                             playerActor.addToHealth((_itemList.get(i)).getPoints());
                             _itemList.set(i, null);
                         }
@@ -96,7 +93,6 @@ public class ItemDetection {
                             _gameState.setWin(true);
                         }
                         else {
-                            System.out.println("You need to collect all the regular reward to win.");
                         }
                     }
 
