@@ -38,6 +38,21 @@ public class UI{
     }
 
     /**
+     * get the position where the string should start
+     * the position will keep the message on middle of the screen
+     */
+    private int getCentreX(int textLength){
+        return Constants.SCREEN_WIDTH / 2 - textLength / 2;
+    }
+
+    /**
+     * Get the length of the text
+     */
+    private int getTextLength(String text, Graphics2D g2){
+        return (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+    }
+
+    /**
      * Draw UI for the game. UI includes TIMER, SCORE, HEALTH.
      * @param g2 Graphics2D
      */
@@ -87,9 +102,8 @@ public class UI{
         g2.fillRect(0,0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 96F));
         String text = "Grave Robber";
-        int x, y, textLength;
-        textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        x = Constants.SCREEN_WIDTH / 2 - textLength / 2;
+        int x, y;
+        x = getCentreX(getTextLength(text, g2));
         y = Constants.SCREEN_HEIGHT / 2 - (Constants.TILE_SIZE * 3);
 
         // Shadow
@@ -156,7 +170,7 @@ public class UI{
      */
     public void drawEndPage(Graphics2D g2) throws IOException{
 
-        int x, y, textLength;
+        int x, y;
         timeFinal = time;
         y = Constants.SCREEN_HEIGHT / 2 - (Constants.TILE_SIZE * 3);
         String text;
@@ -169,16 +183,14 @@ public class UI{
             text = "GAME OVER";
             g2.setColor(Color.RED);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F));
-            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            x = Constants.SCREEN_WIDTH / 2 - textLength / 2;
+            x = getCentreX(getTextLength(text, g2));
             y = Constants.SCREEN_HEIGHT / 2 - (Constants.TILE_SIZE * 3);
             g2.drawString(text, x, y);
 
             text = "TRAPS JUST KILLED YOU!";
             g2.setColor(Color.BLUE);
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
-            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            x = Constants.SCREEN_WIDTH / 2 - textLength / 2;
+            x = getCentreX(getTextLength(text, g2));
             y += Constants.TILE_SIZE*2;
             g2.drawString(text, x, y);
         }
@@ -186,16 +198,14 @@ public class UI{
             text = "CONGRATULATIONS!";
             g2.setColor(Color.GREEN);
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
-            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            x = Constants.SCREEN_WIDTH / 2 - textLength / 2;
+            x = getCentreX(getTextLength(text, g2));
             y = Constants.SCREEN_HEIGHT / 2 - (Constants.TILE_SIZE * 3);
             g2.drawString(text, x, y);
 
             text = "PLAYER'S FINAL HEALTH: " + playerActor.getHealth();
             g2.setColor(Color.WHITE);
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 28F));
-            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            x = Constants.SCREEN_WIDTH / 2 - textLength / 2;
+            x = getCentreX(getTextLength(text, g2));
             y += Constants.TILE_SIZE;
             g2.drawString(text, x, y);
 
@@ -204,16 +214,14 @@ public class UI{
             text = "GAME OVER";
             g2.setColor(Color.RED);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48F));
-            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            x = Constants.SCREEN_WIDTH / 2 - textLength / 2;
+            x = getCentreX(getTextLength(text, g2));
             y = Constants.SCREEN_HEIGHT / 2 - (Constants.TILE_SIZE * 3);
             g2.drawString(text, x, y);
 
             text = "ZOMBIES JUST KILLED YOU!";
             g2.setColor(Color.BLUE);
             g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
-            textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-            x = Constants.SCREEN_WIDTH / 2 - textLength / 2;
+            x = getCentreX(getTextLength(text, g2));
             y += Constants.TILE_SIZE*2;
             g2.drawString(text, x, y);
         }
@@ -222,28 +230,24 @@ public class UI{
         g2.setColor(Color.WHITE);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 28F));
         text = "TIME PLAYED: " + decimalFormat.format(timeFinal) + " SECONDS";
-        textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        x = Constants.SCREEN_WIDTH / 2 - textLength / 2;
+        x = getCentreX(getTextLength(text, g2));
         y += Constants.TILE_SIZE*5;
         g2.drawString(text, x, y);
 
         // Display SCORE
         text = "HEART(REWARD) COLLECTED: " + playerActor.regularHeartCollected;
-        textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        x = Constants.SCREEN_WIDTH / 2 - textLength / 2;
+        x = getCentreX(getTextLength(text, g2));
         y += Constants.TILE_SIZE;
         g2.drawString(text, x, y);
 
         text = "BIG HEART(BONUS REWARD) COLLECTED: " + playerActor.bigHeartCollected;
-        textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        x = Constants.SCREEN_WIDTH / 2 - textLength / 2;
+        x = getCentreX(getTextLength(text, g2));
         y += Constants.TILE_SIZE;
         g2.drawString(text, x, y);
 
         // BUTTON: Quit
         text = "PRESS ENTER TO QUIT";
-        textLength = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        x = Constants.SCREEN_WIDTH / 2 - textLength / 2;
+        x = getCentreX(getTextLength(text, g2));
         y += Constants.TILE_SIZE*3;
         g2.drawString(text, x, y);
     }
