@@ -55,7 +55,6 @@ public class Keyboard implements KeyListener {
             if (gameState.getGameState() == GameStateType.TITLE) {
                 sound.playSound(3);
                 gameState.setTitleMenuChosen(false);
-                System.out.println("B");
             }
             if (gameState.getGameState() == GameStateType.PLAY) {
                 upKeyPressed = false;
