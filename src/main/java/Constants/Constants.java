@@ -67,5 +67,9 @@ public class Constants {
     // Mummy
     public final static char MUMMY = 'M';
 
+    // UI
+    public final static String START = "START";
+    public final static String QUIT = "QUIT";
+
 
 }
