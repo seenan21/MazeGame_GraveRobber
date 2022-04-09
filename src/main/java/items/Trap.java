@@ -1,6 +1,6 @@
 package items;
 
-import Map.Grid;
+import Constants.Constants;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -13,7 +13,7 @@ public class Trap extends Item{
 
     public Trap(int positionX, int positionY) {
         super("Trap", positionX, positionY);
-        setPoints(-1);
+        setPoints(Constants.TRAP);
         getImage();
     }
 

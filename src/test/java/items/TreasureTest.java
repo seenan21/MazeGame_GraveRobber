@@ -22,7 +22,7 @@ public class TreasureTest {
      */
     @Test
     public void testTreasurePoint(){
-        assertEquals(Constants.HEART_POINTS, treasure.getPoints());
+        assertEquals(Constants.HEART, treasure.getPoints());
     }
 
     /**

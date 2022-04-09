@@ -141,6 +141,7 @@ public class UI{
         }
     }
 
+
     /**
      * Drawing playing UI. Include time, health.
      * @param g2

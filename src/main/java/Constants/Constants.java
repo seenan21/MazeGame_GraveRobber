@@ -23,9 +23,10 @@ public class Constants {
     public final static int GRASS = 0;
 
     // Item points value
-    public final static int HEART_POINTS = 1;
-    public final static int HEART_BONUS_POINTS = 3;
     public final static int EXIT_CELL = 10000;
+    public final static int HEART = 1;
+    public final static int HEART_BONUS = 3;
+    public final static int TRAP = -1;
 
     // Total regular reward number
     public final static int REGULAR_REWARD = 20;
