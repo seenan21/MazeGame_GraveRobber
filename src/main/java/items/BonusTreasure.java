@@ -25,7 +25,7 @@ public class BonusTreasure extends Item{
      */
     public BonusTreasure(int positionX, int positionY) {
         super("Reward", positionX, positionY);
-        setPoints(Constants.HEART_BONUS_POINTS);
+        setPoints(Constants.HEART_BONUS);
         getImage();
 
         clock = new BonusTreasureClock();

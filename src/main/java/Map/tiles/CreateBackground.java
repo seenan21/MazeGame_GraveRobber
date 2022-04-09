@@ -2,6 +2,7 @@ package Map.tiles;
 
 import Constants.Constants;
 import Map.Grid;
+import Map.Obstacle;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -23,7 +24,7 @@ public class CreateBackground {
     /**
      * Creates the background grid using background tiles.
      */
-    public CreateBackground(){
+    public CreateBackground() throws IOException {
         _tile = new BackgroundTile[_typesOfTiles];
         _tileMap = new int[Constants.VERTICAL_TILES][Constants.HORIZONTAL_TILES];
 
@@ -34,65 +35,27 @@ public class CreateBackground {
     /**
      * Loads the background tiles.
      */
-    public void getTileImage(){
-        try{
-            // grass type 1
-            _tile[0] = new BackgroundTile();
-            _tile[0].image = ImageIO.read(getClass().getResourceAsStream("/map/grass_1_128.png"));
+    public void getTileImage() throws IOException {
 
-            // grass type 2
-            _tile[1] = new BackgroundTile();
-            _tile[1].image = ImageIO.read(getClass().getResourceAsStream("/map/grass_2_128.png"));
+        String backgroundImages[] = {"/map/grass_1_128.png",
+                "/map/grass_2_128.png",
+                "/map/grass_3_128.png",
+                "/map/grass_4_128.png",
+                "/map/wall_horizontal_1_128.png",
+                "/map/wall_horizontal_2_128.png",
+                "/map/wall_horizontal_3_128.png",
+                "/map/wall_horizontal_4_128.png",
+                "/map/wall_vertical_1_128.png",
+                "/map/wall_vertical_2_128.png",
+                "/map/grave_1_128.png",
+                "/map/grave_2_128.png",
+                "/map/grave_3_top_128.png",
+                "/map/grave_3_bottom_128.png"
+        };
 
-            // grass type 3
-            _tile[2] = new BackgroundTile();
-            _tile[2].image = ImageIO.read(getClass().getResourceAsStream("/map/grass_3_128.png"));
-
-            // grass type 4
-            _tile[3] = new BackgroundTile();
-            _tile[3].image = ImageIO.read(getClass().getResourceAsStream("/map/grass_4_128.png"));
-
-            // wall horizontal 1
-            _tile[4] = new BackgroundTile();
-            _tile[4].image = ImageIO.read(getClass().getResourceAsStream("/map/wall_horizontal_1_128.png"));
-
-            // wall horizontal 2
-            _tile[5] = new BackgroundTile();
-            _tile[5].image = ImageIO.read(getClass().getResourceAsStream("/map/wall_horizontal_2_128.png"));
-
-            // wall horizontal 3
-            _tile[6] = new BackgroundTile();
-            _tile[6].image = ImageIO.read(getClass().getResourceAsStream("/map/wall_horizontal_3_128.png"));
-
-            // wall horizontal 4
-            _tile[7] = new BackgroundTile();
-            _tile[7].image = ImageIO.read(getClass().getResourceAsStream("/map/wall_horizontal_4_128.png"));
-
-            // wall vertical 1
-            _tile[8] = new BackgroundTile();
-            _tile[8].image = ImageIO.read(getClass().getResourceAsStream("/map/wall_vertical_1_128.png"));
-
-            // wall vertical 2
-            _tile[9] = new BackgroundTile();
-            _tile[9].image = ImageIO.read(getClass().getResourceAsStream("/map/wall_vertical_2_128.png"));
-
-            // grave type 1
-            _tile[10] = new BackgroundTile();
-            _tile[10].image = ImageIO.read(getClass().getResourceAsStream("/map/grave_1_128.png"));
-
-            // grave type 2
-            _tile[11] = new BackgroundTile();
-            _tile[11].image = ImageIO.read(getClass().getResourceAsStream("/map/grave_2_128.png"));
-
-            // grave type 3 top
-            _tile[12] = new BackgroundTile();
-            _tile[12].image = ImageIO.read(getClass().getResourceAsStream("/map/grave_3_top_128.png"));
-
-            // grave type 3 bottom
-            _tile[13] = new BackgroundTile();
-            _tile[13].image = ImageIO.read(getClass().getResourceAsStream("/map/grave_3_bottom_128.png"));
-        }catch (IOException e){
-            e.printStackTrace();
+        for (int i = 0; i < backgroundImages.length; i++) {
+            _tile[i] = new BackgroundTile();
+            _tile[i].image = ImageIO.read(getClass().getResourceAsStream(backgroundImages[i]));
         }
     }
 

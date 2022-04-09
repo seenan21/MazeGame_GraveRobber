@@ -179,11 +179,11 @@ public class PlayerActorTest{
     @Test
     public void testAddToHealth() {
         for (int i = 0; i < 10; i++) {
-            playerActor.addToHealth(Constants.HEART_POINTS);
+            playerActor.addToHealth(Constants.HEART);
             assertEquals(i+1, playerActor.regularHeartCollected);
         }
         for (int i = 0; i < 10; i++) {
-            playerActor.addToHealth(Constants.HEART_BONUS_POINTS);
+            playerActor.addToHealth(Constants.HEART_BONUS);
             assertEquals(i+1, playerActor.bigHeartCollected);
         }
     }

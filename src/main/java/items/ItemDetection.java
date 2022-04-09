@@ -33,6 +33,49 @@ public class ItemDetection {
     }
 
     /**
+     * Checks which item a player is standing on and adds points to them.
+     *
+     * @param index - The index of the item in the itemlist
+     * @param playerActor - Main Player
+     * @param gameState - State the game is currently in
+     */
+    public void playerItemInteraction(int index, PlayerActor playerActor, GameState gameState) {
+
+        // Game State must be in play state
+        if (gameState.getGameState() != GameStateType.PLAY) {
+            return;
+        }
+
+        if ((_itemList.get(index)).getPoints() == Constants.TRAP && !clock.isHurting()) {
+                sound.playSound(13);
+                clock.setIsHurting(true);
+        }
+        else if ((_itemList.get(index)).getPoints() == Constants.HEART) {
+                sound.playSound(1);
+
+        }
+        else if ((_itemList.get(index)).getPoints() == Constants.HEART_BONUS) {
+                sound.playSound(2);
+        }
+        else if ((_itemList.get(index)).getPoints() == Constants.EXIT_CELL) {
+            if (playerActor.regularHeartCollected >= Constants.REGULAR_REWARD){
+                _gameState.setGameState(GameStateType.END);
+                _gameState.setWin(true);
+                return;
+            }
+        } else {
+            // No Item Detected
+            return;
+        }
+
+        playerActor.addToHealth((_itemList.get(index)).getPoints());
+
+        if ((_itemList.get(index)).getPoints() != Constants.TRAP) {
+            _itemList.set(index, null);
+        }
+    }
+
+    /**
      * If the player is on top of an item, the item will award the player points, and the item will be removed.
      *
      * @param playerActor - Player's character.
@@ -64,42 +107,7 @@ public class ItemDetection {
 
                 // Remove item from map and award points to player
                 if(playerBodyGrid.intersects(itemBodyGrid) && _itemList.get(i).isAvailable()) {
-                    if ((_itemList.get(i)).getPoints() == -1) {
-                        if (!clock.isHurting()) {
-                            if (_gameState.getGameState() == GameStateType.PLAY) {
-                                sound.playSound(13);
-                                System.out.println("Trap triggered.");
-                                playerActor.addToHealth((_itemList.get(i)).getPoints());
-                                clock.setIsHurting(true);
-                            }
-                        }
-                    }
-                    else if ((_itemList.get(i)).getPoints() == Constants.HEART_POINTS) {
-                        if (_gameState.getGameState() == GameStateType.PLAY) {
-                            sound.playSound(1);
-                            System.out.println("Heart collected.");
-                            playerActor.addToHealth((_itemList.get(i)).getPoints());
-                            _itemList.set(i, null);
-                        }
-                    }
-                    else if ((_itemList.get(i)).getPoints() == Constants.HEART_BONUS_POINTS) {
-                        if (_gameState.getGameState() == GameStateType.PLAY) {
-                            sound.playSound(2);
-                            System.out.println("BIG Heart collected.");
-                            playerActor.addToHealth((_itemList.get(i)).getPoints());
-                            _itemList.set(i, null);
-                        }
-                    }
-                    else if ((_itemList.get(i)).getPoints() == Constants.EXIT_CELL) {
-                        if (playerActor.regularHeartCollected >= Constants.REGULAR_REWARD){
-                            _gameState.setGameState(GameStateType.END);
-                            _gameState.setWin(true);
-                        }
-                        else {
-                            System.out.println("You need to collect all the regular reward to win.");
-                        }
-                    }
-
+                    playerItemInteraction(i, playerActor, _gameState);
                 }
             }
             i++;
