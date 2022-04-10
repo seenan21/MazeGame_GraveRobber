@@ -162,12 +162,12 @@ public class Level {
         return hero;
     }
 
-    /**
-     * Returns the map's item limit.
-     */
-    public int getItemLimit() {
-        return ITEM_LIMIT;
-    }
+//    /**
+//     * Returns the map's item limit.
+//     */
+//    public int getItemLimit() {
+//        return ITEM_LIMIT;
+//    }
 
     /**
      *
