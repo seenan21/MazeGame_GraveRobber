@@ -2,7 +2,6 @@ package Characters;
 
 import Clock.CharacterMovementThread;
 import Constants.Constants;
-import IO.Keyboard;
 import Map.Level;
 import items.Item;
 
@@ -367,6 +366,37 @@ public abstract class Character{
             Thread clockThread = new Thread(characterMovementThread);
             clockThread.start(); // Calls this.run()
         }
+    }
+
+    /**
+     * Makes sure that player does not hit obstacles when moving
+     * @param direction - direction to travel
+     * @return if the path is clear
+     */
+    public boolean safeCharacterMove(Direction direction) {
+
+        if (direction == Direction.NONE) {
+            return false;
+        }
+
+        if (direction == Direction.NORTH &&
+                level.collisionCheck(this, this.getPosition()[Constants.X],
+                        this.getPosition()[Constants.Y] - this.getSpeed()) == false) {
+            this.moveNorth();
+        } else if (direction == Direction.SOUTH &&
+                level.collisionCheck(this, this.getPosition()[Constants.X],
+                        this.getPosition()[Constants.Y] + this.getSpeed()) == false) {
+            this.moveSouth();
+        } else if (direction == Direction.EAST &&
+                level.collisionCheck(this,this.getPosition()[Constants.X] + this.getSpeed(),
+                        this.getPosition()[Constants.Y]) == false) {
+            this.moveEast();
+        } else if (direction == Direction.WEST &&
+                level.collisionCheck(this,this.getPosition()[Constants.X] - this.getSpeed(),
+                        this.getPosition()[Constants.Y]) == false) {
+            this.moveWest();
+        }
+        return true;
     }
 
     /**
