@@ -38,7 +38,7 @@ public class ZombieTest {
     public void testheroKill() {
         playerActor.setPosition(0,0);
         zombie.setPosition(0,0);
-        assertTrue(zombie.heroKill(playerActor));
+        assertTrue(level.heroKill(playerActor, zombie));
 
     }
 
@@ -49,7 +49,7 @@ public class ZombieTest {
     public void testNOTheroKill() {
         playerActor.setPosition(0,0);
         zombie.setPosition(2*Constants.TILE_SIZE,2*Constants.TILE_SIZE);
-        assertTrue(!zombie.heroKill(playerActor));
+        assertTrue(!level.heroKill(playerActor, zombie));
 
     }
 

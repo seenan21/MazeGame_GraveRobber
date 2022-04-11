@@ -59,21 +59,8 @@ public class Zombie extends Character implements Runnable {
         }
     }
 
-    /**
-     * Kills the player when on the same tile.
-     * @param playerActor - main character
-     * @return if the player has died
-     */
-    public boolean heroKill(PlayerActor playerActor){
-       
-        Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],Constants.TILE_SIZE-10,Constants.TILE_SIZE-10);
-        Rectangle h = new Rectangle(playerActor.getPosition()[0], playerActor.getPosition()[1], Constants.TILE_SIZE-10, Constants.TILE_SIZE-10);
-        if (i == 0 && z.intersects(h)) {
-            sound.playSound(6);
-            i++;
-        }
-        return z.intersects(h);
-    }
+
+
 
     /**
      * The zombie rushes in a single direction
@@ -114,7 +101,7 @@ public class Zombie extends Character implements Runnable {
 
     public void update() {
 
-        if (heroKill(level.getHero())){
+        if (level.heroKill(level.getHero(),this)){
             _gameState.setGameState(GameStateType.END);
         }
 

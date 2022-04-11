@@ -53,22 +53,7 @@ public class Skeleton extends Character {
         }
     }
 
-    /**
-     * Kills the player when on the same tile.
-     * @param playerActor - main character
-     * @return if the player has died
-     */
-    public boolean heroKill(PlayerActor playerActor){
 
-        Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],Constants.TILE_SIZE-10,Constants.TILE_SIZE-10);
-        Rectangle h = new Rectangle(playerActor.getPosition()[0], playerActor.getPosition()[1], Constants.TILE_SIZE-10, Constants.TILE_SIZE-10);
-        int i = 0;
-        if (i == 0 && z.intersects(h)) {
-            sound.playSound(6);
-            i++;
-        }
-        return z.intersects(h);
-    }
     /**
      * Tells the enemy which way to move to find the player
      * @param playerActor - Main Characer
@@ -104,7 +89,7 @@ public class Skeleton extends Character {
     }
 
     public void update() {
-        if (heroKill(level.getHero())){
+        if (level.heroKill(level.getHero(),this)){
         _gameState.setGameState(GameStateType.END);
         }
     }

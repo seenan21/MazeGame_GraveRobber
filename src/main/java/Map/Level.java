@@ -38,6 +38,7 @@ public class Level {
     private TickClock tickClock;
     private Thread tickClockThread;
     private GameState _gameState;
+    private Sound sound = new Sound();
 
     //May need to refactor in the future in order to make it safer for User
     public Level(GameState gameState, Keyboard keyboard, String path) throws IOException {
@@ -363,6 +364,24 @@ public class Level {
             }
         }
         return false;
+    }
+
+
+    /**
+     * Kills the player when on the same tile with enemy.
+     * @param playerActor - main character
+     * @return if the player has died
+     */
+
+    public boolean heroKill(PlayerActor playerActor, Character character){
+        Rectangle z = new Rectangle(character.getPosition()[0],character.getPosition()[1],Constants.TILE_SIZE-10,Constants.TILE_SIZE-10);
+        Rectangle h = new Rectangle(playerActor.getPosition()[0], playerActor.getPosition()[1], Constants.TILE_SIZE-10, Constants.TILE_SIZE-10);
+        int i = 0;
+        if (i == 0 && z.intersects(h)) {
+            sound.playSound(6);
+            i++;
+        }
+        return z.intersects(h);
     }
 
 }
