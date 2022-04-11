@@ -3,7 +3,7 @@ import Constants.Constants;
 import GUI.GameState;
 import GUI.GameStateType;
 import Map.Level;
-import Map.Sound;
+
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -18,7 +18,7 @@ public class Skeleton extends Character {
 
     PlayerActor target;
     Boolean sleep;
-    private Sound sound = new Sound();
+
     private int moveCounter = 0;
     private GameState _gameState;
 

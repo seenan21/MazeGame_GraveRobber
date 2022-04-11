@@ -39,11 +39,13 @@ public class Level {
     private Thread tickClockThread;
     private GameState _gameState;
     private Sound sound = new Sound();
+    private boolean gameEnd;
 
     //May need to refactor in the future in order to make it safer for User
     public Level(GameState gameState, Keyboard keyboard, String path) throws IOException {
         this._gameState = gameState;
         this.keyboard = keyboard;
+        gameEnd = false;
 
         this.zombieList = new ArrayList<Zombie>();
         this.obstacleList = new ArrayList<Obstacle>();
@@ -376,10 +378,9 @@ public class Level {
     public boolean heroKill(PlayerActor playerActor, Character character){
         Rectangle z = new Rectangle(character.getPosition()[0],character.getPosition()[1],Constants.TILE_SIZE-10,Constants.TILE_SIZE-10);
         Rectangle h = new Rectangle(playerActor.getPosition()[0], playerActor.getPosition()[1], Constants.TILE_SIZE-10, Constants.TILE_SIZE-10);
-        int i = 0;
-        if (i == 0 && z.intersects(h)) {
+        if (!gameEnd && z.intersects(h)) {
             sound.playSound(6);
-            i++;
+            gameEnd = true;
         }
         return z.intersects(h);
     }

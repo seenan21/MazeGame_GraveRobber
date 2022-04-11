@@ -6,7 +6,6 @@ import GUI.GameStateType;
 import IO.Keyboard;
 import Map.Grid;
 import Map.Level;
-import Map.Sound;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -21,8 +20,7 @@ import java.awt.*;
 public class Zombie extends Character implements Runnable {
     private boolean _rush;
     private Direction _rushDirection;
-    private int i = 0;
-    private Sound sound = new Sound();
+
     private GameState _gameState;
 
     public Zombie(GameState gameState, int positionX, int positionY, Level level) {
