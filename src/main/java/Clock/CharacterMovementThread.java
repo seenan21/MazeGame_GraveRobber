@@ -3,7 +3,6 @@ package Clock;
 import Characters.Character;
 import Characters.Direction;
 import Constants.Constants;
-import Map.Grid;
 import Map.Level;
 
 /**
@@ -31,27 +30,7 @@ public class CharacterMovementThread implements Runnable{
 
         while(steps <= _character.getStepsAllowed()) {
 
-            boolean isFacingWall = true;
-            if (_direction == Direction.NORTH &&
-                    _level.collisionCheck(_character, _character.getPosition()[0], _character.getPosition()[1] - _character.getSpeed()) == false) {
-                _character.moveNorth();
-                isFacingWall = false;
-            } else if (_direction == Direction.SOUTH &&
-                    _level.collisionCheck(_character, _character.getPosition()[0], _character.getPosition()[1] + _character.getSpeed()) == false) {
-                _character.moveSouth();
-                isFacingWall = false;
-            } else if (_direction == Direction.EAST &&
-                    _level.collisionCheck(_character,_character.getPosition()[0] + _character.getSpeed(), _character.getPosition()[1]) == false) {
-                _character.moveEast();
-                isFacingWall = false;
-            } else if (_direction == Direction.WEST &&
-                    _level.collisionCheck(_character,_character.getPosition()[0] - _character.getSpeed(),
-                            _character.getPosition()[1]) == false) {
-                _character.moveWest();
-                isFacingWall = false;
-            }
-
-            if (isFacingWall == true) {
+            if (!_character.safeCharacterMove(_direction)) {
                 _character.spriteCounter = 0;
             } else if (_character.spriteCounter >= 2) {
                 _character.spriteCounter = 0;

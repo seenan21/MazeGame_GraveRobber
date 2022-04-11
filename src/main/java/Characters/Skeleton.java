@@ -156,6 +156,7 @@ public class Skeleton extends Character {
                 moveCharacter(direction);
             }
         }
+
     }
 }
 
