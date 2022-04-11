@@ -130,34 +130,6 @@ public class Skeleton extends Character {
         }
         g2.drawImage(sprite,getPosition()[Constants.X],getPosition()[Constants.Y], Constants.TILE_SIZE, Constants.TILE_SIZE, null);
     }
-
-    /**
-     * Checks for collision when moving the character.
-     * @param direction - direction the character should move.
-     */
-    public void safeMoveCharacter(Direction direction) {
-        if(direction == Direction.NORTH){
-            if(level.collisionCheck(this, getPosition()[0], getPosition()[1] - this.getSpeed()) == false){
-                moveCharacter(direction);
-            }
-        }
-        else if(direction == Direction.SOUTH){
-            if(level.collisionCheck(this, getPosition()[0], getPosition()[1] + this.getSpeed()) == false){
-                moveCharacter(direction);
-            }
-        }
-        else if(direction == Direction.WEST){
-            if(level.collisionCheck(this,getPosition()[0] - this.getSpeed(), getPosition()[1]) == false) {
-                moveCharacter(direction);
-            }
-        }
-        else if(direction == Direction.EAST){
-            if(level.collisionCheck(this,getPosition()[0] + this.getSpeed(), getPosition()[1]) == false) {
-                moveCharacter(direction);
-            }
-        }
-
-    }
 }
 
 
