@@ -15,9 +15,9 @@ public class RandomSoundClock implements Runnable{
 
     @Override
     public void run() {
-        int lowerbound = 7;
-        int upperbound = 12;
-        int random_int = (int)Math.floor(Math.random()*(upperbound-lowerbound+1)+lowerbound);
+        int lowerBound = 7;
+        int upperBound = 12;
+        int random_int = (int)Math.floor(Math.random()*(upperBound-lowerBound+1)+lowerBound);
 
         while(!stop) {
             try {
