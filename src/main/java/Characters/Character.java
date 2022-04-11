@@ -28,6 +28,7 @@ public abstract class Character{
     protected Level level;
     private boolean _walking = false;
     private CharacterType _characterType = CharacterType.NONE;
+    public boolean isClear = false;
 
     /**
      * Constructor for the character class.
@@ -376,8 +377,11 @@ public abstract class Character{
     public boolean safeCharacterMove(Direction direction) {
 
         if (direction == Direction.NONE) {
-            return false;
+            isClear = false;
+            return isClear;
         }
+
+        isClear = true;
 
         if (direction == Direction.NORTH &&
                 level.collisionCheck(this, this.getPosition()[Constants.X],
@@ -395,8 +399,11 @@ public abstract class Character{
                 level.collisionCheck(this,this.getPosition()[Constants.X] - this.getSpeed(),
                         this.getPosition()[Constants.Y]) == false) {
             this.moveWest();
+        } else {
+            isClear = false;
         }
-        return true;
+
+        return isClear;
     }
 
     /**

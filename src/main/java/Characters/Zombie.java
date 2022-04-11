@@ -85,31 +85,12 @@ public class Zombie extends Character implements Runnable {
     public boolean rush(Direction rushDirection) {
         if(_rush){
 
-            if(this._rushDirection == Direction.NORTH){
-                if(level.collisionCheck(this, getPosition()[0], getPosition()[1] - this.getSpeed()) == false){
-                    moveCharacter(this._rushDirection);
-                    return true;
-                }
+            moveCharacter(rushDirection);
+
+            if(!isClear) {
+                _rush = false;
             }
-            else if(this._rushDirection == Direction.SOUTH){
-                if(level.collisionCheck(this, getPosition()[0], getPosition()[1] + this.getSpeed()) == false){
-                    moveCharacter(this._rushDirection);
-                    return true;
-                }
-            }
-            else if(this._rushDirection == Direction.WEST){
-                if(level.collisionCheck(this,getPosition()[0] - this.getSpeed(), getPosition()[1]) == false) {
-                    moveCharacter(this._rushDirection);
-                    return true;
-                }
-            }
-            else if(this._rushDirection == Direction.EAST){
-                if(level.collisionCheck(this,getPosition()[0] + this.getSpeed(), getPosition()[1]) == false) {
-                    moveCharacter(this._rushDirection);
-                    return true;
-                }
-            }
-            _rush = false;
+
         }
         return false;
     }
