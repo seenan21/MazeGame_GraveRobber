@@ -369,7 +369,7 @@ public abstract class Character{
     }
 
     /**
-     *
+     * Makes sure that player does not hit obstacles when moving
      * @param direction - direction to travel
      * @return if the path is clear
      */
