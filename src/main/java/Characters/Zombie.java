@@ -65,11 +65,9 @@ public class Zombie extends Character implements Runnable {
      * @return if the player has died
      */
     public boolean heroKill(PlayerActor playerActor){
-        int[] position = new int[2];
-        position = playerActor.getPosition();
-
+       
         Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],Constants.TILE_SIZE-10,Constants.TILE_SIZE-10);
-        Rectangle h = new Rectangle(position[0], position[1], Constants.TILE_SIZE-10, Constants.TILE_SIZE-10);
+        Rectangle h = new Rectangle(playerActor.getPosition()[0], playerActor.getPosition()[1], Constants.TILE_SIZE-10, Constants.TILE_SIZE-10);
         if (i == 0 && z.intersects(h)) {
             sound.playSound(6);
             i++;
