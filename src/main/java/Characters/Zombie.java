@@ -38,26 +38,45 @@ public class Zombie extends Character implements Runnable {
     /**
      * Returns the sprite image for the zombie
      */
+
+
     public void getImage(){
+
+        int numberOfSprites = 3;
+
+        String spriteListNorth[] = {
+                "Zombie up-1.png",
+                "Zombie up-2.png",
+                "Zombie up-3.png"
+        };
+        String spriteListSouth[] = {
+                "Zombie down-1.png",
+                "Zombie down-2.png",
+                "Zombie down-3.png"
+        };
+        String spriteListEast[] = {
+                "Zombie right-1.png",
+                "Zombie right-2.png",
+                "Zombie right-3.png",
+        };
+        String spriteListWest[] = {
+                "Zombie left-1.png",
+                "Zombie left-2.png",
+                "Zombie left-3.png"
+        };
+
         try{
-            setSprite(Direction.NORTH, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie up-1.png")));
-            setSprite(Direction.NORTH, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie up-2.png")));
-            setSprite(Direction.NORTH, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie up-3.png")));
-            setSprite(Direction.SOUTH,0, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie down-1.png")));
-            setSprite(Direction.SOUTH,1, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie down-2.png")));
-            setSprite(Direction.SOUTH,2, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie down-3.png")));
-            setSprite(Direction.EAST, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie right-1.png")));
-            setSprite(Direction.EAST, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie right-2.png")));
-            setSprite(Direction.EAST, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie right-3.png")));
-            setSprite(Direction.WEST, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie left-1.png")));
-            setSprite(Direction.WEST, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie left-2.png")));
-            setSprite(Direction.WEST, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie left-3.png")));
+            for (int i = 0; i < numberOfSprites; i++) {
+                String filePath = "/sprite/zombie/";
+                setSprite(Direction.NORTH, i, ImageIO.read(getClass().getResourceAsStream(filePath + spriteListNorth[i])));
+                setSprite(Direction.SOUTH, i, ImageIO.read(getClass().getResourceAsStream(filePath + spriteListSouth[i])));
+                setSprite(Direction.EAST, i, ImageIO.read(getClass().getResourceAsStream(filePath + spriteListEast[i])));
+                setSprite(Direction.WEST, i, ImageIO.read(getClass().getResourceAsStream(filePath + spriteListWest[i])));
+            }
         }catch(IOException e){
             e.printStackTrace();
         }
     }
-
-
 
 
     /**
