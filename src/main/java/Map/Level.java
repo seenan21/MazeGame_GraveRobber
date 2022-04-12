@@ -166,6 +166,11 @@ public class Level {
     }
 
     /**
+     * Sets hero only for testing purposes
+     */
+    public void setHero(PlayerActor hero) {this.hero = hero;}
+
+    /**
      * Returns the map's item limit.
      */
     public int getItemLimit() {
