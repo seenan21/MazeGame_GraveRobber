@@ -35,19 +35,38 @@ public class Skeleton extends Character {
 
     @Override
     public void getImage(){
+
+        int numberOfSprites = 3;
+
+        String spriteListNorth[] = {
+                "Mummy up-1.png",
+                "Mummy up-2.png",
+                "Mummy up-3.png"
+        };
+        String spriteListSouth[] = {
+                "Mummy down-1.png",
+                "Mummy down-2.png",
+                "Mummy down-3.png"
+        };
+        String spriteListEast[] = {
+                "Mummy right-1.png",
+                "Mummy right-2.png",
+                "Mummy right-3.png",
+        };
+        String spriteListWest[] = {
+                "Mummy left-1.png",
+                "Mummy left-2.png",
+                "Mummy left-3.png"
+        };
+
         try{
-            setSprite(Direction.NORTH, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy up-1.png")));
-            setSprite(Direction.NORTH, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy up-2.png")));
-            setSprite(Direction.NORTH, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy up-3.png")));
-            setSprite(Direction.SOUTH,0, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy down-1.png")));
-            setSprite(Direction.SOUTH,1, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy down-2.png")));
-            setSprite(Direction.SOUTH,2, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy down-3.png")));
-            setSprite(Direction.EAST, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy right-1.png")));
-            setSprite(Direction.EAST, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy right-2.png")));
-            setSprite(Direction.EAST, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy right-3.png")));
-            setSprite(Direction.WEST, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy left-1.png")));
-            setSprite(Direction.WEST, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy left-2.png")));
-            setSprite(Direction.WEST, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy left-3.png")));
+            for (int i = 0; i < numberOfSprites; i++) {
+                String filePath = "/sprite/mummy/";
+                setSprite(Direction.NORTH, i, ImageIO.read(getClass().getResourceAsStream(filePath + spriteListNorth[i])));
+                setSprite(Direction.SOUTH, i, ImageIO.read(getClass().getResourceAsStream(filePath + spriteListSouth[i])));
+                setSprite(Direction.EAST, i, ImageIO.read(getClass().getResourceAsStream(filePath + spriteListEast[i])));
+                setSprite(Direction.WEST, i, ImageIO.read(getClass().getResourceAsStream(filePath + spriteListWest[i])));
+            }
         }catch(IOException e){
             e.printStackTrace();
         }
