@@ -375,9 +375,9 @@ public class Level {
      * @return if the player has died
      */
 
-    public boolean heroKill(PlayerActor playerActor, Character character){
+    public boolean heroKill(Character character){
         Rectangle z = new Rectangle(character.getPosition()[0],character.getPosition()[1],Constants.TILE_SIZE-10,Constants.TILE_SIZE-10);
-        Rectangle h = new Rectangle(playerActor.getPosition()[0], playerActor.getPosition()[1], Constants.TILE_SIZE-10, Constants.TILE_SIZE-10);
+        Rectangle h = new Rectangle(this.hero.getPosition()[0], this.hero.getPosition()[1], Constants.TILE_SIZE-10, Constants.TILE_SIZE-10);
         if (!gameEnd && z.intersects(h)) {
             sound.playSound(6);
             gameEnd = true;

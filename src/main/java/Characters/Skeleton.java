@@ -108,7 +108,7 @@ public class Skeleton extends Character {
     }
 
     public void update() {
-        if (level.heroKill(level.getHero(),this)){
+        if (level.heroKill(this)){
         _gameState.setGameState(GameStateType.END);
         }
     }
