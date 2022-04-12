@@ -26,6 +26,7 @@ public class SkeletonTest extends TestCase {
         keyboard = new Keyboard(gameState);
         level = new Level(gameState, keyboard, path);
         playerActor = new PlayerActor(keyboard, position, level);
+        level.setHero(playerActor);
 
     }
 
@@ -34,8 +35,9 @@ public class SkeletonTest extends TestCase {
      */
     @Test
     public void testheroKill() {
+
         skeleton = new Skeleton(gameState,0,0,level);
-        assertTrue(skeleton.heroKill(playerActor));
+        assertTrue(level.heroKill(skeleton));
 
     }
 
@@ -46,7 +48,7 @@ public class SkeletonTest extends TestCase {
     public void testNOTheroKill() {
         skeleton = new Skeleton(gameState,0,0,level);
         playerActor.setPosition(3*Constants.TILE_SIZE,3*Constants.TILE_SIZE);
-        assertTrue(!skeleton.heroKill(playerActor));
+        assertTrue(!level.heroKill(skeleton));
 
     }
     /**

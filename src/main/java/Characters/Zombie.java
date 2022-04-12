@@ -6,7 +6,6 @@ import GUI.GameStateType;
 import IO.Keyboard;
 import Map.Grid;
 import Map.Level;
-import Map.Sound;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -21,8 +20,7 @@ import java.awt.*;
 public class Zombie extends Character implements Runnable {
     private boolean _rush;
     private Direction _rushDirection;
-    private int i = 0;
-    private Sound sound = new Sound();
+
     private GameState _gameState;
 
     public Zombie(GameState gameState, int positionX, int positionY, Level level) {
@@ -40,42 +38,46 @@ public class Zombie extends Character implements Runnable {
     /**
      * Returns the sprite image for the zombie
      */
+
+
     public void getImage(){
+
+        int numberOfSprites = 3;
+
+        String spriteListNorth[] = {
+                "Zombie up-1.png",
+                "Zombie up-2.png",
+                "Zombie up-3.png"
+        };
+        String spriteListSouth[] = {
+                "Zombie down-1.png",
+                "Zombie down-2.png",
+                "Zombie down-3.png"
+        };
+        String spriteListEast[] = {
+                "Zombie right-1.png",
+                "Zombie right-2.png",
+                "Zombie right-3.png",
+        };
+        String spriteListWest[] = {
+                "Zombie left-1.png",
+                "Zombie left-2.png",
+                "Zombie left-3.png"
+        };
+
         try{
-            setSprite(Direction.NORTH, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie up-1.png")));
-            setSprite(Direction.NORTH, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie up-2.png")));
-            setSprite(Direction.NORTH, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie up-3.png")));
-            setSprite(Direction.SOUTH,0, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie down-1.png")));
-            setSprite(Direction.SOUTH,1, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie down-2.png")));
-            setSprite(Direction.SOUTH,2, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie down-3.png")));
-            setSprite(Direction.EAST, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie right-1.png")));
-            setSprite(Direction.EAST, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie right-2.png")));
-            setSprite(Direction.EAST, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie right-3.png")));
-            setSprite(Direction.WEST, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie left-1.png")));
-            setSprite(Direction.WEST, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie left-2.png")));
-            setSprite(Direction.WEST, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/zombie/Zombie left-3.png")));
+            for (int i = 0; i < numberOfSprites; i++) {
+                String filePath = "/sprite/zombie/";
+                setSprite(Direction.NORTH, i, ImageIO.read(getClass().getResourceAsStream(filePath + spriteListNorth[i])));
+                setSprite(Direction.SOUTH, i, ImageIO.read(getClass().getResourceAsStream(filePath + spriteListSouth[i])));
+                setSprite(Direction.EAST, i, ImageIO.read(getClass().getResourceAsStream(filePath + spriteListEast[i])));
+                setSprite(Direction.WEST, i, ImageIO.read(getClass().getResourceAsStream(filePath + spriteListWest[i])));
+            }
         }catch(IOException e){
             e.printStackTrace();
         }
     }
 
-    /**
-     * Kills the player when on the same tile.
-     * @param playerActor - main character
-     * @return if the player has died
-     */
-    public boolean heroKill(PlayerActor playerActor){
-        int[] position = new int[2];
-        position = playerActor.getPosition();
-
-        Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],Constants.TILE_SIZE-10,Constants.TILE_SIZE-10);
-        Rectangle h = new Rectangle(position[0], position[1], Constants.TILE_SIZE-10, Constants.TILE_SIZE-10);
-        if (i == 0 && z.intersects(h)) {
-            sound.playSound(6);
-            i++;
-        }
-        return z.intersects(h);
-    }
 
     /**
      * The zombie rushes in a single direction
@@ -97,7 +99,7 @@ public class Zombie extends Character implements Runnable {
 
     public void update() {
 
-        if (heroKill(level.getHero())){
+        if (level.heroKill(this)){
             _gameState.setGameState(GameStateType.END);
         }
 

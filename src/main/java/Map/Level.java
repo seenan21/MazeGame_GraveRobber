@@ -38,11 +38,14 @@ public class Level {
     private TickClock tickClock;
     private Thread tickClockThread;
     private GameState _gameState;
+    private Sound sound = new Sound();
+    private boolean gameEnd;
 
     //May need to refactor in the future in order to make it safer for User
     public Level(GameState gameState, Keyboard keyboard, String path) throws IOException {
         this._gameState = gameState;
         this.keyboard = keyboard;
+        gameEnd = false;
 
         this.zombieList = new ArrayList<Zombie>();
         this.obstacleList = new ArrayList<Obstacle>();
@@ -161,6 +164,11 @@ public class Level {
     public PlayerActor getHero() {
         return hero;
     }
+
+    /**
+     * Sets hero only for testing purposes
+     */
+    public void setHero(PlayerActor hero) {this.hero = hero;}
 
     /**
      * Returns the map's item limit.
@@ -364,4 +372,22 @@ public class Level {
         }
         return false;
     }
+
+
+    /**
+     * Kills the player when on the same tile with enemy.
+     * @param playerActor - main character
+     * @return if the player has died
+     */
+
+    public boolean heroKill(Character character){
+        Rectangle z = new Rectangle(character.getPosition()[0],character.getPosition()[1],Constants.TILE_SIZE-10,Constants.TILE_SIZE-10);
+        Rectangle h = new Rectangle(this.hero.getPosition()[0], this.hero.getPosition()[1], Constants.TILE_SIZE-10, Constants.TILE_SIZE-10);
+        if (!gameEnd && z.intersects(h)) {
+            sound.playSound(6);
+            gameEnd = true;
+        }
+        return z.intersects(h);
+    }
+
 }

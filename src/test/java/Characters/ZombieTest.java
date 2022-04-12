@@ -28,6 +28,7 @@ public class ZombieTest {
         level = new Level(gameState, keyboard, path);
         playerActor = new PlayerActor(keyboard, position, level);
         zombie = new Zombie(gameState, position[0], position[1], level );
+        level.setHero(playerActor);
 
     }
 
@@ -38,7 +39,7 @@ public class ZombieTest {
     public void testheroKill() {
         playerActor.setPosition(0,0);
         zombie.setPosition(0,0);
-        assertTrue(zombie.heroKill(playerActor));
+        assertTrue(level.heroKill(zombie));
 
     }
 
@@ -49,7 +50,7 @@ public class ZombieTest {
     public void testNOTheroKill() {
         playerActor.setPosition(0,0);
         zombie.setPosition(2*Constants.TILE_SIZE,2*Constants.TILE_SIZE);
-        assertTrue(!zombie.heroKill(playerActor));
+        assertTrue(!level.heroKill(zombie));
 
     }
 

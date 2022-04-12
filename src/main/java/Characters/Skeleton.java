@@ -3,7 +3,7 @@ import Constants.Constants;
 import GUI.GameState;
 import GUI.GameStateType;
 import Map.Level;
-import Map.Sound;
+
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -18,7 +18,7 @@ public class Skeleton extends Character {
 
     PlayerActor target;
     Boolean sleep;
-    private Sound sound = new Sound();
+
     private int moveCounter = 0;
     private GameState _gameState;
 
@@ -35,43 +35,43 @@ public class Skeleton extends Character {
 
     @Override
     public void getImage(){
+
+        int numberOfSprites = 3;
+
+        String spriteListNorth[] = {
+                "Mummy up-1.png",
+                "Mummy up-2.png",
+                "Mummy up-3.png"
+        };
+        String spriteListSouth[] = {
+                "Mummy down-1.png",
+                "Mummy down-2.png",
+                "Mummy down-3.png"
+        };
+        String spriteListEast[] = {
+                "Mummy right-1.png",
+                "Mummy right-2.png",
+                "Mummy right-3.png",
+        };
+        String spriteListWest[] = {
+                "Mummy left-1.png",
+                "Mummy left-2.png",
+                "Mummy left-3.png"
+        };
+
         try{
-            setSprite(Direction.NORTH, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy up-1.png")));
-            setSprite(Direction.NORTH, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy up-2.png")));
-            setSprite(Direction.NORTH, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy up-3.png")));
-            setSprite(Direction.SOUTH,0, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy down-1.png")));
-            setSprite(Direction.SOUTH,1, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy down-2.png")));
-            setSprite(Direction.SOUTH,2, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy down-3.png")));
-            setSprite(Direction.EAST, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy right-1.png")));
-            setSprite(Direction.EAST, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy right-2.png")));
-            setSprite(Direction.EAST, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy right-3.png")));
-            setSprite(Direction.WEST, 0, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy left-1.png")));
-            setSprite(Direction.WEST, 1, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy left-2.png")));
-            setSprite(Direction.WEST, 2, ImageIO.read(getClass().getResourceAsStream("/sprite/mummy/Mummy left-3.png")));
+            for (int i = 0; i < numberOfSprites; i++) {
+                String filePath = "/sprite/mummy/";
+                setSprite(Direction.NORTH, i, ImageIO.read(getClass().getResourceAsStream(filePath + spriteListNorth[i])));
+                setSprite(Direction.SOUTH, i, ImageIO.read(getClass().getResourceAsStream(filePath + spriteListSouth[i])));
+                setSprite(Direction.EAST, i, ImageIO.read(getClass().getResourceAsStream(filePath + spriteListEast[i])));
+                setSprite(Direction.WEST, i, ImageIO.read(getClass().getResourceAsStream(filePath + spriteListWest[i])));
+            }
         }catch(IOException e){
             e.printStackTrace();
         }
     }
 
-    /**
-     * Kills the player when on the same tile.
-     * @param playerActor - main character
-     * @return if the player has died
-     */
-    public boolean heroKill(PlayerActor playerActor){
-        int[] position = new int[2];
-        position = playerActor.getPosition();
-
-        Rectangle z = new Rectangle(this.getPosition()[0],this.getPosition()[1],Constants.TILE_SIZE-10,Constants.TILE_SIZE-10);
-        Rectangle h = new Rectangle(position[0], position[1], Constants.TILE_SIZE-10, Constants.TILE_SIZE-10);
-
-        int i = 0;
-        if (i == 0 && z.intersects(h)) {
-            sound.playSound(6);
-            i++;
-        }
-        return z.intersects(h);
-    }
 
     /**
      * Tells the enemy which way to move to find the player
@@ -108,7 +108,7 @@ public class Skeleton extends Character {
     }
 
     public void update() {
-        if (heroKill(level.getHero())){
+        if (level.heroKill(this)){
         _gameState.setGameState(GameStateType.END);
         }
     }
